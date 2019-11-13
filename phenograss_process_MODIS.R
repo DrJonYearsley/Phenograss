@@ -29,12 +29,13 @@ rm(list=ls())
 setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology/RScript')
 
 # Directories containing the input and output MODIS data 
-inputDir = '../Data/MODIS/MYD13Q1.006'
+inputDir = c('../Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
 outputDir = './MODIS_Testing'
 outputSuffix = 'pasture'
-yearStr = 'A2018' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
-corineInclude = c(18)  # Specify corine codes to include (pasture = 18, natural grasslands=26, moors and heathland=27)
-minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels ###Adjusted to 0 by Mauricio###
+save_rasters = FALSE  # If true save rasters for each MODIS file
+yearStr = 'A20' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
+corineInclude = c(231)  # Specify corine codes to include (pasture = 231)
+minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 
 corinePath = '../Data/CORINE2018_Ireland/CLC18_IE_ITM'
@@ -44,17 +45,19 @@ corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_I
 
 # Load MODIS data
 regexp = paste(yearStr,'[[:graph:]]+.hdf$',sep='')
-hdf.files = list.files(path=inputDir,pattern=regexp,recursive=T)
+hdf.files = list.files(path=inputDir,pattern=regexp,recursive=T, full.names=TRUE)
 
 nFiles = length(hdf.files) # Calculate number of files to import
 
-# Extract name of satellite
-tmp=strsplit(hdf.files,'/')
-satellite<-array(sapply(tmp,'[',1),dim=length(hdf.files)) ####################PAUL EDIT
 
 # Extract date of the file
-dates = sapply(tmp, FUN=function(x){x[1]}, simplify=TRUE) 
-r.date = strptime(dates, format = "%Y.%m.%d", tz = "")
+file.dates = sapply(hdf.files, 
+               FUN=function(x){
+                 tmp=regexpr(pattern = '/[0-9]{4}.[0-9]{2}.[0-9]{2}/',x)
+                 dat=substring(x, first=tmp[1]+1, last=tmp[1]+attr(tmp,'match.length')-2 )
+                 return(dat)}, 
+               simplify=TRUE, USE.NAMES=FALSE) 
+r.file.date = strptime(file.dates, format = "%Y.%m.%d", tz = "")
 
 # Define extent of Irleand (roughly) in MODIS CRS 
 ir = extent(-7.5E5, -3.3E5,5.7E6, 6.17E6)
@@ -65,25 +68,19 @@ sq_10km = extent(-504000,-493000, 5893000, 5904400)
 
 
 # Find MODIS CRS and reproject CORINE onto MODIS
-sds <- get_subdatasets(paste(inputDir,hdf.files[1],sep='/'))
+sds <- get_subdatasets(hdf.files[1])
 ndvi = crop(raster(sds[grep("250m 16 days NDVI", sds)], as.is=T), ir)*scalingFactor^2
 modis_crs = crs(ndvi)
-xy = coordinates(ndvi)
-
-# Create spatial pixel data to convert coords to ITM
-coordinates(xy) = ~x+y
-proj4string(xy) = modis_crs
-xy_ITM = spTransform(xy, CRSobj = CRS("+init=epsg:2157"))
 
 
 # Reproject CORINE
 corine_modis = spTransform(corine, CRS=modis_crs)
 # Extract pasture (code 231 in the vector data)
-pasture_modis = subset(corine_modis, CODE_18==231)
+pasture_modis = subset(corine_modis, CODE_18%in%corineInclude)
 
 for (f in 1:length(hdf.files)) {
   # Read in the MODIS data and crop to Ireland 
-  sds <- get_subdatasets(paste(inputDir,hdf.files[f],sep='/'))
+  sds <- get_subdatasets(hdf.files[f])
   
  # These lines read in the individual wavelength bands. Used to check the scaling factor for ndvi and evi
   # ndvi is (nir-red)/(nir+red)
@@ -114,38 +111,50 @@ for (f in 1:length(hdf.files)) {
   
   # Create a data frame
   if (f==1) {
-    d = data.frame(x=xy[,1], 
-                   y=xy[,2], 
-                   doy= getValues(doy), 
-                   evi=getValues(evi_pasture), 
-                   ndvi=getValues(ndvi_pasture), 
-                   QC=getValues(QC))
-  } else {
-    d = rbind(d, 
-              data.frame(x=xy[,1], 
-                         y=xy[,2], 
+    # Create spatial data to convert coords to ITM
+    xy_modis <- SpatialPoints(coords = coordinates(ndvi_pasture), 
+                              proj4string = modis_crs)
+    xy_ITM = spTransform(xy_modis, CRSobj = CRS("+init=epsg:2157"))
+    
+    coord_info = as.data.frame(cbind(coordinates(xy_ITM), coordinates(xy_modis)))
+    names(coord_info) = c('x_ITM','y_ITM','x_MODIS','y_MODIS')
+    
+    
+    d = cbind(coord_info,
+              data.frame(year=format(r.file.date[f],"%Y"),
                          doy= getValues(doy), 
                          evi=getValues(evi_pasture), 
                          ndvi=getValues(ndvi_pasture), 
-                         QC=getValues(QC))  )
+                         QC=getValues(QC)))
+  } else {
+    d = rbind(d, 
+              cbind(coord_info,
+                    data.frame(year=format(r.file.date[f],"%Y"),
+                               doy= getValues(doy), 
+                               evi=getValues(evi_pasture), 
+                               ndvi=getValues(ndvi_pasture), 
+                               QC=getValues(QC))  ))
   }
-
-  # Write the rasters to a new file
-  fname.ndvi = paste0(outputDir,'/NDVI_',outputSuffix,'_',format(r.date[f],"%Y_%m_%d")) 
-  fname.evi = paste0(outputDir,'/EVI_',outputSuffix,'_',format(r.date[f],"%Y_%m_%d")) 
-  fname.doy = paste0(outputDir,'/doy_',outputSuffix,'_',format(r.date[f],"%Y_%m_%d")) 
-  fname.qc = paste0(outputDir,'/QC_pasture_',format(r.date[f],"%Y_%m_%d")) 
-
-  # Save data as a geo-Tiff
-  writeRaster(ndvi_pasture,file=fname.ndvi,format='GTiff',overwrite=TRUE)
-  writeRaster(evi_pasture,file=fname.evi,format='GTiff',overwrite=TRUE)
-  writeRaster(doy,file=fname.doy,format='GTiff',overwrite=TRUE)
-  writeRaster(QC,file=fname.qc,format='GTiff',overwrite=TRUE)  
+  
+  if (save_rasters) {
+    # Write the rasters to a new file
+    fname.ndvi = paste0(outputDir,'/NDVI_',outputSuffix,'_',format(r.file.date[f],"%Y_%m_%d")) 
+    fname.evi = paste0(outputDir,'/EVI_',outputSuffix,'_',format(r.file.date[f],"%Y_%m_%d")) 
+    fname.doy = paste0(outputDir,'/doy_',outputSuffix,'_',format(r.file.date[f],"%Y_%m_%d")) 
+    fname.qc = paste0(outputDir,'/QC_pasture_',format(r.file.date[f],"%Y_%m_%d")) 
+    
+    # Save data as a geo-Tiff
+    writeRaster(ndvi_pasture,file=fname.ndvi,format='GTiff',overwrite=TRUE)
+    writeRaster(evi_pasture,file=fname.evi,format='GTiff',overwrite=TRUE)
+    writeRaster(doy,file=fname.doy,format='GTiff',overwrite=TRUE)
+    writeRaster(QC,file=fname.qc,format='GTiff',overwrite=TRUE)  
+  }
 }
 
 # Remove missing data
 d = subset(d, is.finite(QC))
 
+# Save data to a file
 fname.df = file.path(outputDir,paste0('modis_pasture_data_',yearStr,'.RData') )
-save(d, file = fname.df)
+save(d, r.file.date, hdf.files, file = fname.df)
 
