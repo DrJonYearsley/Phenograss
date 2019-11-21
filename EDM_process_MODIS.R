@@ -30,11 +30,11 @@ rm(list=ls())
 setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/')
 
 # Directories containing the input and output MODIS data 
-inputDir = c('./Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
+inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
 outputDir = './EDM'
 
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A2017' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
+yearStr = 'A201[567]' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 
@@ -52,7 +52,6 @@ corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_I
 # Load MODIS data
 regexp = paste(yearStr,'[[:graph:]]+.hdf$',sep='')
 hdf.files = list.files(path=inputDir,pattern=regexp,recursive=T, full.names=TRUE)
-
 nFiles = length(hdf.files) # Calculate number of files to import
 
 
@@ -131,13 +130,13 @@ for (f in 1:length(hdf.files)) {
       names(coord_info[[i]]) = c('x_ITM','y_ITM','x_MODIS','y_MODIS')
       
       
-      d = cbind(coord_info[[i]],
+      d[[i]] = cbind(coord_info[[i]],
                 data.frame(year=format(r.file.date[f],"%Y"),
                            doy= getValues(doy), 
                            evi=getValues(evi_lc), 
                            QC=getValues(QC)))
     } else {
-      d = rbind(d, 
+      d[[i]] = rbind(d[[i]], 
                 cbind(coord_info[[i]],
                       data.frame(year=format(r.file.date[f],"%Y"),
                                  doy= getValues(doy), 
