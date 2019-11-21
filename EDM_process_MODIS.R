@@ -71,7 +71,7 @@ ir = extent(-7.5E5, -3.3E5,5.7E6, 6.17E6)
 sq_10km = extent(-504000,-493000, 5893000, 5904400)
 
 
-
+ 
 # Find MODIS CRS and reproject CORINE onto MODIS
 sds <- get_subdatasets(hdf.files[1])
 evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T), ir)*scalingFactor^2
