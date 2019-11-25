@@ -23,7 +23,7 @@ d = subset(d, is.finite(evi))
 # Create a date for each observation
 d$date = strptime(paste0(d$year,'-',d$doy), format="%Y-%j")
 
-radius = 300  # Radius in m
+radius = 500  # Radius in m
 focal = c(639598.2, 702988.7)
 dsub = subset(d,  (x_ITM-focal[1])^2+(y_ITM-focal[2])^2<radius^2)
 
