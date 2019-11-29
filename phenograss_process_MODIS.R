@@ -82,6 +82,14 @@ for (f in 1:length(hdf.files)) {
   # Read in the MODIS data and crop to Ireland 
   sds <- get_subdatasets(hdf.files[f])
   
+  if (grepl('MOD',hdf.files[f])) {
+    satellite = 'Terra'
+  } else if (grepl('MYD',hdf.files[f])){
+    satellite = 'Aqua'
+  } else {
+    satellite = NA
+  }
+  
  # These lines read in the individual wavelength bands. Used to check the scaling factor for ndvi and evi
   # ndvi is (nir-red)/(nir+red)
   #  red = crop(raster(sds[grep("250m 16 days red reflectance", sds)], as.is=T), ir)
@@ -121,7 +129,8 @@ for (f in 1:length(hdf.files)) {
     
     
     d = cbind(coord_info,
-              data.frame(year=format(r.file.date[f],"%Y"),
+              data.frame(satellite = satellite,
+                         year=format(r.file.date[f],"%Y"),
                          doy= getValues(doy), 
                          evi=getValues(evi_pasture), 
                          ndvi=getValues(ndvi_pasture), 
@@ -129,7 +138,8 @@ for (f in 1:length(hdf.files)) {
   } else {
     d = rbind(d, 
               cbind(coord_info,
-                    data.frame(year=format(r.file.date[f],"%Y"),
+                    data.frame(satellite = satellite,
+                               year=format(r.file.date[f],"%Y"),
                                doy= getValues(doy), 
                                evi=getValues(evi_pasture), 
                                ndvi=getValues(ndvi_pasture), 
@@ -153,6 +163,12 @@ for (f in 1:length(hdf.files)) {
 
 # Remove missing data
 d = subset(d, is.finite(QC))
+
+
+# Create a date for each observation
+d$date = strptime(paste0(d$year,'-',d$doy), format="%Y-%j")
+
+
 
 # Save data to a file
 fname.df = file.path(outputDir,paste0('modis_pasture_data_',yearStr,'.RData') )
