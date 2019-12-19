@@ -32,11 +32,16 @@ setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/')
 # Directories containing the input and output MODIS data 
 inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
 outputDir = './EDM'
+outputFileSuffix = 'modis_multi_landcover_data_'
 
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A201[567]' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
+yearStr = 'A201[67]' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
+allIreland=TRUE     # If TRUE then calculate for all of Ireland otherwise use 10km sq
+
+# define a 10 km square within Ireland
+sq_10km = extent(-504000,-493000, 5893000, 5904400)
 
 
 # Land cover type to contrast
@@ -66,10 +71,6 @@ r.file.date = strptime(file.dates, format = "%Y.%m.%d", tz = "")
 
 # Define extent of Irleand (roughly) in MODIS CRS 
 ir = extent(-7.5E5, -3.3E5,5.7E6, 6.17E6)
-
-# define a 10 km square within Ireland
-sq_10km = extent(-504000,-493000, 5893000, 5904400)
-
 
  
 # Find MODIS CRS and reproject CORINE onto MODIS
@@ -101,12 +102,18 @@ for (f in 1:length(hdf.files)) {
   # Read in the MODIS data and crop to Ireland 
   sds <- get_subdatasets(hdf.files[f])
   
- # These lines read in the individual wavelength bands. Used to check the scaling factor for ndvi and evi
-  evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  sq_10km)*scalingFactor^2
-  QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  sq_10km)
-  doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), sq_10km)
-  # Reliability, 0=good, 1=OK but use with care, 2=snow/icd, 3=cloudy,-1=no data 
-
+  # These lines read in the individual wavelength bands. Used to check the scaling factor for ndvi and evi
+  if (allIreland) {
+    evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  ir)*scalingFactor^2
+    QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  ir)
+    doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), ir)
+    # Reliability, 0=good, 1=OK but use with care, 2=snow/icd, 3=cloudy,-1=no data 
+  } else {
+    evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  sq_10km)*scalingFactor^2
+    QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  sq_10km)
+    doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), sq_10km)
+    # Reliability, 0=good, 1=OK but use with care, 2=snow/icd, 3=cloudy,-1=no data 
+  }
   # Keep only good quality data (reliability=0 or 1) and reproject onto Irish grid
   evi[QC<0 | QC>minQuality] <- NA
   QC[QC<0 | QC>minQuality] <- NA
@@ -156,6 +163,13 @@ if (!dir.exists(outputDir)) {
   dir.create(outputDir)
 }
 
-fname.df = file.path(outputDir,paste0('modis_multi_landcover_data_',yearStr,'.RData') )
+if (allIreland) {
+  regionStr='allIreland'
+} else {
+  regionStr = '10kmsq'
+}
+
+
+fname.df = file.path(outputDir,paste0(outputFileSuffix,'_',regionStr,'_',yearStr,'.RData') )
 save(d, r.file.date, hdf.files,corineInclude, file = fname.df)
 

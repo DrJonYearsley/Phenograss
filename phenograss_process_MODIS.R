@@ -25,15 +25,15 @@ library(raster)
 library(gdalUtils)
 
 rm(list=ls())
-#setwd("F:/")
+
 setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology/RScript')
 
 # Directories containing the input and output MODIS data 
 inputDir = c('../Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
-outputDir = './MODIS_Testing'
+outputDir = '../Data/MODIS'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A20' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
+yearStr = 'A2017' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
 corineInclude = c(231)  # Specify corine codes to include (pasture = 231)
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
@@ -78,13 +78,20 @@ corine_modis = spTransform(corine, CRS=modis_crs)
 # Extract pasture (code 231 in the vector data)
 pasture_modis = subset(corine_modis, CODE_18%in%corineInclude)
 
-for (f in 1:length(hdf.files)) {
+extractbit = function(x,n1,n2) {
+  # Extract the nth bit from the number x
+  return(bitwAnd(bitwShiftR(x,n1),1))
+}
+
+for (f in 1:nFiles) {
+  print(hdf.files[f])
+  
   # Read in the MODIS data and crop to Ireland 
   sds <- get_subdatasets(hdf.files[f])
   
-  if (grepl('MOD',hdf.files[f])) {
+  if (grepl('MOD13',hdf.files[f])) {
     satellite = 'Terra'
-  } else if (grepl('MYD',hdf.files[f])){
+  } else if (grepl('MYD13',hdf.files[f])){
     satellite = 'Aqua'
   } else {
     satellite = NA
@@ -99,14 +106,20 @@ for (f in 1:length(hdf.files)) {
   ndvi = crop(raster(sds[grep("250m 16 days NDVI", sds)], as.is=T), sq_10km)*scalingFactor^2
   evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  sq_10km)*scalingFactor^2
   QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  sq_10km)
+  qualbit = crop(raster(sds[grep("16 days VI Quality",sds)]),  sq_10km)
   doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), sq_10km)
   # Reliability, 0=good, 1=OK but use with care, 2=snow/icd, 3=cloudy,-1=no data 
 
-  # Keep only good quality data (reliability=0 or 1) and reproject onto Irish grid
-  ndvi[QC<0 | QC>minQuality] <- NA 
-  evi[QC<0 | QC>minQuality] <- NA
-  QC[QC<0 | QC>minQuality] <- NA
+  # Extract a few quality controls 
+  shadow = calc(qualbit, fun=function(x) {floor(x/2^15) %% 2})
   
+  # Keep only good quality data (reliability=0 or 1) and reproject onto Irish grid
+  maskRaster = QC>=0 & QC<=minQuality
+  evi = mask(evi, maskRaster, maskvalue=FALSE, updatevalue=NA)
+  ndvi = mask(ndvi, maskRaster, maskvalue=FALSE, updatevalue=NA)
+  QC = mask(QC, maskRaster, maskvalue=FALSE, updatevalue=NA)
+
+
   # Set negative evi & ndvi to zero
   ndvi[ndvi<0] <- 0
   evi[evi<0] <- 0
@@ -135,15 +148,16 @@ for (f in 1:length(hdf.files)) {
                          evi=getValues(evi_pasture), 
                          ndvi=getValues(ndvi_pasture), 
                          QC=getValues(QC)))
+    d = subset(d, is.finite(evi))
   } else {
-    d = rbind(d, 
-              cbind(coord_info,
-                    data.frame(satellite = satellite,
-                               year=format(r.file.date[f],"%Y"),
-                               doy= getValues(doy), 
-                               evi=getValues(evi_pasture), 
-                               ndvi=getValues(ndvi_pasture), 
-                               QC=getValues(QC))  ))
+    tmp = cbind(coord_info,
+                data.frame(satellite = satellite,
+                           year=format(r.file.date[f],"%Y"),
+                           doy= getValues(doy), 
+                           evi=getValues(evi_pasture), 
+                           ndvi=getValues(ndvi_pasture), 
+                           QC=getValues(QC))  )
+    d = rbind(d, subset(tmp, is.finite(evi)))
   }
   
   if (save_rasters) {
@@ -162,7 +176,7 @@ for (f in 1:length(hdf.files)) {
 }
 
 # Remove missing data
-d = subset(d, is.finite(QC))
+d = subset(d, is.finite(evi))
 
 
 # Create a date for each observation
