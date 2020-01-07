@@ -2,7 +2,7 @@
 #
 # This script performs these tasks
 #  1. read in MODIS data (ndvi, evi, quality and day of acquisition)
-#  2. crop to a predefined area, 
+#  2. crop to a predefined area (square define in Irish Grid TM75)
 #  3. rescale NDVI and EVI 
 #  4. remove poor quality pixels
 #  5. read in CORINE (vector product)
@@ -19,7 +19,7 @@
 # Jon Yearsley Nov 2019 
 # ****************************************************
 
-
+library(sp)
 library(rgdal)
 library(raster)
 library(gdalUtils)
@@ -38,6 +38,13 @@ corineInclude = c(231)  # Specify corine codes to include (pasture = 231)
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 
+####
+# Define a square quadrat and the size of the square
+square_centre_TM75 = data.frame(east=116386, north=328904) # Define in Irish Grid TM75 (espg:29903)
+square_size_m = 10000  # units = m. Each pixel is roughly 250 m
+####
+
+# Define location of CORINE data
 corinePath = '../Data/CORINE2018_Ireland/CLC18_IE_ITM'
 
 # Read in CORINE data. make sure this is vector data (shapefile)
@@ -62,15 +69,22 @@ r.file.date = strptime(file.dates, format = "%Y.%m.%d", tz = "")
 # Define extent of Irleand (roughly) in MODIS CRS 
 ir = extent(-7.5E5, -3.3E5,5.7E6, 6.17E6)
 
-# define a 10 km square within Ireland
-sq_10km = extent(-504000,-493000, 5893000, 5904400)
-
-
 
 # Find MODIS CRS and reproject CORINE onto MODIS
 sds <- get_subdatasets(hdf.files[1])
 ndvi = crop(raster(sds[grep("250m 16 days NDVI", sds)], as.is=T), ir)*scalingFactor^2
 modis_crs = crs(ndvi)
+
+# define a square within Ireland
+#sq_10km = extent(-504000,-493000, 5893000, 5904400)
+
+sq_df = data.frame(east = square_size_m * c(-0.5, -0.5, 0.5, 0.5) + square_centre_TM75$east, 
+                   north = square_size_m * c(-0.5, 0.5, 0.5, -0.5)+ square_centre_TM75$north)
+
+sq = SpatialPoints(sq_df, proj4string=CRS("+init=epsg:29903"))
+
+# Convert square to MODIS CRS and extract extent
+sq_modis = extent(spTransform(sq, CRS=modis_crs))
 
 
 # Reproject CORINE
@@ -103,11 +117,11 @@ for (f in 1:nFiles) {
   #  nir = crop(raster(sds[grep("250m 16 days NIR reflectance", sds)], as.is=T), ir)
   
   
-  ndvi = crop(raster(sds[grep("250m 16 days NDVI", sds)], as.is=T), sq_10km)*scalingFactor^2
-  evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  sq_10km)*scalingFactor^2
-  QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  sq_10km)
-  qualbit = crop(raster(sds[grep("16 days VI Quality",sds)]),  sq_10km)
-  doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), sq_10km)
+  ndvi = crop(raster(sds[grep("250m 16 days NDVI", sds)], as.is=T), sq_modis)*scalingFactor^2
+  evi = crop(raster(sds[grep("250m 16 days EVI", sds)], as.is=T),  sq_modis)*scalingFactor^2
+  QC = crop(raster(sds[grep("16 days pixel reliability",sds)]),  sq_modis)
+  qualbit = crop(raster(sds[grep("16 days VI Quality",sds)]),  sq_modis)
+  doy = crop(raster(sds[grep("16 days composite day of the year",sds)]), sq_modis)
   # Reliability, 0=good, 1=OK but use with care, 2=snow/icd, 3=cloudy,-1=no data 
 
   # Extract a few quality controls 
