@@ -27,7 +27,7 @@ grasslandPath = './IrishSeminaturalGrasslandSurvey/ISG13_GIS_Datasets/'
 grassland = readOGR(dsn=file.path(grasslandPath,'ISGS13_Habitats_01a.shp'), layer='ISGS13_Habitats_01a')
 
 # Define location of CORINE data
-corinePath = './CORINE2018_Ireland/CLC18_IE_ITM'
+corinePath = './CORINE_Ireland/CLC18_IE_ITM'
 # Read in CORINE data. make sure this is vector data (shapefile)
 corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_ITM')
 
