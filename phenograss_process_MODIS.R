@@ -26,11 +26,11 @@ library(gdalUtils)
 
 rm(list=ls())
 
-setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology/RScript')
+setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
 
 # Directories containing the input and output MODIS data 
-inputDir = c('../Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
-outputDir = '../Data/MODIS'
+inputDir = c('./Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
+outputDir = './Data/MODIS'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
 yearStr = 'A2017' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) ###modified to 2018###
@@ -45,7 +45,7 @@ square_size_m = 10000  # units = m. Each pixel is roughly 250 m
 ####
 
 # Define location of CORINE data
-corinePath = '../Data/CORINE2018_Ireland/CLC18_IE_ITM'
+corinePath = './Data/CORINE_Ireland/CLC18_IE_ITM'
 
 # Read in CORINE data. make sure this is vector data (shapefile)
 corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_ITM')
