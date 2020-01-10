@@ -26,7 +26,7 @@ grasslandPath = './IrishSeminaturalGrasslandSurvey/ISG13_GIS_Datasets/'
 # Read in semi-natural grassland data. Make sure this is vector data (shapefile)
 grassland = readOGR(dsn=file.path(grasslandPath,'ISGS13_Habitats_01a.shp'), layer='ISGS13_Habitats_01a')
 
-# Define location of CORINE data
+# Define location of CORINE data (2018)
 corinePath = './CORINE_Ireland/CLC18_IE_ITM'
 # Read in CORINE data. make sure this is vector data (shapefile)
 corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_ITM')
@@ -62,14 +62,13 @@ corine_modis = spTransform(corine, CRS=modis_crs)
 grassland_subset = subset(grassland_modis, FOSS_HAB %in% c('GS','GS1','GS2','GS3','GS4'))
 sn_grass_cover= rasterize(grassland_subset, modis, getCover=T)
 
-# Subset CORINE for agricultural pasture
-corine_subset = subset(corine_modis, CODE_18%in%231)
-corine_pasture_cover = rasterize(corine_subset, modis, getCover=T)
-
-
 writeRaster(sn_grass_cover,filename='sn_grasscover',format='raster')
 writeRaster(sn_grass_cover,filename='sn_grasscover',format='GTiff')
 
 
-writeRaster(corine_pasture_cover,filename='corine_pasturecover',format='raster')
-writeRaster(corine_pasture_cover,filename='corine_pasturecover',format='GTiff')
+# Subset CORINE for agricultural pasture
+corine_subset = subset(corine_modis, CODE_18%in%231)
+corine_pasture_cover = rasterize(corine_subset, modis, getCover=T)
+  
+writeRaster(corine_pasture_cover,filename='corine2018_pasturecover',format='raster')
+writeRaster(corine_pasture_cover,filename='corine2018_pasturecover',format='GTiff')
