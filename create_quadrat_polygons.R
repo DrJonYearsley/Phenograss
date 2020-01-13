@@ -33,6 +33,13 @@ modis = raster('./Data/MODIS/modis_grid_ireland.grd')
 # Save MODIS CRS
 modis_crs = crs(modis)
 
+side = SpatialPoints(data.frame(east=square_centre_TM75$east+c(0.5,-0.5)*square_size_m,
+                              north=square_centre_TM75$north)
+                   , proj4string=CRS("+init=epsg:29903"))
+
+# Convert square and side length into  MODIS
+square_centre_modis = spTransform(square_centre_TM75, modis_crs)
+side_modis = spTransform(side, modis_crs)
 
 # define a square within Ireland
 sq_df = data.frame(east = square_size_m * c(-0.5, -0.5, 0.5, 0.5) + square_centre_TM75$east, 
