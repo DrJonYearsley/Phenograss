@@ -47,7 +47,7 @@ sq_modis = spTransform(sq, CRS=modis_crs)
 
 writeOGR(sq_modis, dsn=file.path(outputDir,paste0(sq_name,'.shp')), 
          layer=sq_name, 
-         driver='ESRI Shapefile')
+         driver='ESRI Shapefile') 
 
 
 
