@@ -6,7 +6,7 @@
 # Jon Yearsley  Jan 2020
 # jon.yearsley@ucd.ie
 #
-###########################################################################
+# **********************************************************************
 
 library(sp)
 library(rgdal)
@@ -14,6 +14,7 @@ library(raster)
 
 rm(list=ls())
 
+# Define top level data directory
 setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
 
 # Load MODIS grid data
