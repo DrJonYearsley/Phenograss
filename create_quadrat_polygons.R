@@ -16,15 +16,27 @@ rm(list=ls())
 library(sp)
 library(rgdal)
 library(raster)
+library(readxl)
 
 rm(list=ls())
 
 setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
-outputDir = './Data'
+outputDir = './Data/Quadrats'
+
+# Quadrat definitions file
+quadratFile = './Data/Quadrats/QuadratsAgroclimateRegionsIreland.xlsx'
 
 # Define a square quadrat and the size of the square
-square_centre_TM75 = data.frame(east=116386, north=328904) # Define in Irish Grid TM75 (espg:29903)
 square_size_m = 10000  # units = m. Each pixel is roughly 250 m
+
+# Read in data  on quadrats
+quadrats = read_xlsx(path=quadratFile, 
+                     skip=14)
+
+quadrats$Easting = as.numeric(quadrats$Easting)
+quadrats$Northing = as.numeric(quadrats$Northing)
+nQuadrat = nrow(quadrats)
+
 
 
 # Load MODIS grid data
@@ -33,28 +45,49 @@ modis = raster('./Data/MODIS/modis_grid_ireland.grd')
 # Save MODIS CRS
 modis_crs = crs(modis)
 
-side = SpatialPoints(data.frame(east=square_centre_TM75$east+c(0.5,-0.5)*square_size_m,
-                              north=square_centre_TM75$north)
-                   , proj4string=CRS("+init=epsg:29903"))
 
-# Convert square and side length into  MODIS
-square_centre_modis = spTransform(square_centre_TM75, modis_crs)
-side_modis = spTransform(side, modis_crs)
-
-# define a square within Ireland
-sq_df = data.frame(east = square_size_m * c(-0.5, -0.5, 0.5, 0.5) + square_centre_TM75$east, 
-                   north = square_size_m * c(-0.5, 0.5, 0.5, -0.5)+ square_centre_TM75$north)
-
-sq = SpatialPointsDataFrame(sq_df, data=sq_df, proj4string=CRS("+init=epsg:29903"))
-sq_name = 'test'
-
-# Convert square to MODIS CRS and extract extent
-sq_modis = spTransform(sq, CRS=modis_crs)
+# Define spatial data frame for quadrat centers
+sq_df = SpatialPointsDataFrame(coords = quadrats[,c(3,4)], 
+                               data=quadrats, 
+                               proj4string=CRS("+init=epsg:29903"))
+sq_df_modis = spTransform(sq_df, modis_crs)
 
 
-writeOGR(sq_modis, dsn=file.path(outputDir,paste0(sq_name,'.shp')), 
-         layer=sq_name, 
-         driver='ESRI Shapefile') 
-
+for (q in 1:nQuadrat) {
+  sq_width = SpatialPoints(data.frame(east=quadrats$Easting[q]+c(0.5,-0.5)*square_size_m,
+                                      north=quadrats$Northing[q])
+                           , proj4string=CRS("+init=epsg:29903"))
+  sq_height = SpatialPoints(data.frame(east=quadrats$Easting[q],
+                                       north=quadrats$Northing[q]+c(0.5,-0.5)*square_size_m)
+                            , proj4string=CRS("+init=epsg:29903"))
+  
+  # Convert square and side length into  MODIS
+  sq_width_modis = coordinates(spTransform(sq_width, modis_crs))[,1]
+  sq_height_modis = coordinates(spTransform(sq_height, modis_crs))[,2]
+  
+  # Create quadrat in the MODIS CRS
+  quadrat_points_modis = data.frame(x=c(sq_width_modis, rev(sq_width_modis)),
+                                    y=rep(sq_height_modis, each=2))
+  
+  sq_name = paste0('quadrat',q,'_',quadrats$County[q],'_Clust',quadrats$Cluster[q])
+  
+  # Define final points
+  # sq_modis = SpatialPointsDataFrame(quadrat_points_modis, 
+  #                                   data=data.frame(coordinates(quadrat_points_modis)), 
+  #                                   proj4string=modis_crs)
+  
+  # Define spatial polygon for the quadrat
+  poly = SpatialPolygons(list(Polygons(list(Polygon(coords=quadrat_points_modis)),
+                                       ID=sq_name)),
+                         proj4string=modis_crs)
+  
+  sq_modis2 = SpatialPolygonsDataFrame(poly, data=quadrats[1,], match.ID=FALSE)
+  
+  
+  writeOGR(sq_modis2, dsn=file.path(outputDir,paste0(sq_name,'.shp')), 
+           layer=sq_name, 
+           driver='ESRI Shapefile',
+           overwrite_layer=TRUE) 
+}
 
 
