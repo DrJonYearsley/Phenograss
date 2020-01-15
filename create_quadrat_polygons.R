@@ -53,7 +53,7 @@ sq_df = SpatialPointsDataFrame(coords = quadrats[,c(3,4)],
                                proj4string=CRS("+init=epsg:29903"))
 sq_df_modis = spTransform(sq_df, modis_crs)
 
-# Create a list of 
+# Create a list to hold polygons
 poly_list = vector('list',length=nQuadrat)
 sq_name = paste0('quadrat',c(1:nQuadrat),'_',quadrats$County,'_Clust',quadrats$Cluster)
 row.names(quadrats) = sq_name
@@ -74,21 +74,11 @@ for (q in 1:nQuadrat) {
   quadrat_points_modis = data.frame(x=c(sq_width_modis, rev(sq_width_modis)),
                                     y=rep(sq_height_modis, each=2))
   
-  # Define final points
-  # sq_modis = SpatialPointsDataFrame(quadrat_points_modis, 
-  #                                   data=data.frame(coordinates(quadrat_points_modis)), 
-  #                                   proj4string=modis_crs)
-  
+
   # Define spatial polygon for the quadrat
   poly_list[[q]] = Polygons(list(Polygon(coords=quadrat_points_modis)),
                      ID=sq_name[q])
 }
-  # poly = SpatialPolygons(list(Polygons(list(Polygon(coords=quadrat_points_modis)),
-  #                                      ID=sq_name)),
-  #                        proj4string=modis_crs)
-  # 
-  # sq_modis2 = SpatialPolygonsDataFrame(poly, data=quadrats[1,], match.ID=FALSE)
-  # 
 
 sq_modis2 = SpatialPolygonsDataFrame(SpatialPolygons(poly_list,
                                                      proj4string=modis_crs), 
