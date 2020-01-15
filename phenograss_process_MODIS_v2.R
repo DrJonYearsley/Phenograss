@@ -4,19 +4,25 @@
 #
 # This script performs these tasks
 #  1. read in MODIS data (ndvi, evi, quality and day of acquisition)
-#  2. crop to a predefined area (square define in Irish Grid TM75)
-#  3. rescale NDVI and EVI 
-#  4. remove poor quality pixels
-#  5. read in preprocessed CORINE data
-#  6. subset MODIS data to areas with pasture
-#  7. convert MODIS data into a data frame and save data frame
-#  8. Make data frame into a spatial object
-#  9. Reproject spatial data frame into ITM (espg:2157)
+#  2. read in squares (roughty 10 km square) for subsets within Ireland
+#  3. read in preprocessed CORINE data
+#  For each square: 
+#  4. Crop MODIS data to the extent of the square
+#  5. rescale NDVI and EVI 
+#  6. remove poor quality pixels
+#  7. remove pixels with less than pastureThreshold fraction of pasture
+#  8. Set NDVI and EVI of less than 0 to 0
+#  9. Remove pixels with missing EVI data
+#  10. convert MODIS data into a data frame and save data frame
+#  11. Make data frame into a spatial object
+#  12. Include the ITM (espg:2157) coords of each pixel in the data frame
+#  13. Save the data frame for each square in a separate file
 
 # The final data that is saved to file will have a spatial resolution of approximately 250m 
 #        (i.e. the raw MODIS resolution, albeit transformed onto Irish Grid TM75)
 #
-# Jon Yearsley Nov 2019 
+# Jon Yearsley Jon.Yearsey@ucd.ie
+# Jan 2020 
 # ****************************************************
 
 library(sp)
