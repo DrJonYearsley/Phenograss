@@ -48,7 +48,7 @@ square_size_m = 10000  # units = m. Each pixel is roughly 250 m
 corinePath = './Data/CORINE_Ireland/CLC18_IE_ITM'
 
 # Read in CORINE data. make sure this is vector data (shapefile)
-corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_ITM')
+corine = readOGR(dsn=corinePath, layer='CLC18_IE_ITM')
 
 # Load MODIS data
 regexp = paste(yearStr,'[[:graph:]]+.hdf$',sep='')
