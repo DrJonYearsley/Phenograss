@@ -11,10 +11,19 @@
 
 rm(list=ls())
 
+library(survival)
+library(survminer)
+library(coxme)
+
 # Load processed data ----
 load('germination_data.RData')
 
 # Calculate Kaplan-Meier survival curve ----
+
+# The hazard rate normally corresponds to the
+# probability of dying. In our case it is the
+# probability of germinating 
+
 
 # Effect of treatment averaging over variety
 germ_fit_treatment = survfit(Surv(Day, germinated) ~ Treatment, 
@@ -35,19 +44,22 @@ germ_fit_TRT = survfit(Surv(Day, germinated) ~ Variety,
 ggsurvplot(fit=germ_fit_treatment,
            xlab='Days',
            ylab='Prob not germinated',
-           conf.int=TRUE)
+           conf.int=TRUE,
+           pval=TRUE)
 
 ggsurvplot(fit=germ_fit_CON,
            xlab='Days',
            ylab='Prob not germinated',
            title='Effect of variety for Treatment=CON',
-           conf.int=TRUE)
+           conf.int=TRUE,
+           pval=TRUE)
 
 ggsurvplot(fit=germ_fit_TRT,
            xlab='Days',
            ylab='Prob not germinated',
            title='Effect of variety for Treatment=eCO2',
-           conf.int=TRUE)
+           conf.int=TRUE,
+           pval = TRUE)
 
 
 
@@ -56,10 +68,33 @@ ggsurvplot(fit=germ_fit_TRT,
 # Fit Cox proportional hazards models -----
 # Note these models are not yet validated
 
+# Add scatter to the Day
+germination$Day2 = germination$Day+runif(n=nrow(germination),max=0.4,min=-0.4)
+
 # Fit the full model with main effects and interaction
-coxph.fit <- coxph(Surv(Day, germinated) ~ Variety*Treatment, 
+coxph.fit <- coxph(Surv(Day, germinated) ~ Treatment, 
+                   data=subset(germination, Variety=='Dunluce'), 
+                   method="breslow")  # Could use efron
+
+coxph.fit <- coxph(Surv(Day, germinated) ~ Treatment, 
                    data=germination, 
                    method="breslow")  # Could use efron
+
+# # Fit the full model with main effects and interaction
+# coxme.fit <- coxme(Surv(Day, germinated) ~ Treatment + (1|Variety), 
+#                    data=germination)  # Could use efron
+
+
+# Validate hazard function assumption
+test.ph <- cox.zph(coxph.fit)
+test.ph
+
+plot(test.ph)
+# Looks like proportional hazard decreases over time
+# Need to find extension to Cox PH model
+
+
+# Hypothesis tests --------
 
 # Fit null model testing interaction between Variety and Treatment
 coxph.fit_null1 <- coxph(Surv(Day, germinated) ~ Variety+Treatment, 
@@ -83,5 +118,6 @@ coxph.fit_null3 <- coxph(Surv(Day, germinated) ~ Treatment,
 
 anova(coxph.fit, coxph.fit_null3, test='ChiSq')  # Effect of variety
 
-
+# Plot the hazard ratio for the model with main effects and no interaction
+ggforest(coxph.fit_null1, data=germination)
 
