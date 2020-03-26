@@ -1,0 +1,224 @@
+---
+title: 'Phenograss: Survival analysis of germination data'
+author: "Jon Yearsley"
+date: "26th March 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Setup and load data
+
+```{r message=FALSE}
+rm(list=ls())
+
+library(survival)
+library(survminer)
+library(timereg)
+library(broom)
+library(pander)
+
+# Load data
+load('germination_data.RData')
+```
+
+
+## Calculate Kaplan-Meier survival curve
+
+This is a non-parametric approach, and doesn't have the same assumptions as Cox PH model. We use the approach to estimate the survival curve for germination, and to test if Treatment has an effect (averaged across varieties)
+
+The survival curve normally corresponds to the probability of dying. In our case it is the probability of germinating. The hazard rate has a similar interpretation.
+
+### Survival curve for each Variety and Treatment
+```{r }
+# Effect of Treatment for each Variety
+germ_fit = survfit(Surv(Day, germinated) ~ Variety + Treatment, 
+                             data=germination)
+```
+
+Display median survival times (i.e. germination times) and confidence intervals
+```{r}
+# Print estimates of time to germination
+pander(germ_fit)
+```
+
+
+
+### Look at survival curves, averaging over varieties
+
+```{r}
+# Effect of treatment averaging over variety
+germ_fit_treatment = survfit(Surv(Day, germinated) ~ Treatment, 
+                             data=germination)
+```
+
+Display 
+
+```{r}
+# Display results of average time to germination across varieties
+pander(germ_fit_treatment)
+
+```
+
+Plot survival curves for Treatments (averaging across varieties)
+```{r echo=FALSE}
+ggsurvplot(fit=germ_fit_treatment,
+           xlab='Days',
+           ylab='Proportion of seed not germinated',
+           conf.int=TRUE,
+           pval=TRUE)
+```
+
+
+#### Hypothesis test
+
+Perform a log-ratio test of difference between survival curves for control - treatment
+
+```{r}
+pander(survdiff(Surv(Day, germinated) ~ Treatment, 
+         data=germination))
+```
+
+
+## Parametric models of germination
+
+
+Try to fit a Cox proportional hazards model. This is a parametric model that assumes a constant proportional hazard rate. This assumption must be validated
+
+Fit model with Treatment and Variety. There's no evidence of an interaction between Treatment and Variety
+```{r}
+# Fit the full model with main effects and interaction
+coxph.fit <- coxph(Surv(Day, germinated) ~ Treatment+Variety, 
+                   data=germination, 
+                   method="breslow")  # Could use efron
+```
+
+
+Same model but treat Variety as a random effect
+```{r}
+# Fit the full model with main effects and random term for Variety
+coxph.rand <- coxph(Surv(Day, germinated) ~ Treatment + frailty(Variety),
+                    data=germination)
+```
+
+
+Validate the proportional hazard assumption
+```{r}
+# Validate hazard function assumption
+test.ph <- cox.zph(coxph.fit)
+pander(test.ph$table)
+```
+Looks like the assumption is violated. Meaning that the effect of Treatment and Variety on germination rate varies with time.
+
+Look at some visuals
+
+```{r}
+plot(test.ph)
+```
+
+Looks like proportional hazard decreases over time for the treatment effect. The effect of Variety seems to be less of an issue.
+
+Look at model with Variety as a random effect
+```{r}
+test2.ph <- cox.zph(coxph.rand)
+pander(test2.ph$table)
+```
+
+
+```{r}
+plot(test2.ph)
+```
+
+Same message. Looks like proportional hazard decreases over time for the treatment effect
+
+Need to find time varying version of Cox model.
+
+
+
+
+
+### Effect of variety
+
+Use Cox PH model on data from the control
+
+```{r}
+# Fit the full model
+coxph.fit_full <- coxph(Surv(Day, germinated) ~ Variety, 
+                        data=subset(germination, Treatment=='CON'), 
+                        method="breslow")  # Could use efron
+
+# Fit null model testing for Variety on control data
+coxph.fit_null <- coxph(Surv(Day, germinated) ~ 1, 
+                         data=subset(germination, Treatment=='CON'), 
+                         method="breslow")  # Could use efron
+
+# Perform hypothesis test
+anova(coxph.fit_full, coxph.fit_null, test='ChiSq')
+```
+
+
+Strong effect of Variety on germination. Plot the hazard ratio for the model with main effect variety
+```{r echo=FALSE}
+ggforest(coxph.fit_full, data=germination)
+```
+
+
+```{r}
+survfit(coxph.fit_full)
+```
+
+
+
+## Time varying coefficients
+
+### Modify Cox PH model (fit with time bins)
+
+Bin data into 3 bins t<14, 14<t<18, t>18
+
+```{r}
+# Create dataframe with time bins
+germin2 <- survSplit(Surv(Day, germinated) ~ ., 
+                  data= germination, 
+                  cut=c(14,18),
+                  episode= "tgroup", id="id")
+```
+
+
+```{r}
+# Fit model
+coxph.fit_full2 <- coxph(Surv(Day, germinated) ~ Treatment:strata(tgroup), 
+                        data=germin2, 
+                        method="breslow")  # Could use efron
+```
+
+```{r}
+# Look at mean fitted values
+coxph.fit_full2$means
+```
+
+
+
+### Fit model with time varying coefficients
+
+The hazard rate for Treatment will be allowed to vary with time
+
+```{r}
+m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
+            data=germination, 
+            max.time=25, 
+            residuals=TRUE)
+```
+
+
+Plot results, and add in null expectation of no variation with time.
+```{r echo=FALSE}
+plot(m,score=TRUE)
+```
+
+```{r}
+summary(m)
+```
+
+
