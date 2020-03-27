@@ -19,10 +19,86 @@ library(survminer)
 library(timereg)
 library(broom)
 library(pander)
+library(emmeans)
 
 # Load data
 load('germination_data.RData')
 ```
+
+## Overall visualisation
+
+```{r echo=FALSE}
+# Look at distribution of germination times
+ggplot(data=subset(germination, Day<30), 
+       aes(x=Day, fill=Treatment)) +
+  geom_histogram(bins=20) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Dark2') +
+  labs(x='Day post sowing',
+         y='Number Germinated',
+       title='Germination time distribution')
+```
+
+Look at overall numbers that germinated
+```{r}
+germin_tab = table(germination$Treatment, 
+                   germination$germinated)
+pander(germin_tab, 
+       caption = "Numbers germinating & not germinating within observation period")
+```
+
+Test to see if there's an overall difference 
+```{r}
+pander(chisq.test(germin_tab), 
+       caption = "Chi squared test of association on germin_tab")
+```
+
+No difference in overall germination rate due to treatment
+
+### Linear modelling of germination probability
+
+Fit logistic model and test for difference between species and treatments
+
+```{r}
+m=glm(germinated~Treatment*Variety, data=germination, family='binomial')
+m0 = update(m, .~.-Treatment:Variety)
+
+pander(anova(m0,m, test='Chisq'))
+```
+
+No evidence of an interaction for total germination proportion
+
+
+Test for effect of variety
+```{r}
+m0b = update(m, .~.-Treatment:Variety - Variety)
+pander(anova(m0b,m0, test='Chisq'))
+```
+
+A strong effect of Variety
+
+Test for effect of Treatement
+```{r}
+m0c = update(m, .~.-Treatment:Variety - Treatment)
+pander(anova(m0c,m0, test='Chisq'))
+```
+
+No effect of Treatment
+
+
+Posthoc test for the effect of Variety and compare each 
+```{r}
+m_eff = emmeans(m0, specs = 'Variety')
+m_posthoc = contrast(m_eff, method='eff')
+m_posthoc
+```
+
+Plot the posthoc analysis
+
+```{r echo=FALSE}
+plot(m_posthoc)
+```
+
 
 
 ## Calculate Kaplan-Meier survival curve

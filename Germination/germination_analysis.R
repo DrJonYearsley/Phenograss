@@ -10,15 +10,66 @@
 # **************************************************
 
 rm(list=ls())
-setwd('./Germination')
+#setwd('./Germination')
 
 library(survival)
 library(survminer)
 library(coxme)
 library(broom)
+library(ggplot2)
+library(emmeans)
+library(DHARMa)
 
 # Load processed data ----
 load('germination_data.RData')
+
+
+# Look at distribution of germination times
+ggplot(data=subset(germination, Day<30), 
+       aes(x=Day, fill=Treatment)) +
+  geom_histogram(bins=20) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Dark2') +
+  labs(x='Day post sowing',
+         y='Number Germinated')
+
+
+# Test whether there's a diference in overall germination chance
+germin_tab = table(germination$Treatment, 
+                   germination$germinated)
+
+chisq.test(germin_tab)
+
+# Test for difference between species and treatments
+m=glm(germinated~Treatment*Variety, data=germination, family='binomial')
+m0 = update(m, .~.-Treatment:Variety)
+
+anova(m0,m, test='Chisq')
+
+# No evidence of an interaction for total germination proportion
+
+# Test for effect of variety
+m0b = update(m, .~.-Treatment:Variety - Variety)
+anova(m0b,m0, test='Chisq')
+
+# A strong effect of Variety
+
+# Test for effect of Treatement
+m0c = update(m, .~.-Treatment:Variety - Treatment)
+anova(m0c,m0, test='Chisq')
+
+# No effect of Treatment
+
+
+# Posthoc test for the effect of Variety
+m_eff = emmeans(m0, specs = 'Variety')
+
+# Compare each Variety to the average
+posthoc = contrast(m_eff, method='eff')
+
+posthoc
+
+plot(posthoc)
 
 # Calculate Kaplan-Meier survival curve ----
 # This is a non-parametric approach, and doesn't 
@@ -50,12 +101,21 @@ germ_fit_treatment_fh = survfit(Surv(Day, germinated) ~ Treatment,
 # Display results of average time to germination across varieties
 germ_fit_treatment
 
-ggsurvplot(fit=germ_fit_treatment,
+survplot = ggsurvplot(fit=germ_fit_treatment,
            xlab='Days',
            ylab='Prob not germinated',
            conf.int=TRUE,
-           pval=TRUE)
+           pval=TRUE,
+           risk.table=FALSE)
+survplot$plot = survplot$plot + 
+  scale_color_brewer(palette = 'Dark2') + 
+  scale_fill_brewer(palette = 'Dark2') + 
+  # theme(axis.title = element_text(size=20),
+  #       axis.text = element_text(size=20)) +
+  theme_bw()
+survplot
 
+ggsave('KaplanMeier_curve.png')
 
 # Log-ratio test of difference between survival 
 # curves for control - treatment
@@ -171,3 +231,17 @@ par(mfrow=c(1,1))
 summary(m)
 
 
+
+est = CsmoothB(m$cum, c(7:20), b=2)
+
+plot(est[,1],exp(est[,3]),pch=20,xlab='Hazard Rate', type='b')
+plot(est[,1],exp(est[,2]),pch=20,xlab='Baseline Hazard Rate', type='b')
+
+
+
+library(MRH)
+m2 = estimateMRH(Surv(Day, germinated) ~ Variety + nph(Treatment), 
+            data=germination, 
+            M=2,
+            maxStudyTime=20,
+            maxIter=1000)
