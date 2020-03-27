@@ -448,46 +448,46 @@ summary(m)
     ## 
     ## Test for non-significant effects 
     ##               Supremum-test of significance p-value H_0: B(t)=0
-    ## (Intercept)                           157.0                   0
-    ## TreatmenteCO2                          43.7                   0
+    ## (Intercept)                             158                   0
+    ## TreatmenteCO2                            43                   0
     ## 
     ## Test for time invariant effects 
     ##                     Kolmogorov-Smirnov test p-value H_0:constant effect
-    ## (Intercept)                             110                           0
-    ## TreatmenteCO2                           102                           0
+    ## (Intercept)                           102.0                           0
+    ## TreatmenteCO2                          94.1                           0
     ##                       Cramer von Mises test p-value H_0:constant effect
-    ## (Intercept)                          131000                           0
-    ## TreatmenteCO2                        110000                           0
+    ## (Intercept)                          113000                           0
+    ## TreatmenteCO2                         92900                           0
     ## 
     ## Parametric terms :     
-    ##                               Coef.    SE Robust SE       z    P-val lower2.5%
-    ## const(Variety)Abergain       -1.230 0.121     0.161  -7.650 2.00e-14   -1.4700
-    ## const(Variety)Aspect         -0.101 0.105     0.157  -0.644 5.20e-01   -0.3070
-    ## const(Variety)Carraig         0.388 0.104     0.145   2.670 7.49e-03    0.1840
-    ## const(Variety)Dunluce        -0.202 0.120     0.312  -0.649 5.16e-01   -0.4370
-    ## const(Variety)Lilora         -0.567 0.114     0.181  -3.130 1.75e-03   -0.7900
-    ## const(Variety)Moy            -1.100 0.218     0.731  -1.500 1.33e-01   -1.5300
-    ## const(Variety)Semi-natural11 -2.600 0.241     0.259 -10.000 0.00e+00   -3.0700
-    ## const(Variety)Semi-natural6  -0.103 0.128     0.189  -0.545 5.86e-01   -0.3540
-    ## const(Variety)Semi-natural7  -0.755 0.188     0.582  -1.300 1.94e-01   -1.1200
-    ## const(Variety)Solomon         0.176 0.104     0.150   1.170 2.40e-01   -0.0278
-    ## const(Variety)Wild4          -0.062 0.128     0.182  -0.341 7.33e-01   -0.3130
-    ## const(Variety)Wild6          -0.809 0.140     0.195  -4.150 3.37e-05   -1.0800
-    ## const(Variety)Wild7          -0.231 0.127     0.174  -1.330 1.83e-01   -0.4800
+    ##                                Coef.    SE Robust SE      z    P-val lower2.5%
+    ## const(Variety)Abergain       -1.2500 0.121     0.158 -7.890 3.11e-15   -1.4900
+    ## const(Variety)Aspect         -0.0967 0.105     0.156 -0.621 5.34e-01   -0.3020
+    ## const(Variety)Carraig         0.3870 0.104     0.144  2.680 7.29e-03    0.1830
+    ## const(Variety)Dunluce        -0.1960 0.120     0.310 -0.633 5.26e-01   -0.4310
+    ## const(Variety)Lilora         -0.5630 0.114     0.180 -3.130 1.76e-03   -0.7860
+    ## const(Variety)Moy            -1.0900 0.218     0.733 -1.480 1.38e-01   -1.5200
+    ## const(Variety)Semi-natural11 -2.5700 0.242     0.304 -8.470 0.00e+00   -3.0400
+    ## const(Variety)Semi-natural6  -0.1120 0.128     0.187 -0.596 5.51e-01   -0.3630
+    ## const(Variety)Semi-natural7  -0.7360 0.188     0.587 -1.250 2.10e-01   -1.1000
+    ## const(Variety)Solomon         0.1770 0.104     0.149  1.190 2.35e-01   -0.0268
+    ## const(Variety)Wild4          -0.0439 0.128     0.181 -0.243 8.08e-01   -0.2950
+    ## const(Variety)Wild6          -0.8260 0.140     0.192 -4.310 1.67e-05   -1.1000
+    ## const(Variety)Wild7          -0.2240 0.127     0.172 -1.300 1.94e-01   -0.4730
     ##                              upper97.5%
-    ## const(Variety)Abergain          -0.9930
-    ## const(Variety)Aspect             0.1050
-    ## const(Variety)Carraig            0.5920
-    ## const(Variety)Dunluce            0.0332
-    ## const(Variety)Lilora            -0.3440
-    ## const(Variety)Moy               -0.6730
-    ## const(Variety)Semi-natural11    -2.1300
-    ## const(Variety)Semi-natural6      0.1480
-    ## const(Variety)Semi-natural7     -0.3870
-    ## const(Variety)Solomon            0.3800
-    ## const(Variety)Wild4              0.1890
-    ## const(Variety)Wild6             -0.5350
-    ## const(Variety)Wild7              0.0179
+    ## const(Variety)Abergain          -1.0100
+    ## const(Variety)Aspect             0.1090
+    ## const(Variety)Carraig            0.5910
+    ## const(Variety)Dunluce            0.0392
+    ## const(Variety)Lilora            -0.3400
+    ## const(Variety)Moy               -0.6630
+    ## const(Variety)Semi-natural11    -2.1000
+    ## const(Variety)Semi-natural6      0.1390
+    ## const(Variety)Semi-natural7     -0.3680
+    ## const(Variety)Solomon            0.3810
+    ## const(Variety)Wild4              0.2070
+    ## const(Variety)Wild6             -0.5520
+    ## const(Variety)Wild7              0.0249
     ##    
     ##   Call: 
     ## timecox(formula = Surv(Day, germinated) ~ const(Variety) + Treatment, 

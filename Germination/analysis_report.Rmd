@@ -280,7 +280,7 @@ coxph.fit_full2$means
 
 The hazard rate for Treatment will be allowed to vary with time
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
             data=germination, 
             max.time=25, 
