@@ -2,7 +2,7 @@
 title: 'Phenograss: Survival analysis of germination data'
 author: "Jon Yearsley"
 date: "26th March 2020"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -280,7 +280,7 @@ coxph.fit_full2$means
 
 The hazard rate for Treatment will be allowed to vary with time
 
-```{r}
+```{r eval=FALSE}
 m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
             data=germination, 
             max.time=25, 
