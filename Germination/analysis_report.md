@@ -436,138 +436,59 @@ m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment,
 ```
 
 Plot results, and add in null expectation of no variation with time.
-
-    ## Warning in plot.window(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy, type, ...): "score" is not a graphical parameter
-
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-    
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in box(...): "score" is not a graphical parameter
-
-    ## Warning in title(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy.coords(x, y), type = type, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in title(sub = sub.caption, ...): "score" is not a graphical parameter
-
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
-
-    ## Warning in plot.window(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy, type, ...): "score" is not a graphical parameter
-
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-    
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in box(...): "score" is not a graphical parameter
-
-    ## Warning in title(...): "score" is not a graphical parameter
-
-    ## Warning in title(sub = sub.caption, ...): "score" is not a graphical parameter
-
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
-
-    ## Warning in plot.window(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy, type, ...): "score" is not a graphical parameter
-
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-    
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in box(...): "score" is not a graphical parameter
-
-    ## Warning in title(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy.coords(x, y), type = type, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in title(sub = sub.caption, ...): "score" is not a graphical parameter
-
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-3.png)<!-- -->
-
-    ## Warning in plot.window(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy, type, ...): "score" is not a graphical parameter
-
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-    
-    ## Warning in axis(side = side, at = at, labels = labels, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in box(...): "score" is not a graphical parameter
-
-    ## Warning in title(...): "score" is not a graphical parameter
-
-    ## Warning in plot.xy(xy.coords(x, y), type = type, ...): "score" is not a
-    ## graphical parameter
-
-    ## Warning in title(sub = sub.caption, ...): "score" is not a graphical parameter
-
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-4.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
 
 ``` r
 summary(m)
 ```
 
+    ## Multiplicative Hazard Model 
     ## 
-    ## Call:
-    ## glm(formula = germinated ~ Treatment * Variety, family = "binomial", 
-    ##     data = germination)
+    ## Test for nonparametric terms 
     ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -2.0074  -0.9833   0.6039   0.7585   1.8420  
+    ## Test for non-significant effects 
+    ##               Supremum-test of significance p-value H_0: B(t)=0
+    ## (Intercept)                           157.0                   0
+    ## TreatmenteCO2                          43.7                   0
     ## 
-    ## Coefficients:
-    ##                                     Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept)                          1.28520    0.22159   5.800 6.63e-09 ***
-    ## TreatmenteCO2                       -0.09561    0.30933  -0.309 0.757243    
-    ## VarietyAbergain                     -1.28520    0.28711  -4.476 7.59e-06 ***
-    ## VarietyAspect                        0.38548    0.33411   1.154 0.248604    
-    ## VarietyCarraig                       0.51632    0.34297   1.505 0.132219    
-    ## VarietyDunluce                      -1.01693    0.28816  -3.529 0.000417 ***
-    ## VarietyLilora                       -0.80978    0.29043  -2.788 0.005301 ** 
-    ## VarietyMoy                          -2.47478    0.37718  -6.561 5.34e-11 ***
-    ## VarietySemi-natural11               -2.77912    0.40052  -6.939 3.96e-12 ***
-    ## VarietySemi-natural6                 0.32424    0.41122   0.788 0.430412    
-    ## VarietySemi-natural7                -2.29680    0.36651  -6.267 3.69e-10 ***
-    ## VarietySolomon                       0.26540    0.32683   0.812 0.416773    
-    ## VarietyWild4                        -0.09561    0.37718  -0.253 0.799886    
-    ## VarietyWild6                        -0.66616    0.34980  -1.904 0.056858 .  
-    ## VarietyWild7                        -0.18659    0.37147  -0.502 0.615461    
-    ## TreatmenteCO2:VarietyAbergain        0.22915    0.40311   0.568 0.569735    
-    ## TreatmenteCO2:VarietyAspect         -0.47646    0.45018  -1.058 0.289887    
-    ## TreatmenteCO2:VarietyCarraig        -0.31961    0.46508  -0.687 0.491951    
-    ## TreatmenteCO2:VarietyDunluce         0.23281    0.40539   0.574 0.565767    
-    ## TreatmenteCO2:VarietyLilora         -0.00895    0.40673  -0.022 0.982444    
-    ## TreatmenteCO2:VarietyMoy             0.43790    0.51790   0.846 0.397811    
-    ## TreatmenteCO2:VarietySemi-natural11  0.09561    0.56420   0.169 0.865427    
-    ## TreatmenteCO2:VarietySemi-natural6  -0.22862    0.56025  -0.408 0.683218    
-    ## TreatmenteCO2:VarietySemi-natural7   0.63179    0.50141   1.260 0.207662    
-    ## TreatmenteCO2:VarietySolomon         0.15446    0.46196   0.334 0.738116    
-    ## TreatmenteCO2:VarietyWild4           0.64063    0.56530   1.133 0.257110    
-    ## TreatmenteCO2:VarietyWild6           0.16972    0.49391   0.344 0.731123    
-    ## TreatmenteCO2:VarietyWild7           0.86880    0.57341   1.515 0.129736    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## Test for time invariant effects 
+    ##                     Kolmogorov-Smirnov test p-value H_0:constant effect
+    ## (Intercept)                             110                           0
+    ## TreatmenteCO2                           102                           0
+    ##                       Cramer von Mises test p-value H_0:constant effect
+    ## (Intercept)                          131000                           0
+    ## TreatmenteCO2                        110000                           0
     ## 
-    ## (Dispersion parameter for binomial family taken to be 1)
-    ## 
-    ##     Null deviance: 3251.8  on 2519  degrees of freedom
-    ## Residual deviance: 2816.7  on 2492  degrees of freedom
-    ## AIC: 2872.7
-    ## 
-    ## Number of Fisher Scoring iterations: 4
+    ## Parametric terms :     
+    ##                               Coef.    SE Robust SE       z    P-val lower2.5%
+    ## const(Variety)Abergain       -1.230 0.121     0.161  -7.650 2.00e-14   -1.4700
+    ## const(Variety)Aspect         -0.101 0.105     0.157  -0.644 5.20e-01   -0.3070
+    ## const(Variety)Carraig         0.388 0.104     0.145   2.670 7.49e-03    0.1840
+    ## const(Variety)Dunluce        -0.202 0.120     0.312  -0.649 5.16e-01   -0.4370
+    ## const(Variety)Lilora         -0.567 0.114     0.181  -3.130 1.75e-03   -0.7900
+    ## const(Variety)Moy            -1.100 0.218     0.731  -1.500 1.33e-01   -1.5300
+    ## const(Variety)Semi-natural11 -2.600 0.241     0.259 -10.000 0.00e+00   -3.0700
+    ## const(Variety)Semi-natural6  -0.103 0.128     0.189  -0.545 5.86e-01   -0.3540
+    ## const(Variety)Semi-natural7  -0.755 0.188     0.582  -1.300 1.94e-01   -1.1200
+    ## const(Variety)Solomon         0.176 0.104     0.150   1.170 2.40e-01   -0.0278
+    ## const(Variety)Wild4          -0.062 0.128     0.182  -0.341 7.33e-01   -0.3130
+    ## const(Variety)Wild6          -0.809 0.140     0.195  -4.150 3.37e-05   -1.0800
+    ## const(Variety)Wild7          -0.231 0.127     0.174  -1.330 1.83e-01   -0.4800
+    ##                              upper97.5%
+    ## const(Variety)Abergain          -0.9930
+    ## const(Variety)Aspect             0.1050
+    ## const(Variety)Carraig            0.5920
+    ## const(Variety)Dunluce            0.0332
+    ## const(Variety)Lilora            -0.3440
+    ## const(Variety)Moy               -0.6730
+    ## const(Variety)Semi-natural11    -2.1300
+    ## const(Variety)Semi-natural6      0.1480
+    ## const(Variety)Semi-natural7     -0.3870
+    ## const(Variety)Solomon            0.3800
+    ## const(Variety)Wild4              0.1890
+    ## const(Variety)Wild6             -0.5350
+    ## const(Variety)Wild7              0.0179
+    ##    
+    ##   Call: 
+    ## timecox(formula = Surv(Day, germinated) ~ const(Variety) + Treatment, 
+    ##     data = germination, max.time = 25, residuals = TRUE)
