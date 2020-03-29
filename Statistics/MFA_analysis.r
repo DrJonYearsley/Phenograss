@@ -132,4 +132,5 @@ res.var$cos2 #display quality of representation on the factor map
 
 fviz_ellipses(result_3, c("Treatment", "Variety"), repel = TRUE) #plot Treatment and Variety together as Eliipses
 
-fviz_mfa_axes(result_3) #plot relationship between principal axes and results
+fviz_mfa_axes(result_3, repel=T) #plot relationship between principal axes and results
+
