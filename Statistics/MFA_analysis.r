@@ -15,7 +15,7 @@ library(FactoMineR)
 library(factoextra)
 library(dplyr)
 setwd("C:/00 Dana/Uni/Internship/Work")
-data=read.table("data_for_pca.csv", sep=";", dec=",", header=T)
+data=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
 str(data)
 
 #prepare the data for multiple factor analysis (mfa)
