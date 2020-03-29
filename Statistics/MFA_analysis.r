@@ -88,8 +88,48 @@ quanti.var$contrib #display contributions
 
 res.var$correlation #display correlation between groups and principal dimensions
 fviz_mfa_var(result_3, palette="jco", repel=T) #plot correlation of quantitative variables and dimensions
+fviz_mfa_var(result_3, "quanti.var", col.var = "contrib", 
+             gradient.cols = c("red", "green", "blue"), 
+             repel = TRUE,
+             geom = c("point", "text")) #plot with colors in relation to contribution
 
+# Color by cos2 values: quality on the factor map
+fviz_mfa_var(result_3, col.var = "cos2",
+             gradient.cols = c("red", "green", "blue"), 
+             col.var.sup = "violet", repel = TRUE) #plot with colors in relation of quality of representation
+
+fviz_cos2(result_3, choice = "quanti.var", axes = 1) #plot quality of contribution as bar plot
 res.var$contrib #display contributions to dimension
 fviz_contrib(result_3, "group", axes=1) #barplot with contribution to first dimension (change values from "axes" to display other dimensions)
 
+fviz_mfa_ind(result_3, col.ind = "cos2", 
+             gradient.cols = c("red", "green", "blue"),
+             repel = TRUE) #plot individuals
+
+fviz_mfa_ind(result_3, 
+             habillage = "Treatment", 
+             palette = c("red", "green", "blue", "brown"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = TRUE) # plot individuals with colour by treatment
+
+fviz_mfa_ind(result_3, 
+             habillage = "Type", 
+             palette = c("red", "green", "blue"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = TRUE) # plot individuals with colour by type
+
+fviz_mfa_ind(result_3, 
+             habillage = "Variety", 
+             palette = c("red", "green", "blue", 
+                         "brown", "pink", "yellow", 
+                         "black", "orange", "lightblue", 
+                         "darkblue", "darkgreen", "lightgreen",
+                         "turquoise", "grey"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = TRUE) # plot individuals with colour by variety
+
 res.var$cos2 #display quality of representation on the factor map
+
+fviz_ellipses(result_3, c("Treatment", "Variety"), repel = TRUE) #plot Treatment and Variety together as Eliipses
+
+fviz_mfa_axes(result_3) #plot relationship between principal axes and results
