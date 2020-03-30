@@ -14,6 +14,7 @@ library(timereg)
 library(broom)
 library(pander)
 library(emmeans)
+library(DHARMa)
 
 # Load data
 load('germination_data.RData')
@@ -61,6 +62,146 @@ treatments
 
 ``` r
 m=glm(germinated~Treatment*Variety, data=germination, family='binomial')
+```
+
+Do some model validation
+
+``` r
+summary(m)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = germinated ~ Treatment * Variety, family = "binomial", 
+    ##     data = germination)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -2.0074  -0.9833   0.6039   0.7585   1.8420  
+    ## 
+    ## Coefficients:
+    ##                                     Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept)                          1.28520    0.22159   5.800 6.63e-09 ***
+    ## TreatmenteCO2                       -0.09561    0.30933  -0.309 0.757243    
+    ## VarietyAbergain                     -1.28520    0.28711  -4.476 7.59e-06 ***
+    ## VarietyAspect                        0.38548    0.33411   1.154 0.248604    
+    ## VarietyCarraig                       0.51632    0.34297   1.505 0.132219    
+    ## VarietyDunluce                      -1.01693    0.28816  -3.529 0.000417 ***
+    ## VarietyLilora                       -0.80978    0.29043  -2.788 0.005301 ** 
+    ## VarietyMoy                          -2.47478    0.37718  -6.561 5.34e-11 ***
+    ## VarietySemi-natural11               -2.77912    0.40052  -6.939 3.96e-12 ***
+    ## VarietySemi-natural6                 0.32424    0.41122   0.788 0.430412    
+    ## VarietySemi-natural7                -2.29680    0.36651  -6.267 3.69e-10 ***
+    ## VarietySolomon                       0.26540    0.32683   0.812 0.416773    
+    ## VarietyWild4                        -0.09561    0.37718  -0.253 0.799886    
+    ## VarietyWild6                        -0.66616    0.34980  -1.904 0.056858 .  
+    ## VarietyWild7                        -0.18659    0.37147  -0.502 0.615461    
+    ## TreatmenteCO2:VarietyAbergain        0.22915    0.40311   0.568 0.569735    
+    ## TreatmenteCO2:VarietyAspect         -0.47646    0.45018  -1.058 0.289887    
+    ## TreatmenteCO2:VarietyCarraig        -0.31961    0.46508  -0.687 0.491951    
+    ## TreatmenteCO2:VarietyDunluce         0.23281    0.40539   0.574 0.565767    
+    ## TreatmenteCO2:VarietyLilora         -0.00895    0.40673  -0.022 0.982444    
+    ## TreatmenteCO2:VarietyMoy             0.43790    0.51790   0.846 0.397811    
+    ## TreatmenteCO2:VarietySemi-natural11  0.09561    0.56420   0.169 0.865427    
+    ## TreatmenteCO2:VarietySemi-natural6  -0.22862    0.56025  -0.408 0.683218    
+    ## TreatmenteCO2:VarietySemi-natural7   0.63179    0.50141   1.260 0.207662    
+    ## TreatmenteCO2:VarietySolomon         0.15446    0.46196   0.334 0.738116    
+    ## TreatmenteCO2:VarietyWild4           0.64063    0.56530   1.133 0.257110    
+    ## TreatmenteCO2:VarietyWild6           0.16972    0.49391   0.344 0.731123    
+    ## TreatmenteCO2:VarietyWild7           0.86880    0.57341   1.515 0.129736    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 3251.8  on 2519  degrees of freedom
+    ## Residual deviance: 2816.7  on 2492  degrees of freedom
+    ## AIC: 2872.7
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+The residual deviance divided by degrees of freedom is about 1, so an
+indication that there’s no overdispersion.
+
+``` r
+# Simulate residuals from the model
+val = simulateResiduals(m, n=500, refit=FALSE)
+```
+
+Create some validation plots
+
+``` r
+plot(val)
+```
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+testResiduals(val)
+```
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+    ## $uniformity
+    ## 
+    ##  One-sample Kolmogorov-Smirnov test
+    ## 
+    ## data:  simulationOutput$scaledResiduals
+    ## D = 0.021687, p-value = 0.1867
+    ## alternative hypothesis: two-sided
+    ## 
+    ## 
+    ## $dispersion
+    ## 
+    ##  DHARMa nonparametric dispersion test via sd of residuals fitted vs.
+    ##  simulated
+    ## 
+    ## data:  simulationOutput
+    ## ratioObsSim = 1.0005, p-value = 0.968
+    ## alternative hypothesis: two.sided
+    ## 
+    ## 
+    ## $outliers
+    ## 
+    ##  DHARMa outlier test based on exact binomial test
+    ## 
+    ## data:  simulationOutput
+    ## outLow = 5.000e+00, outHigh = 9.000e+00, nobs = 2.520e+03, freqH0 =
+    ## 1.996e-03, p-value = 0.1397
+    ## alternative hypothesis: two.sided
+
+    ## $uniformity
+    ## 
+    ##  One-sample Kolmogorov-Smirnov test
+    ## 
+    ## data:  simulationOutput$scaledResiduals
+    ## D = 0.021687, p-value = 0.1867
+    ## alternative hypothesis: two-sided
+    ## 
+    ## 
+    ## $dispersion
+    ## 
+    ##  DHARMa nonparametric dispersion test via sd of residuals fitted vs.
+    ##  simulated
+    ## 
+    ## data:  simulationOutput
+    ## ratioObsSim = 1.0005, p-value = 0.968
+    ## alternative hypothesis: two.sided
+    ## 
+    ## 
+    ## $outliers
+    ## 
+    ##  DHARMa outlier test based on exact binomial test
+    ## 
+    ## data:  simulationOutput
+    ## outLow = 5.000e+00, outHigh = 9.000e+00, nobs = 2.520e+03, freqH0 =
+    ## 1.996e-03, p-value = 0.1397
+    ## alternative hypothesis: two.sided
+
+Logistic model looks valid. Fit null models and do some hypothesis
+testing.
+
+``` r
 m0 = update(m, .~.-Treatment:Variety)
 
 pander(anova(m0,m, test='Chisq'))
@@ -137,7 +278,7 @@ m_posthoc
 
 Plot the posthoc analysis
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ## Calculate Kaplan-Meier survival curve
 
@@ -251,7 +392,7 @@ pander(germ_fit_treatment)
 | **Treatment=eCO2** |  1260   | 1260  |  1260   |  827   |   17   |   16    |   17    |
 
 Plot survival curves for Treatments (averaging across varieties)
-![](analysis_report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 #### Hypothesis test
 
@@ -318,7 +459,7 @@ Look at some visuals
 plot(test.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-24-2.png)<!-- -->
 
 Looks like proportional hazard decreases over time for the treatment
 effect. The effect of Variety seems to be less of an issue.
@@ -339,7 +480,7 @@ pander(test2.ph$table)
 plot(test2.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 Same message. Looks like proportional hazard decreases over time for the
 treatment effect
@@ -380,7 +521,7 @@ model with main effect variety
 
     ## Warning: Removed 1 rows containing missing values (geom_errorbar).
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 ``` r
 survfit(coxph.fit_full)
@@ -436,7 +577,7 @@ m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment,
 ```
 
 Plot results, and add in null expectation of no variation with time.
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-34-2.png)<!-- -->
 
 ``` r
 summary(m)
@@ -448,46 +589,46 @@ summary(m)
     ## 
     ## Test for non-significant effects 
     ##               Supremum-test of significance p-value H_0: B(t)=0
-    ## (Intercept)                             158                   0
-    ## TreatmenteCO2                            43                   0
+    ## (Intercept)                           158.0                   0
+    ## TreatmenteCO2                          43.9                   0
     ## 
     ## Test for time invariant effects 
     ##                     Kolmogorov-Smirnov test p-value H_0:constant effect
-    ## (Intercept)                           102.0                           0
-    ## TreatmenteCO2                          94.1                           0
+    ## (Intercept)                           107.0                           0
+    ## TreatmenteCO2                          99.7                           0
     ##                       Cramer von Mises test p-value H_0:constant effect
-    ## (Intercept)                          113000                           0
-    ## TreatmenteCO2                         92900                           0
+    ## (Intercept)                          125000                           0
+    ## TreatmenteCO2                        104000                           0
     ## 
     ## Parametric terms :     
-    ##                                Coef.    SE Robust SE      z    P-val lower2.5%
-    ## const(Variety)Abergain       -1.2500 0.121     0.158 -7.890 3.11e-15   -1.4900
-    ## const(Variety)Aspect         -0.0967 0.105     0.156 -0.621 5.34e-01   -0.3020
-    ## const(Variety)Carraig         0.3870 0.104     0.144  2.680 7.29e-03    0.1830
-    ## const(Variety)Dunluce        -0.1960 0.120     0.310 -0.633 5.26e-01   -0.4310
-    ## const(Variety)Lilora         -0.5630 0.114     0.180 -3.130 1.76e-03   -0.7860
-    ## const(Variety)Moy            -1.0900 0.218     0.733 -1.480 1.38e-01   -1.5200
-    ## const(Variety)Semi-natural11 -2.5700 0.242     0.304 -8.470 0.00e+00   -3.0400
-    ## const(Variety)Semi-natural6  -0.1120 0.128     0.187 -0.596 5.51e-01   -0.3630
-    ## const(Variety)Semi-natural7  -0.7360 0.188     0.587 -1.250 2.10e-01   -1.1000
-    ## const(Variety)Solomon         0.1770 0.104     0.149  1.190 2.35e-01   -0.0268
-    ## const(Variety)Wild4          -0.0439 0.128     0.181 -0.243 8.08e-01   -0.2950
-    ## const(Variety)Wild6          -0.8260 0.140     0.192 -4.310 1.67e-05   -1.1000
-    ## const(Variety)Wild7          -0.2240 0.127     0.172 -1.300 1.94e-01   -0.4730
+    ##                               Coef.    SE Robust SE      z    P-val lower2.5%
+    ## const(Variety)Abergain       -1.250 0.121     0.159 -7.880 3.33e-15   -1.4900
+    ## const(Variety)Aspect         -0.102 0.105     0.156 -0.653 5.14e-01   -0.3080
+    ## const(Variety)Carraig         0.377 0.104     0.144  2.610 9.07e-03    0.1730
+    ## const(Variety)Dunluce        -0.215 0.120     0.309 -0.695 4.87e-01   -0.4500
+    ## const(Variety)Lilora         -0.578 0.114     0.180 -3.200 1.37e-03   -0.8010
+    ## const(Variety)Moy            -1.100 0.218     0.733 -1.500 1.34e-01   -1.5300
+    ## const(Variety)Semi-natural11 -2.050 0.242     0.565 -3.630 2.79e-04   -2.5200
+    ## const(Variety)Semi-natural6  -0.118 0.128     0.188 -0.628 5.30e-01   -0.3690
+    ## const(Variety)Semi-natural7  -0.758 0.188     0.582 -1.300 1.93e-01   -1.1300
+    ## const(Variety)Solomon         0.163 0.104     0.149  1.090 2.74e-01   -0.0408
+    ## const(Variety)Wild4          -0.076 0.128     0.181 -0.420 6.74e-01   -0.3270
+    ## const(Variety)Wild6          -0.870 0.140     0.183 -4.760 1.90e-06   -1.1400
+    ## const(Variety)Wild7          -0.239 0.127     0.172 -1.390 1.66e-01   -0.4880
     ##                              upper97.5%
-    ## const(Variety)Abergain          -1.0100
-    ## const(Variety)Aspect             0.1090
-    ## const(Variety)Carraig            0.5910
-    ## const(Variety)Dunluce            0.0392
-    ## const(Variety)Lilora            -0.3400
-    ## const(Variety)Moy               -0.6630
-    ## const(Variety)Semi-natural11    -2.1000
-    ## const(Variety)Semi-natural6      0.1390
-    ## const(Variety)Semi-natural7     -0.3680
-    ## const(Variety)Solomon            0.3810
-    ## const(Variety)Wild4              0.2070
-    ## const(Variety)Wild6             -0.5520
-    ## const(Variety)Wild7              0.0249
+    ## const(Variety)Abergain         -1.01000
+    ## const(Variety)Aspect            0.10400
+    ## const(Variety)Carraig           0.58100
+    ## const(Variety)Dunluce           0.02020
+    ## const(Variety)Lilora           -0.35500
+    ## const(Variety)Moy              -0.67300
+    ## const(Variety)Semi-natural11   -1.58000
+    ## const(Variety)Semi-natural6     0.13300
+    ## const(Variety)Semi-natural7    -0.39000
+    ## const(Variety)Solomon           0.36700
+    ## const(Variety)Wild4             0.17500
+    ## const(Variety)Wild6            -0.59600
+    ## const(Variety)Wild7             0.00992
     ##    
     ##   Call: 
     ## timecox(formula = Surv(Day, germinated) ~ const(Variety) + Treatment, 

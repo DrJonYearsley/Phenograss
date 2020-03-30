@@ -21,7 +21,7 @@ library(emmeans)
 library(DHARMa)
 
 # Load processed data ----
-load('germination_data.RData')
+load('./Germination/germination_data.RData')
 
 
 # Look at distribution of germination times
@@ -42,6 +42,19 @@ chisq.test(germin_tab)
 
 # Test for difference between species and treatments
 m=glm(germinated~Treatment*Variety, data=germination, family='binomial')
+
+summary(m)
+# Residual deviance is about equal to degrees of freedom
+
+
+# Validate the GLM using DHARMa
+val = simulateResiduals(m, n=500, refit=FALSE)
+plot(val)
+testResiduals(val)
+testOverdispersion(val)
+
+# Logistic model look valid
+
 m0 = update(m, .~.-Treatment:Variety)
 
 anova(m0,m, test='Chisq')
@@ -65,7 +78,7 @@ anova(m0c,m0, test='Chisq')
 m_eff = emmeans(m0, specs = 'Variety')
 
 # Compare each Variety to the average
-posthoc = contrast(m_eff, method='eff')
+posthoc = contrast(m_eff, method='eff', type='contrast')
 
 posthoc
 
@@ -203,13 +216,26 @@ coxph.fit_full2 <- coxph(Surv(Day, germinated) ~ Treatment:strata(tgroup),
 # Look at mean fitted values
 coxph.fit_full2$means
 
-# # This isn't working
-# coxph.fit_full3 <- coxph(Surv(Day, germinated) ~ Treatment + tt(Treatment), 
-#                          data=germination, 
-#                          method="breslow",
-#                          tt = function(x, t, ...) x * (15*t/(15+t)))  # Could use efron
+tmp <- coxph(Surv(Day, germinated) ~ 1+Treatment, 
+                        data=germination, 
+                        method="breslow")  # Could use efron
+r = residuals(tmp,'schoenfeld')
+
+plot(germination$Day, r)
+
+# Plot expected and predicted
+plot(germ_fit_treatment)
+newdat  <- data.frame(Treatment = levels(germination$Treatment))         # newdata to get expected curves
+lines(survfit(tmp, newdata = newdat),
+      col = "red", lty = 1:2)
 
 
+
+# Look at a time varying model
+coxph.tt <- coxph(Surv(Day, germinated) ~ Treatment + tt(Treatment),
+                         data=germination,
+                         method="breslow",
+                         tt = function(x, t, ...) (x=='eCO2') * (1-t))  # Could use efron
 
 
 
@@ -236,7 +262,6 @@ est = CsmoothB(m$cum, c(7:20), b=2)
 
 plot(est[,1],exp(est[,3]),pch=20,xlab='Hazard Rate', type='b')
 plot(est[,1],exp(est[,2]),pch=20,xlab='Baseline Hazard Rate', type='b')
-
 
 
 library(MRH)

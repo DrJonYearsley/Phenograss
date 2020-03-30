@@ -20,6 +20,7 @@ library(timereg)
 library(broom)
 library(pander)
 library(emmeans)
+library(DHARMa)
 
 # Load data
 load('germination_data.RData')
@@ -61,6 +62,34 @@ Fit logistic model and test for difference between species and treatments
 
 ```{r}
 m=glm(germinated~Treatment*Variety, data=germination, family='binomial')
+```
+
+Do some model validation
+
+```{r}
+summary(m)
+```
+The residual deviance divided by degrees of freedom is about 1, so an indication that there's no overdispersion.
+
+
+```{r}
+# Simulate residuals from the model
+val = simulateResiduals(m, n=500, refit=FALSE)
+```
+
+Create some validation plots
+```{r}
+plot(val)
+```
+
+```{r}
+testResiduals(val)
+```
+
+
+Logistic model looks valid. Fit null models and do some hypothesis testing.
+
+```{r}
 m0 = update(m, .~.-Treatment:Variety)
 
 pander(anova(m0,m, test='Chisq'))
