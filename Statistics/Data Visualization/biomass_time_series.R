@@ -1,3 +1,9 @@
+#Visualisation of biomass data (as a time series)
+#by Dana Looschelders
+#Sript performs the following tasks:
+  #display biomass measurements as line graph
+  #display two measurements as stacked graphs
+
 library(ggplot2) #load packages
 library(tidyr)
 library(tidyverse)

@@ -3,6 +3,9 @@
 #Changelog: 
   #03.02.2020: created
   #04.02.2020: tidy up script, add standard deviation to plots
+#The script performs the following tasks: graph a singe measurement
+  #aggregate data per variety/chamber
+  #graphs for one measurement: barplot with linegraph for mean
 
 setwd("C:/00 Dana/Uni/Internship/Work") #set working directory (location of files)
 library(ggplot2) #load package 
