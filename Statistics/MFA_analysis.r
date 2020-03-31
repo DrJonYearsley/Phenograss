@@ -8,12 +8,12 @@
 #changelog: 
 
 library(ggplot2)
-library(car)
-library(vegan)
 library(FactoInvestigate)
 library(FactoMineR)
 library(factoextra)
 library(dplyr)
+library(missMDA)
+library(corrplot)
 setwd("C:/00 Dana/Uni/Internship/Work")
 data=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
 str(data)
@@ -24,7 +24,7 @@ data$Phyllochron1S[data$Phyllochron1S<0]=NA
 str(data) #check data
 data=data[,-4] #remove column with chamber 
 #normalize data-> get all values between 0 and 1
-for(x in 5:14){
+for(x in 5:12){
   data[,x]=(data[,x]-min(data[,x], na.rm=T))/(max(data[,x], na.rm=T)-min(data[,x], na.rm=T))
 }
 str(data)  
@@ -134,3 +134,53 @@ fviz_ellipses(result_3, c("Treatment", "Variety"), repel = TRUE) #plot Treatment
 
 fviz_mfa_axes(result_3, repel=T) #plot relationship between principal axes and results
 
+#*************************************************************************
+#try as PCA with Treatment and Variety as supplementary variables
+#ressources used: 
+  #http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/
+dat=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
+str(dat)
+
+#prepare the data for multiple factor analysis (mfa)
+#set all values <0 for senescence as NA
+dat$Phyllochron1S[dat$Phyllochron1S<0]=NA
+str(dat) #check data
+dat=dat[,-4] #remove column with chamber 
+#set plant ID as rownames
+rownames(dat)=dat$ï..Plant_ID
+dat=dat[,-1] #drop column with ID as it is now the rowname
+dat=dat[,c(13,1:12)] #rearrange type and variety together as the first two columns
+dat=dat[,-4] #drop column with first biomass values
+
+str(dat)
+?PCA
+?imputePCA
+dat=imputePCA(dat, quali.sup=1:3,scale=T) #impute missing values 
+res=PCA(dat[["completeObs"]], quali.sup=1:3, graph=T, scale.unit = T)
+#remember: eigenvalue -> amount of variance retained by each principal component
+
+get_eigenvalue(res) #extract eigenvalues
+fviz_eig(res, addLabels=T) #visualize eigenvalues with scree plot
+
+get_pca_ind(res) #extract results for indivduals
+fviz_pca_ind(res) #visualize results for individuals
+
+var=get_pca_var(res) #extract results for variables
+fviz_pca_var(res, col.var="black") #visualze results for variables
+var$coord #coordinates of variables
+var$cor #correlation variables and dimensions
+var$cos2 #quality of representation for variables
+  #high cos2 -> good representation of variable on PC
+corrplot(var$cos2, is.corr=F) #correlation plot
+fviz_cos2(res, choice="var") #barplot
+fviz_pca_var(res, col.var="cos2", repel=T) #plot with color according to co2 value
+
+var$contrib #contributions of the variables in %
+fviz_pca_var(res, col.var="contrib", repel=T) #plot with color according to contribution to PC
+corrplot(var$contrib, is.corr=F)
+fviz_contrib(res, choice="var")
+
+fviz_pca_biplot(res) #visualize both (add axes= e.g. 1 to see contribution to single dimension or 1:2 for multiple)
+
+ind=get_pca_ind(res)
+fviz_pca_ind(res, col.ind="cos2", repel=T)
