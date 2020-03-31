@@ -198,10 +198,24 @@ fviz_cos2(res, choice="ind", axes=1:2) #bar plot for dim 1 and 2 with contributi
 #color by groups
 #for Treatment
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Treatment, addEllipses = T)
+             col.ind=dat[["completeObs"]]$Treatment, addEllipses = T, 
+             legend.title="Treatment")
 #for Variety
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Variety, addEllipses = T)
+             col.ind=dat[["completeObs"]]$Variety, addEllipses = T,
+             legend.title="Variety")
 #for type
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Type, addEllipses = T)
+             col.ind=dat[["completeObs"]]$Type, addEllipses = T,
+             legend.title="Type")
+
+#biplot with dimensions (grouped)
+#by treatment
+fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Treatment, addEllipses = T,
+                label="var", col.var="black", repel=T, legend.title="Treatment")
+#by variety
+fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Variety, addEllipses = T,
+                label="var", col.var="black", repel=T, legend.title="Variety")
+#by treatment
+fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Type, addEllipses = T,
+                label="var", col.var="black", repel=T, legend.title="Type")
