@@ -184,3 +184,24 @@ fviz_pca_biplot(res) #visualize both (add axes= e.g. 1 to see contribution to si
 
 ind=get_pca_ind(res)
 fviz_pca_ind(res, col.ind="cos2", repel=T)
+
+res.dim=dimdesc(res, axes=c(1,2,3), proba = 0.05) #identify most significantly associated variables with given PC
+res.dim$Dim.1
+res.dim$Dim.2
+res.dim$Dim.3
+
+fviz_pca_ind(res, col.ind="cos2", repel=T) #plot individuals colored in relation to cos2 value
+fviz_pca_ind(res, pointsize="cos2", repel=T) #plot individuals colored in relation to cos2 value
+
+fviz_cos2(res, choice="ind", axes=1:2) #bar plot for dim 1 and 2 with contribution of individuals
+
+#color by groups
+#for Treatment
+fviz_pca_ind(res, geom.ind="point", 
+             col.ind=dat[["completeObs"]]$Treatment, addEllipses = T)
+#for Variety
+fviz_pca_ind(res, geom.ind="point", 
+             col.ind=dat[["completeObs"]]$Variety, addEllipses = T)
+#for type
+fviz_pca_ind(res, geom.ind="point", 
+             col.ind=dat[["completeObs"]]$Type, addEllipses = T)
