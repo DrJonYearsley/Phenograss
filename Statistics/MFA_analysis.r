@@ -138,25 +138,19 @@ fviz_mfa_axes(result_3, repel=T) #plot relationship between principal axes and r
 #try as PCA with Treatment and Variety as supplementary variables
 #ressources used: 
   #http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/
-dat=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
+dat=read.table("data_for_pca.csv", sep=";", dec=",", header=T)
 str(dat)
 
 #prepare the data for multiple factor analysis (mfa)
-#set all values <0 for senescence as NA
-dat$Phyllochron1S[dat$Phyllochron1S<0]=NA
-str(dat) #check data
-dat=dat[,-4] #remove column with chamber 
 #set plant ID as rownames
 rownames(dat)=dat$ï..Plant_ID
 dat=dat[,-1] #drop column with ID as it is now the rowname
-dat=dat[,c(13,1:12)] #rearrange type and variety together as the first two columns
 dat=dat[,-4] #drop column with first biomass values
 
 str(dat)
 ?PCA
 ?imputePCA
-dat=imputePCA(dat, quali.sup=1:3,scale=T) #impute missing values 
-res=PCA(dat[["completeObs"]], quali.sup=1:3, graph=T, scale.unit = T)
+res=PCA(dat, quali.sup=1:3, graph=T, scale.unit = T)
 #remember: eigenvalue -> amount of variance retained by each principal component
 
 get_eigenvalue(res) #extract eigenvalues
