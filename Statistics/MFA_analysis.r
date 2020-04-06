@@ -14,6 +14,7 @@ library(factoextra)
 library(dplyr)
 library(missMDA)
 library(corrplot)
+library(RColorBrewer)
 setwd("C:/00 Dana/Uni/Internship/Work")
 data=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
 str(data)
@@ -145,11 +146,17 @@ str(dat)
 #set plant ID as rownames
 rownames(dat)=dat$ï..Plant_ID
 dat=dat[,-1] #drop column with ID as it is now the rowname
-dat=dat[,-4] #drop column with first biomass values
-
+dat=dat[,-5] #drop column with first biomass values
+dat$Chamber=rep(c("control", "elevated"), each= 168) #add treatment without waterlogging
+colnames(dat)[4]="Treatment2"
+dat[,4]=as.factor(dat[,4]) #coerce to factor
+  #drop column with Chamber values? would it make sense to test for Chamber effects this way?
+  #does it make sense to include both treatment categories? or drop the one with waterlogging?
+  #then use chambers too?
+dat=dat[,-2]
 str(dat)
+
 ?PCA
-?imputePCA
 res=PCA(dat, quali.sup=1:3, graph=T, scale.unit = T)
 #remember: eigenvalue -> amount of variance retained by each principal component
 
@@ -192,24 +199,41 @@ fviz_cos2(res, choice="ind", axes=1:2) #bar plot for dim 1 and 2 with contributi
 #color by groups
 #for Treatment
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Treatment, addEllipses = T, 
+             col.ind=dat$Treatment2, addEllipses = T, 
              legend.title="Treatment")
 #for Variety
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Variety, addEllipses = T,
+             col.ind=dat$Variety, addEllipses = T,
              legend.title="Variety")
 #for type
 fviz_pca_ind(res, geom.ind="point", 
-             col.ind=dat[["completeObs"]]$Type, addEllipses = T,
+             col.ind=dat$Type, addEllipses = T,
              legend.title="Type")
 
 #biplot with dimensions (grouped)
 #by treatment
-fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Treatment, addEllipses = T,
+fviz_pca_biplot(res, col.ind=dat$Treatment, addEllipses = T,
                 label="var", col.var="black", repel=T, legend.title="Treatment")
 #by variety
-fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Variety, addEllipses = T,
+fviz_pca_biplot(res, col.ind=dat$Variety, addEllipses = T,
                 label="var", col.var="black", repel=T, legend.title="Variety")
 #by treatment
-fviz_pca_biplot(res, col.ind=dat[["completeObs"]]$Type, addEllipses = T,
+fviz_pca_biplot(res, col.ind=dat$Type, addEllipses = T,
                 label="var", col.var="black", repel=T, legend.title="Type")
+
+res$quali.sup #predicited results for the supplementary qualitative variables
+fviz_pca_ind(res, habillage = 3, #graph according to supplementary variables
+             addEllipses =TRUE, ellipse.type = "confidence",
+             repel = TRUE) 
+#habillage= index of supplementary variable to show
+    #1 = Variety
+    #2 = Type
+    #3 = Treatment
+
+#plot selected variables and individuals
+fviz_pca_var(res, select.var=list(cos2=0.6)) #visualize only variables with cos2>0.6
+
+fviz_pca_biplot(res, select.ind=list(contrib=20)) #display the 20 most contributing individuals
+
+#export the results to csv
+write.infile(res, "pca.csv", sep=";")
