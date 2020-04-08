@@ -237,4 +237,4 @@ fviz_pca_biplot(res, select.ind=list(contrib=20)) #display the 20 most contribut
 
 #export the results to csv
 write.infile(res, "pca.csv", sep=";")
-
+save.image()
