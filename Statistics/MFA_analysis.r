@@ -167,7 +167,7 @@ get_pca_ind(res) #extract results for indivduals
 fviz_pca_ind(res) #visualize results for individuals
 
 var=get_pca_var(res) #extract results for variables
-fviz_pca_var(res, col.var="black") #visualze results for variables
+fviz_pca_var(res, col.var="black", repel=T) #visualze results for variables
 var$coord #coordinates of variables
 var$cor #correlation variables and dimensions
 var$cos2 #quality of representation for variables
@@ -237,3 +237,4 @@ fviz_pca_biplot(res, select.ind=list(contrib=20)) #display the 20 most contribut
 
 #export the results to csv
 write.infile(res, "pca.csv", sep=";")
+
