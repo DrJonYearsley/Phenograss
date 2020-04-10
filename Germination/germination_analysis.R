@@ -13,6 +13,7 @@ rm(list=ls())
 #setwd('./Germination')
 
 library(survival)
+library(icenReg)
 library(survminer)
 library(coxme)
 library(broom)
@@ -22,6 +23,9 @@ library(DHARMa)
 
 # Load processed data ----
 load('./Germination/germination_data.RData')
+
+# Add in Start of observation period (i.e. 1 Day earlier)
+germination$Day0 = germination$Day-1
 
 
 # Look at distribution of germination times
@@ -84,6 +88,47 @@ posthoc
 
 plot(posthoc)
 
+# Interval-censored survival curves
+
+germination$Day[!germination$germinated] = NA
+np_fit = ic_np(cbind(Day0, Day) ~ Treatment, data = germination)
+
+plot(np_fit)
+
+
+fit_sp <- ic_sp(cbind(Day0, Day) ~ Treatment, 
+              data = germination, 
+              bs_samples=100,
+              model = "po")
+summary(fit_sp)
+
+fit_po <- ic_par(cbind(Day0, Day) ~ Treatment, 
+                       data = germination, 
+                       model = "po", 
+                       dist = "loglogistic")
+fit_ph <- ic_par(cbind(Day0, Day) ~ Treatment, 
+              data = germination, 
+              model = "ph", 
+              dist = "loglogistic")
+
+
+summary(fit_po)
+
+newdata <- data.frame(Treatment = c('CON', 'eCO2') )
+rownames(newdata) <- c('CON', 'eCO2')
+plot(fit_po, newdata)
+
+# Look at fit of the PO model
+diag_baseline(fit_po,
+              dists = c("weibull",
+                        "loglogistic", "gamma",
+                        'lnorm'),
+              lgdLocation = "topright")
+
+diag_covar(fit_po)
+
+# Doesn't look lieka good fit, and effects appear to be time varying
+
 # Calculate Kaplan-Meier survival curve ----
 # This is a non-parametric approach, and doesn't 
 # have the same assumptions as Cox PH model
@@ -110,6 +155,13 @@ germ_fit_treatment = survfit(Surv(Day, germinated) ~ Treatment,
 germ_fit_treatment_fh = survfit(Surv(Day, germinated) ~ Treatment, 
                              data=germination, type='fh')
 
+dat = data.frame(Time=germ_fit_treatment_fh$time,
+                 S=germ_fit_treatment_fh$surv,
+                 S_lower=germ_fit_treatment_fh$lower,
+                 S_upper=germ_fit_treatment_fh$upper,
+                 Treatment=rep(c('Baseline','Treatment'),each=23))
+ggplot(data=dat, aes(x=Time, y=S, colour=Treatment)) +
+  geom_point()
 
 # Display results of average time to germination across varieties
 germ_fit_treatment
@@ -242,31 +294,52 @@ coxph.tt <- coxph(Surv(Day, germinated) ~ Treatment + tt(Treatment),
 # Fit model with time varying coefficients for Treatment -----
 library(timereg)
 
+germination$DayRand = germination$Day+runif(nrow(germination), min=-1, max=0)
+
 # Treat Variety as constant and allow Treatment to time vary
-m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
+m = timecox(Surv(DayRand, germinated) ~ const(Variety)+Treatment, 
+            data=germination, 
+            max.time=25, 
+            residuals=TRUE)
+
+m = timecox(Surv(DayRand, germinated) ~ Treatment, 
             data=germination, 
             max.time=25, 
             residuals=TRUE)
 
 
+m2 = aalen(Surv(DayRand, germinated) ~ Variety+Treatment, 
+            data=germination, 
+           start.time=7,
+           max.time=25)
+m2 = aalen(Surv(DayRand, germinated) ~ Treatment, 
+           data=germination, 
+           start.time=7,
+           max.time=25)
+
+summary(m2)
+
+
+
 par(mfrow=c(1,2))
-plot(m)
-plot(m,score=TRUE)
+plot(m, score=TRUE)
+plot(m2,score=TRUE)
+plot(m2, specific.comps=c(1,3), score=T)
 par(mfrow=c(1,1))
 
-summary(m)
 
 
+library(tidyr)
+#est = as.data.frame(CsmoothB(m2$cum, c(7:25), b=0.5))
+est = as.data.frame(m2$cum)
+names(est) = c('Time','Baseline','Treatment')
+est$Treatment = est$Baseline + est$Treatment 
+est_long = pivot_longer(est, names_to='Type',values_to='HazardRate', col=c(2,3))
 
-est = CsmoothB(m$cum, c(7:20), b=2)
+ggplot(data=est_long, aes(x=Time, y=exp(-HazardRate), col=Type)) +
+  geom_point() + 
+  geom_path(data=dat, aes(y=S, colour=Treatment)) +
+  theme_bw() +
+  scale_colour_brewer(palette = 'Dark2')
 
-plot(est[,1],exp(est[,3]),pch=20,xlab='Hazard Rate', type='b')
-plot(est[,1],exp(est[,2]),pch=20,xlab='Baseline Hazard Rate', type='b')
 
-
-library(MRH)
-m2 = estimateMRH(Surv(Day, germinated) ~ Variety + nph(Treatment), 
-            data=germination, 
-            M=2,
-            maxStudyTime=20,
-            maxIter=1000)

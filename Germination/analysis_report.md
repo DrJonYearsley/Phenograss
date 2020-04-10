@@ -22,7 +22,13 @@ load('germination_data.RData')
 
 ## Overall visualisation
 
+### Germination time distributions
+
 ![](analysis_report_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Look at overall numbers that germinated
 
@@ -134,13 +140,13 @@ Create some validation plots
 plot(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 testResiduals(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
     ## $uniformity
     ## 
@@ -278,7 +284,7 @@ m_posthoc
 
 Plot the posthoc analysis
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ## Calculate Kaplan-Meier survival curve
 
@@ -392,7 +398,7 @@ pander(germ_fit_treatment)
 | **Treatment=eCO2** |  1260   | 1260  |  1260   |  827   |   17   |   16    |   17    |
 
 Plot survival curves for Treatments (averaging across varieties)
-![](analysis_report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 #### Hypothesis test
 
@@ -459,7 +465,7 @@ Look at some visuals
 plot(test.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-24-2.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-26-2.png)<!-- -->
 
 Looks like proportional hazard decreases over time for the treatment
 effect. The effect of Variety seems to be less of an issue.
@@ -480,7 +486,7 @@ pander(test2.ph$table)
 plot(test2.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 Same message. Looks like proportional hazard decreases over time for the
 treatment effect
@@ -521,7 +527,7 @@ model with main effect variety
 
     ## Warning: Removed 1 rows containing missing values (geom_errorbar).
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
 
 ``` r
 survfit(coxph.fit_full)
@@ -531,105 +537,3 @@ survfit(coxph.fit_full)
     ## 
     ##       n  events  median 0.95LCL 0.95UCL 
     ##    1260     820      21      19      22
-
-## Time varying coefficients
-
-### Modify Cox PH model (fit with time bins)
-
-Bin data into 3 bins t\<14, 14\<t\<18, t\>18
-
-``` r
-# Create dataframe with time bins
-germin2 <- survSplit(Surv(Day, germinated) ~ ., 
-                  data= germination, 
-                  cut=c(14,18),
-                  episode= "tgroup", id="id")
-```
-
-``` r
-# Fit model
-coxph.fit_full2 <- coxph(Surv(Day, germinated) ~ Treatment:strata(tgroup), 
-                        data=germin2, 
-                        method="breslow")  # Could use efron
-```
-
-``` r
-# Look at mean fitted values
-coxph.fit_full2$means
-```
-
-    ##  TreatmentCON:strata(tgroup)tgroup=1 TreatmenteCO2:strata(tgroup)tgroup=1 
-    ##                            0.2272727                            0.2272727 
-    ##  TreatmentCON:strata(tgroup)tgroup=2 TreatmenteCO2:strata(tgroup)tgroup=2 
-    ##                            0.1856061                            0.1351010 
-    ##  TreatmentCON:strata(tgroup)tgroup=3 TreatmenteCO2:strata(tgroup)tgroup=3 
-    ##                            0.1237374                            0.1010101
-
-### Fit model with time varying coefficients
-
-The hazard rate for Treatment will be allowed to vary with time
-
-``` r
-m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
-            data=germination, 
-            max.time=25, 
-            residuals=TRUE)
-```
-
-Plot results, and add in null expectation of no variation with time.
-![](analysis_report_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-34-2.png)<!-- -->
-
-``` r
-summary(m)
-```
-
-    ## Multiplicative Hazard Model 
-    ## 
-    ## Test for nonparametric terms 
-    ## 
-    ## Test for non-significant effects 
-    ##               Supremum-test of significance p-value H_0: B(t)=0
-    ## (Intercept)                           158.0                   0
-    ## TreatmenteCO2                          43.9                   0
-    ## 
-    ## Test for time invariant effects 
-    ##                     Kolmogorov-Smirnov test p-value H_0:constant effect
-    ## (Intercept)                           107.0                           0
-    ## TreatmenteCO2                          99.7                           0
-    ##                       Cramer von Mises test p-value H_0:constant effect
-    ## (Intercept)                          125000                           0
-    ## TreatmenteCO2                        104000                           0
-    ## 
-    ## Parametric terms :     
-    ##                               Coef.    SE Robust SE      z    P-val lower2.5%
-    ## const(Variety)Abergain       -1.250 0.121     0.159 -7.880 3.33e-15   -1.4900
-    ## const(Variety)Aspect         -0.102 0.105     0.156 -0.653 5.14e-01   -0.3080
-    ## const(Variety)Carraig         0.377 0.104     0.144  2.610 9.07e-03    0.1730
-    ## const(Variety)Dunluce        -0.215 0.120     0.309 -0.695 4.87e-01   -0.4500
-    ## const(Variety)Lilora         -0.578 0.114     0.180 -3.200 1.37e-03   -0.8010
-    ## const(Variety)Moy            -1.100 0.218     0.733 -1.500 1.34e-01   -1.5300
-    ## const(Variety)Semi-natural11 -2.050 0.242     0.565 -3.630 2.79e-04   -2.5200
-    ## const(Variety)Semi-natural6  -0.118 0.128     0.188 -0.628 5.30e-01   -0.3690
-    ## const(Variety)Semi-natural7  -0.758 0.188     0.582 -1.300 1.93e-01   -1.1300
-    ## const(Variety)Solomon         0.163 0.104     0.149  1.090 2.74e-01   -0.0408
-    ## const(Variety)Wild4          -0.076 0.128     0.181 -0.420 6.74e-01   -0.3270
-    ## const(Variety)Wild6          -0.870 0.140     0.183 -4.760 1.90e-06   -1.1400
-    ## const(Variety)Wild7          -0.239 0.127     0.172 -1.390 1.66e-01   -0.4880
-    ##                              upper97.5%
-    ## const(Variety)Abergain         -1.01000
-    ## const(Variety)Aspect            0.10400
-    ## const(Variety)Carraig           0.58100
-    ## const(Variety)Dunluce           0.02020
-    ## const(Variety)Lilora           -0.35500
-    ## const(Variety)Moy              -0.67300
-    ## const(Variety)Semi-natural11   -1.58000
-    ## const(Variety)Semi-natural6     0.13300
-    ## const(Variety)Semi-natural7    -0.39000
-    ## const(Variety)Solomon           0.36700
-    ## const(Variety)Wild4             0.17500
-    ## const(Variety)Wild6            -0.59600
-    ## const(Variety)Wild7             0.00992
-    ##    
-    ##   Call: 
-    ## timecox(formula = Surv(Day, germinated) ~ const(Variety) + Treatment, 
-    ##     data = germination, max.time = 25, residuals = TRUE)
