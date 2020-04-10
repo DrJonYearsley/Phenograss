@@ -28,7 +28,7 @@ load('germination_data.RData')
 
 Order varieties by median germination time in the control
 ```{r}
-control = subset(germination, Treatment=='CON')
+control = subset(germination, Treatment=='Ambient')
 varietyOrder = aggregate(Day~Variety, data=control, FUN=median)
 
 # Order Varieties
@@ -75,14 +75,14 @@ Plot just the control data
 
 ```{r echo=FALSE}
 # Subset data into control 
-germination_CON = subset(germination, Treatment=='CON')
+germination_CON = subset(germination, Treatment=='Ambient')
 # Order Varieties by median germination Day
 germination_CON$Variety = reorder(germination_CON$Variety,
                                   germination_CON$Day,
                                   FUN=median)
 
 # Subset data into control 
-germination_TRT = subset(germination, Treatment=='eCO2')
+germination_TRT = subset(germination, Treatment=='+CO2+Temp')
 # Order Varieties by median germination Day
 germination_TRT$Variety = reorder(germination_TRT$Variety,
                                   germination_TRT$Day,
@@ -116,7 +116,7 @@ ggplot(data=subset(germination_TRT, Day<30),
   scale_fill_brewer(palette ='Dark2') +
   labs(x='',
        y='Days to germinate',
-       title='Treatment (+2 degreeC & +CO2)') +
+       title='Treatment (elevated CO2 & temp)') +
   theme(axis.text.x = element_text(angle=60, 
                                    hjust = 1, 
                                    size=16))
@@ -325,37 +325,5 @@ Same message. Looks like proportional hazard decreases over time for the treatme
 Need to find time varying version of Cox model.
 
 
-
-
-
-### Effect of variety
-
-Use Cox PH model on data from the control
-
-```{r}
-# Fit the full model
-coxph.fit_full <- coxph(Surv(Day, germinated) ~ Variety, 
-                        data=subset(germination, Treatment=='CON'), 
-                        method="breslow")  # Could use efron
-
-# Fit null model testing for Variety on control data
-coxph.fit_null <- coxph(Surv(Day, germinated) ~ 1, 
-                         data=subset(germination, Treatment=='CON'), 
-                         method="breslow")  # Could use efron
-
-# Perform hypothesis test
-anova(coxph.fit_full, coxph.fit_null, test='ChiSq')
-```
-
-
-Strong effect of Variety on germination. Plot the hazard ratio for the model with main effect variety
-```{r echo=FALSE}
-ggforest(coxph.fit_full, data=germination)
-```
-
-
-```{r}
-survfit(coxph.fit_full)
-```
 
 
