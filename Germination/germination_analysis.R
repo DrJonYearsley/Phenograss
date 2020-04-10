@@ -24,8 +24,22 @@ library(DHARMa)
 # Load processed data ----
 load('./Germination/germination_data.RData')
 
-# Add in Start of observation period (i.e. 1 Day earlier)
-germination$Day0 = germination$Day-1
+
+# Subset the two treatments
+# Subset data into control 
+germination_CON = subset(germination, Treatment=='CON')
+# Order Varieties by median germination Day
+germination_CON$Variety = reorder(germination_CON$Variety,
+                                  germination_CON$Day,
+                                  FUN=median)
+
+# Subset data into treatment
+germination_TRT = subset(germination, Treatment=='eCO2')
+# Order Varieties by median germination Day
+germination_TRT$Variety = reorder(germination_TRT$Variety,
+                                  germination_TRT$Day,
+                                  FUN=median)
+
 
 
 # Look at distribution of germination times
@@ -194,7 +208,7 @@ m_logratio
 
 
 # Fit the full model with main effects and interaction
-coxph.fit <- coxph(Surv(Day, germinated) ~ Treatment+Variety, 
+cox1 <- coxph(Surv(Day, germinated) ~ Treatment+Variety, 
                    data=germination, 
                    method="breslow")  # Could use efron
 
@@ -204,12 +218,13 @@ coxph.rand <- coxph(Surv(Day, germinated) ~ Treatment + frailty(Variety),
 
 
 # Validate hazard function assumption
-test.ph <- cox.zph(coxph.fit)
+test.ph <- cox.zph(cox1)
 test.ph
 
 par(mfrow=c(1,2))
 plot(test.ph)
 par(mfrow=c(1,1))
+
 # Looks like proportional hazard decreases over time for 
 # the treatment effect
 
@@ -221,32 +236,19 @@ plot(test2.ph)
 # Same message. Looks like proportional hazard decreases over time for 
 # the treatment effect
 
+# Look at averageing over Varieties
+cox2 <- coxph(Surv(Day, germinated) ~ Treatment, 
+                   data=germination, 
+                   method="breslow",
+                   na.action=na.exclude)  # Could use efron
 
-# Need to find extension to Cox PH model
+cox2
+test.ph2 <- cox.zph(cox2)
+test.ph2
+
+# Need to find extension to Cox PH model even if we are averaging over Varieties
 
 
-
-
-# Hypothesis tests --------
-
-# Fit full model testing for Variety on control data
-coxph.fit_full <- coxph(Surv(Day, germinated) ~ Variety, 
-                         data=subset(germination, Treatment=='CON'), 
-                         method="breslow")  # Could use efron
-
-# Fit null model testing for Variety on control data
-coxph.fit_null <- coxph(Surv(Day, germinated) ~ 1, 
-                         data=subset(germination, Treatment=='CON'), 
-                         method="breslow")  # Could use efron
-
-anova(coxph.fit_full, coxph.fit_null, test='ChiSq')  
-
-# Strong effect of Variety on germination
-
-# Plot the hazard ratio for the model with main effect variety
-ggforest(coxph.fit_full, data=germination)
-
-survfit(coxph.fit_full)
 
 
 # Time varying coefficients -----
@@ -302,6 +304,7 @@ m = timecox(Surv(DayRand, germinated) ~ const(Variety)+Treatment,
             max.time=25, 
             residuals=TRUE)
 
+# Average over Varieties
 m = timecox(Surv(DayRand, germinated) ~ Treatment, 
             data=germination, 
             max.time=25, 

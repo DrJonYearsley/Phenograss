@@ -28,6 +28,14 @@ d = read_excel('Raw Data Germination Trial.xlsx',
                skip=1, 
                col_names=TRUE)
 
+# Relabel Treatment
+# Remove waterlogging treatment because it is not relevant
+# relabel treatments
+d$Treatment[d$Treatment=='CON'] = 'Ambient'
+d$Treatment[d$Treatment=='eCO2'] = '+CO2+Temp'
+d$Treatment[d$Treatment=='WAT'] = 'Ambient'
+d$Treatment[d$Treatment=='eCO2W'] = '+CO2+Temp'
+
 # Pivot raw data into long format
 d_long = pivot_longer(data=d, 
                    names_to='Date', 
@@ -37,9 +45,6 @@ d_long = pivot_longer(data=d,
 # Look at expt design
 table(d$Variety, d$Treatment)
 
-# Remove waterlogging treatment because it is not relevant
-d_long$Treatment[d_long$Treatment=='WAT'] = 'CON'
-d_long$Treatment[d_long$Treatment=='eCO2W'] = 'eCO2'
 # Extract Day as a numerical variable
 d_long$Day = as.numeric(substring(d_long$Date, first = 5))
 
@@ -59,7 +64,7 @@ d_agg = aggregate(NumSeeds~Variety+Treatment, data=d_long, FUN=sum)
 
 props = as.data.frame(read_excel('Percentage Cumulative Germination.xlsx'))
 props = props[,c(1,2,ncol(props))]
-props$Treatment[props$Treatment=='Ambient'] = 'CON'
+props$Treatment[props$Treatment=='eCO2'] = '+CO2+Temp'
 names(props) = c('Treatment', 'Variety', 'Frac')
 
 # Calculate the total number of seeds as variable SeedTot
@@ -120,6 +125,10 @@ germination$germinated = !is.na(germination$Day)
 
 # Code non-germinating seeds to have Day=maximum day
 germination$Day[!germination$germinated] = max(germination$Day, na.rm=T)
+
+# Add in Start of observation period (i.e. 1 Day earlier)
+germination$Day0 = germination$Day-1
+
 
 save(germination, file='germination_data.RData')
 
