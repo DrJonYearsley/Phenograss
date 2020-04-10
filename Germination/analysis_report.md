@@ -1,7 +1,7 @@
 Phenograss: Survival analysis of germination data
 ================
 Jon Yearsley
-26th March 2020
+10 April, 2020
 
 ## Setup and load data
 

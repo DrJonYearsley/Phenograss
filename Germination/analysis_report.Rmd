@@ -1,7 +1,7 @@
 ---
 title: 'Phenograss: Survival analysis of germination data'
 author: "Jon Yearsley"
-date: "26th March 2020"
+date: '`r format(Sys.Date(), " %d %B, %Y")`'
 output: github_document
 ---
 
