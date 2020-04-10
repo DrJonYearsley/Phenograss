@@ -5,7 +5,7 @@
 # and these are saved to file germination_data.RData
 #
 # 
-# Jon Yearsley (24th March 2020)
+# Jon Yearsley (10th April 2020)
 # Jon.Yearsley@ucd.ie
 # **************************************************
 
@@ -13,13 +13,12 @@ rm(list=ls())
 #setwd('./Germination')
 
 library(survival)
-library(icenReg)
 library(survminer)
 library(coxme)
 library(broom)
 library(ggplot2)
 library(emmeans)
-library(DHARMa)
+#library(DHARMa)
 
 # Load processed data ----
 load('./Germination/germination_data.RData')
@@ -27,14 +26,14 @@ load('./Germination/germination_data.RData')
 
 # Subset the two treatments
 # Subset data into control 
-germination_CON = subset(germination, Treatment=='CON')
+germination_CON = subset(germination, Treatment=='Ambient')
 # Order Varieties by median germination Day
 germination_CON$Variety = reorder(germination_CON$Variety,
                                   germination_CON$Day,
                                   FUN=median)
 
 # Subset data into treatment
-germination_TRT = subset(germination, Treatment=='eCO2')
+germination_TRT = subset(germination, Treatment=='+CO2+Temp')
 # Order Varieties by median germination Day
 germination_TRT$Variety = reorder(germination_TRT$Variety,
                                   germination_TRT$Day,
@@ -65,11 +64,11 @@ summary(m)
 # Residual deviance is about equal to degrees of freedom
 
 
-# Validate the GLM using DHARMa
-val = simulateResiduals(m, n=500, refit=FALSE)
-plot(val)
-testResiduals(val)
-testOverdispersion(val)
+# # Validate the GLM using DHARMa
+# val = simulateResiduals(m, n=500, refit=FALSE)
+# plot(val)
+# testResiduals(val)
+# testOverdispersion(val)
 
 # Logistic model look valid
 
@@ -102,46 +101,7 @@ posthoc
 
 plot(posthoc)
 
-# Interval-censored survival curves
 
-germination$Day[!germination$germinated] = NA
-np_fit = ic_np(cbind(Day0, Day) ~ Treatment, data = germination)
-
-plot(np_fit)
-
-
-fit_sp <- ic_sp(cbind(Day0, Day) ~ Treatment, 
-              data = germination, 
-              bs_samples=100,
-              model = "po")
-summary(fit_sp)
-
-fit_po <- ic_par(cbind(Day0, Day) ~ Treatment, 
-                       data = germination, 
-                       model = "po", 
-                       dist = "loglogistic")
-fit_ph <- ic_par(cbind(Day0, Day) ~ Treatment, 
-              data = germination, 
-              model = "ph", 
-              dist = "loglogistic")
-
-
-summary(fit_po)
-
-newdata <- data.frame(Treatment = c('CON', 'eCO2') )
-rownames(newdata) <- c('CON', 'eCO2')
-plot(fit_po, newdata)
-
-# Look at fit of the PO model
-diag_baseline(fit_po,
-              dists = c("weibull",
-                        "loglogistic", "gamma",
-                        'lnorm'),
-              lgdLocation = "topright")
-
-diag_covar(fit_po)
-
-# Doesn't look lieka good fit, and effects appear to be time varying
 
 # Calculate Kaplan-Meier survival curve ----
 # This is a non-parametric approach, and doesn't 
