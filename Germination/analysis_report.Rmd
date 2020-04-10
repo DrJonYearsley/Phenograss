@@ -60,12 +60,12 @@ plot the treatment and varieties in order of the median germination day under th
 ```{r echo=FALSE}
 ggplot(data=subset(germination, Day<30), 
        aes(fill=Treatment,y=Day, x=Variety)) +
-  geom_violin() +
+  geom_violin(draw_quantiles=0.5) +
   theme_bw() +
   scale_fill_brewer(palette ='Dark2') +
   labs(x='',
        y='Days to germinate',
-       title='Germination times <30 days (Varieties and treatment)') +
+       title='Germination times <30 days (bar = median)') +
   theme(axis.text.x = element_text(angle=60, 
                                    hjust = 1, 
                                    size=16))
