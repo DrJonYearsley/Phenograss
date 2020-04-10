@@ -130,6 +130,33 @@ germination$Day[!germination$germinated] = max(germination$Day, na.rm=T)
 germination$Day0 = germination$Day-1
 
 
+# Add in Variety groupings
+wildList = c('Wild6', 'Wild7','Wild4')
+seminaturalList = c('Semi-natural6','Semi-natural7','Semi-natural11')
+
+germination$Status = 'Cultivar'
+germination$Status[germination$Variety%in%seminaturalList]  = 'Seminatural'
+germination$Status[germination$Variety%in%wildList]  = 'Wild'
+germination$Status = as.factor(germination$Status)
+
+# Ploidy
+tetraploidList = c('Carraig','Dunluce','Abergain','Aspect')
+germination$ploidy = 'Diploid'
+germination$ploidy[germination$Variety%in%tetraploidList] = 'Tetraploid'
+germination$ploidy = as.factor(germination$ploidy)
+
+# Heading
+earlyList = c('Moy','Lilora')
+intermediateList = c('Carraig','Dunluce','Solomon')
+lateList = c('Aberchoice','Abergain','Aspect')
+
+germination$heading = NA
+germination$heading[germination$Variety%in%earlyList] = 'Early'
+germination$heading[germination$Variety%in%intermediateList] = 'Intermediate'
+germination$heading[germination$Variety%in%lateList] = 'Late'
+germination$heading = as.factor(germination$heading)
+
+
 save(germination, file='germination_data.RData')
 
 
