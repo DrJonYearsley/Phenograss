@@ -48,9 +48,15 @@ Plot just the control data
 
 ![](analysis_report_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
+![](analysis_report_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+-----
+
 Plot just the treatment data
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 Look at overall numbers that germinated
 
@@ -162,13 +168,13 @@ Create some validation plots
 plot(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 ``` r
 testResiduals(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
     ## $uniformity
     ## 
@@ -306,7 +312,7 @@ m_posthoc
 
 Plot the posthoc analysis
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 ## Calculate Kaplan-Meier survival curve
 
@@ -427,7 +433,7 @@ Table continues below
 |  **Treatment=Ambient**  |   19    |   21    |
 
 Plot survival curves for Treatments (averaging across varieties)
-![](analysis_report_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 #### Hypothesis test
 
@@ -494,7 +500,7 @@ Look at some visuals
 plot(test.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-31-2.png)<!-- -->
 
 Looks like proportional hazard decreases over time for the treatment
 effect. The effect of Variety seems to be less of an issue.
@@ -515,7 +521,7 @@ pander(test2.ph$table)
 plot(test2.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 Same message. Looks like proportional hazard decreases over time for the
 treatment effect
