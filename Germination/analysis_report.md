@@ -20,15 +20,37 @@ library(DHARMa)
 load('germination_data.RData')
 ```
 
+Order varieties by median germination time in the control
+
+``` r
+control = subset(germination, Treatment=='CON')
+varietyOrder = aggregate(Day~Variety, data=control, FUN=median)
+
+# Order Varieties
+varietyOrder = varietyOrder[order(varietyOrder$Day), ]
+germination$Variety = reorder(germination$Variety, 
+                              match(germination$Variety,
+                                    varietyOrder$Variety))
+```
+
 ## Overall visualisation
 
 ### Germination time distributions
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
-
 ![](analysis_report_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+plot the treatment and varieties in order of the median germination day
+under the control
+
 ![](analysis_report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+Plot just the control data
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+Plot just the treatment data
+
+![](analysis_report_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 Look at overall numbers that germinated
 
@@ -87,34 +109,34 @@ summary(m)
     ## 
     ## Coefficients:
     ##                                     Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept)                          1.28520    0.22159   5.800 6.63e-09 ***
-    ## TreatmenteCO2                       -0.09561    0.30933  -0.309 0.757243    
-    ## VarietyAbergain                     -1.28520    0.28711  -4.476 7.59e-06 ***
-    ## VarietyAspect                        0.38548    0.33411   1.154 0.248604    
-    ## VarietyCarraig                       0.51632    0.34297   1.505 0.132219    
-    ## VarietyDunluce                      -1.01693    0.28816  -3.529 0.000417 ***
-    ## VarietyLilora                       -0.80978    0.29043  -2.788 0.005301 ** 
-    ## VarietyMoy                          -2.47478    0.37718  -6.561 5.34e-11 ***
-    ## VarietySemi-natural11               -2.77912    0.40052  -6.939 3.96e-12 ***
-    ## VarietySemi-natural6                 0.32424    0.41122   0.788 0.430412    
-    ## VarietySemi-natural7                -2.29680    0.36651  -6.267 3.69e-10 ***
-    ## VarietySolomon                       0.26540    0.32683   0.812 0.416773    
-    ## VarietyWild4                        -0.09561    0.37718  -0.253 0.799886    
-    ## VarietyWild6                        -0.66616    0.34980  -1.904 0.056858 .  
-    ## VarietyWild7                        -0.18659    0.37147  -0.502 0.615461    
-    ## TreatmenteCO2:VarietyAbergain        0.22915    0.40311   0.568 0.569735    
-    ## TreatmenteCO2:VarietyAspect         -0.47646    0.45018  -1.058 0.289887    
-    ## TreatmenteCO2:VarietyCarraig        -0.31961    0.46508  -0.687 0.491951    
-    ## TreatmenteCO2:VarietyDunluce         0.23281    0.40539   0.574 0.565767    
-    ## TreatmenteCO2:VarietyLilora         -0.00895    0.40673  -0.022 0.982444    
-    ## TreatmenteCO2:VarietyMoy             0.43790    0.51790   0.846 0.397811    
-    ## TreatmenteCO2:VarietySemi-natural11  0.09561    0.56420   0.169 0.865427    
-    ## TreatmenteCO2:VarietySemi-natural6  -0.22862    0.56025  -0.408 0.683218    
-    ## TreatmenteCO2:VarietySemi-natural7   0.63179    0.50141   1.260 0.207662    
-    ## TreatmenteCO2:VarietySolomon         0.15446    0.46196   0.334 0.738116    
-    ## TreatmenteCO2:VarietyWild4           0.64063    0.56530   1.133 0.257110    
-    ## TreatmenteCO2:VarietyWild6           0.16972    0.49391   0.344 0.731123    
-    ## TreatmenteCO2:VarietyWild7           0.86880    0.57341   1.515 0.129736    
+    ## (Intercept)                          1.80152    0.26179   6.882 5.92e-12 ***
+    ## TreatmenteCO2                       -0.41522    0.34730  -1.196  0.23186    
+    ## VarietyAberchoice                   -0.51632    0.34298  -1.505  0.13222    
+    ## VarietyAspect                       -0.13083    0.36203  -0.361  0.71781    
+    ## VarietySolomon                      -0.25092    0.35532  -0.706  0.48008    
+    ## VarietyWild4                        -0.61193    0.40212  -1.522  0.12807    
+    ## VarietySemi-natural6                -0.19208    0.43420  -0.442  0.65822    
+    ## VarietyLilora                       -1.32609    0.32216  -4.116 3.85e-05 ***
+    ## VarietyWild7                        -0.70290    0.39676  -1.772  0.07646 .  
+    ## VarietyWild6                        -1.18248    0.37655  -3.140  0.00169 ** 
+    ## VarietyDunluce                      -1.53325    0.32011  -4.790 1.67e-06 ***
+    ## VarietyAbergain                     -1.80152    0.31916  -5.644 1.66e-08 ***
+    ## VarietyMoy                          -2.99110    0.40212  -7.438 1.02e-13 ***
+    ## VarietySemi-natural11               -3.29544    0.42409  -7.771 7.81e-15 ***
+    ## VarietySemi-natural7                -2.81312    0.39212  -7.174 7.28e-13 ***
+    ## TreatmenteCO2:VarietyAberchoice      0.31961    0.46508   0.687  0.49195    
+    ## TreatmenteCO2:VarietyAspect         -0.15685    0.47707  -0.329  0.74233    
+    ## TreatmenteCO2:VarietySolomon         0.47406    0.48820   0.971  0.33152    
+    ## TreatmenteCO2:VarietyWild4           0.96024    0.58694   1.636  0.10184    
+    ## TreatmenteCO2:VarietySemi-natural6   0.09098    0.58208   0.156  0.87579    
+    ## TreatmenteCO2:VarietyLilora          0.31066    0.43630   0.712  0.47645    
+    ## TreatmenteCO2:VarietyWild7           1.18841    0.59476   1.998  0.04570 *  
+    ## TreatmenteCO2:VarietyWild6           0.48933    0.51853   0.944  0.34533    
+    ## TreatmenteCO2:VarietyDunluce         0.55242    0.43506   1.270  0.20417    
+    ## TreatmenteCO2:VarietyAbergain        0.54875    0.43293   1.268  0.20497    
+    ## TreatmenteCO2:VarietyMoy             0.75751    0.54143   1.399  0.16179    
+    ## TreatmenteCO2:VarietySemi-natural11  0.41522    0.58588   0.709  0.47850    
+    ## TreatmenteCO2:VarietySemi-natural7   0.95140    0.52569   1.810  0.07032 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
@@ -140,20 +162,20 @@ Create some validation plots
 plot(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 testResiduals(val)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
     ## $uniformity
     ## 
     ##  One-sample Kolmogorov-Smirnov test
     ## 
     ## data:  simulationOutput$scaledResiduals
-    ## D = 0.021687, p-value = 0.1867
+    ## D = 0.020893, p-value = 0.2213
     ## alternative hypothesis: two-sided
     ## 
     ## 
@@ -163,7 +185,7 @@ testResiduals(val)
     ##  simulated
     ## 
     ## data:  simulationOutput
-    ## ratioObsSim = 1.0005, p-value = 0.968
+    ## ratioObsSim = 1.0005, p-value = 0.964
     ## alternative hypothesis: two.sided
     ## 
     ## 
@@ -172,8 +194,8 @@ testResiduals(val)
     ##  DHARMa outlier test based on exact binomial test
     ## 
     ## data:  simulationOutput
-    ## outLow = 5.000e+00, outHigh = 9.000e+00, nobs = 2.520e+03, freqH0 =
-    ## 1.996e-03, p-value = 0.1397
+    ## outLow = 5.000e+00, outHigh = 1.000e+01, nobs = 2.520e+03, freqH0 =
+    ## 1.996e-03, p-value = 0.06556
     ## alternative hypothesis: two.sided
 
     ## $uniformity
@@ -181,7 +203,7 @@ testResiduals(val)
     ##  One-sample Kolmogorov-Smirnov test
     ## 
     ## data:  simulationOutput$scaledResiduals
-    ## D = 0.021687, p-value = 0.1867
+    ## D = 0.020893, p-value = 0.2213
     ## alternative hypothesis: two-sided
     ## 
     ## 
@@ -191,7 +213,7 @@ testResiduals(val)
     ##  simulated
     ## 
     ## data:  simulationOutput
-    ## ratioObsSim = 1.0005, p-value = 0.968
+    ## ratioObsSim = 1.0005, p-value = 0.964
     ## alternative hypothesis: two.sided
     ## 
     ## 
@@ -200,8 +222,8 @@ testResiduals(val)
     ##  DHARMa outlier test based on exact binomial test
     ## 
     ## data:  simulationOutput
-    ## outLow = 5.000e+00, outHigh = 9.000e+00, nobs = 2.520e+03, freqH0 =
-    ## 1.996e-03, p-value = 0.1397
+    ## outLow = 5.000e+00, outHigh = 1.000e+01, nobs = 2.520e+03, freqH0 =
+    ## 1.996e-03, p-value = 0.06556
     ## alternative hypothesis: two.sided
 
 Logistic model looks valid. Fit null models and do some hypothesis
@@ -263,20 +285,20 @@ m_posthoc
 ```
 
     ##  contrast              estimate    SE  df z.ratio p.value
-    ##  Aberchoice effect       0.6425 0.152 Inf  4.236  <.0001 
-    ##  Abergain effect        -0.5276 0.130 Inf -4.068  0.0001 
-    ##  Aspect effect           0.7662 0.157 Inf  4.895  <.0001 
     ##  Carraig effect          0.9855 0.167 Inf  5.917  <.0001 
-    ##  Dunluce effect         -0.2578 0.131 Inf -1.965  0.0577 
-    ##  Lilora effect          -0.1714 0.132 Inf -1.297  0.2094 
-    ##  Moy effect             -1.6060 0.198 Inf -8.127  <.0001 
-    ##  Semi-natural11 effect  -2.0883 0.224 Inf -9.318  <.0001 
-    ##  Semi-natural6 effect    0.8450 0.221 Inf  3.832  0.0002 
-    ##  Semi-natural7 effect   -1.3252 0.187 Inf -7.075  <.0001 
+    ##  Aberchoice effect       0.6425 0.152 Inf  4.236  <.0001 
+    ##  Aspect effect           0.7662 0.157 Inf  4.895  <.0001 
     ##  Solomon effect          0.9855 0.167 Inf  5.917  <.0001 
     ##  Wild4 effect            0.8450 0.221 Inf  3.832  0.0002 
-    ##  Wild6 effect            0.0616 0.185 Inf  0.333  0.7393 
+    ##  Semi-natural6 effect    0.8450 0.221 Inf  3.832  0.0002 
+    ##  Lilora effect          -0.1714 0.132 Inf -1.297  0.2094 
     ##  Wild7 effect            0.8450 0.221 Inf  3.832  0.0002 
+    ##  Wild6 effect            0.0616 0.185 Inf  0.333  0.7393 
+    ##  Dunluce effect         -0.2578 0.131 Inf -1.965  0.0577 
+    ##  Abergain effect        -0.5276 0.130 Inf -4.068  0.0001 
+    ##  Moy effect             -1.6060 0.198 Inf -8.127  <.0001 
+    ##  Semi-natural11 effect  -2.0883 0.224 Inf -9.318  <.0001 
+    ##  Semi-natural7 effect   -1.3252 0.187 Inf -7.075  <.0001 
     ## 
     ## Results are averaged over the levels of: Treatment 
     ## Results are given on the log odds ratio (not the response) scale. 
@@ -284,7 +306,7 @@ m_posthoc
 
 Plot the posthoc analysis
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 ## Calculate Kaplan-Meier survival curve
 
@@ -315,67 +337,67 @@ pander(germ_fit)
 
 |                                            | records | n.max | n.start | events | median |
 | :----------------------------------------: | :-----: | :---: | :-----: | :----: | :----: |
-|   **Variety=Aberchoice, Treatment=CON**    |   120   |  120  |   120   |   94   |   16   |
-|   **Variety=Aberchoice, Treatment=eCO2**   |   120   |  120  |   120   |   92   |   13   |
-|    **Variety=Abergain, Treatment=CON**     |   120   |  120  |   120   |   60   |   30   |
-|    **Variety=Abergain, Treatment=eCO2**    |   120   |  120  |   120   |   64   |  22.5  |
-|     **Variety=Aspect, Treatment=CON**      |   120   |  120  |   120   |  101   |   17   |
-|     **Variety=Aspect, Treatment=eCO2**     |   120   |  120  |   120   |   90   |  14.5  |
 |     **Variety=Carraig, Treatment=CON**     |   120   |  120  |   120   |  103   |   15   |
 |    **Variety=Carraig, Treatment=eCO2**     |   120   |  120  |   120   |   96   |   10   |
-|     **Variety=Dunluce, Treatment=CON**     |   120   |  120  |   120   |   68   |   27   |
-|    **Variety=Dunluce, Treatment=eCO2**     |   120   |  120  |   120   |   72   |   22   |
-|     **Variety=Lilora, Treatment=CON**      |   120   |  120  |   120   |   74   |   19   |
-|     **Variety=Lilora, Treatment=eCO2**     |   120   |  120  |   120   |   71   |  18.5  |
-|       **Variety=Moy, Treatment=CON**       |   60    |  60   |   60    |   14   |   NA   |
-|      **Variety=Moy, Treatment=eCO2**       |   60    |  60   |   60    |   18   |   NA   |
-| **Variety=Semi-natural11, Treatment=CON**  |   60    |  60   |   60    |   11   |   NA   |
-| **Variety=Semi-natural11, Treatment=eCO2** |   60    |  60   |   60    |   11   |   NA   |
-|  **Variety=Semi-natural6, Treatment=CON**  |   60    |  60   |   60    |   50   |   18   |
-| **Variety=Semi-natural6, Treatment=eCO2**  |   60    |  60   |   60    |   47   |   14   |
-|  **Variety=Semi-natural7, Treatment=CON**  |   60    |  60   |   60    |   16   |   NA   |
-| **Variety=Semi-natural7, Treatment=eCO2**  |   60    |  60   |   60    |   23   |   NA   |
+|   **Variety=Aberchoice, Treatment=CON**    |   120   |  120  |   120   |   94   |   16   |
+|   **Variety=Aberchoice, Treatment=eCO2**   |   120   |  120  |   120   |   92   |   13   |
+|     **Variety=Aspect, Treatment=CON**      |   120   |  120  |   120   |  101   |   17   |
+|     **Variety=Aspect, Treatment=eCO2**     |   120   |  120  |   120   |   90   |  14.5  |
 |     **Variety=Solomon, Treatment=CON**     |   120   |  120  |   120   |   99   |   17   |
 |    **Variety=Solomon, Treatment=eCO2**     |   120   |  120  |   120   |  100   |   12   |
 |      **Variety=Wild4, Treatment=CON**      |   60    |  60   |   60    |   46   |   17   |
 |     **Variety=Wild4, Treatment=eCO2**      |   60    |  60   |   60    |   51   |   14   |
-|      **Variety=Wild6, Treatment=CON**      |   60    |  60   |   60    |   39   |   22   |
-|     **Variety=Wild6, Treatment=eCO2**      |   60    |  60   |   60    |   40   |   18   |
+|  **Variety=Semi-natural6, Treatment=CON**  |   60    |  60   |   60    |   50   |   18   |
+| **Variety=Semi-natural6, Treatment=eCO2**  |   60    |  60   |   60    |   47   |   14   |
+|     **Variety=Lilora, Treatment=CON**      |   120   |  120  |   120   |   74   |   19   |
+|     **Variety=Lilora, Treatment=eCO2**     |   120   |  120  |   120   |   71   |  18.5  |
 |      **Variety=Wild7, Treatment=CON**      |   60    |  60   |   60    |   45   |   19   |
 |     **Variety=Wild7, Treatment=eCO2**      |   60    |  60   |   60    |   52   |   13   |
+|      **Variety=Wild6, Treatment=CON**      |   60    |  60   |   60    |   39   |   22   |
+|     **Variety=Wild6, Treatment=eCO2**      |   60    |  60   |   60    |   40   |   18   |
+|     **Variety=Dunluce, Treatment=CON**     |   120   |  120  |   120   |   68   |   27   |
+|    **Variety=Dunluce, Treatment=eCO2**     |   120   |  120  |   120   |   72   |   22   |
+|    **Variety=Abergain, Treatment=CON**     |   120   |  120  |   120   |   60   |   30   |
+|    **Variety=Abergain, Treatment=eCO2**    |   120   |  120  |   120   |   64   |  22.5  |
+|       **Variety=Moy, Treatment=CON**       |   60    |  60   |   60    |   14   |   NA   |
+|      **Variety=Moy, Treatment=eCO2**       |   60    |  60   |   60    |   18   |   NA   |
+| **Variety=Semi-natural11, Treatment=CON**  |   60    |  60   |   60    |   11   |   NA   |
+| **Variety=Semi-natural11, Treatment=eCO2** |   60    |  60   |   60    |   11   |   NA   |
+|  **Variety=Semi-natural7, Treatment=CON**  |   60    |  60   |   60    |   16   |   NA   |
+| **Variety=Semi-natural7, Treatment=eCO2**  |   60    |  60   |   60    |   23   |   NA   |
 
 Table continues below
 
 |                                            | 0.95LCL | 0.95UCL |
 | :----------------------------------------: | :-----: | :-----: |
-|   **Variety=Aberchoice, Treatment=CON**    |   15    |   17    |
-|   **Variety=Aberchoice, Treatment=eCO2**   |   12    |   15    |
-|    **Variety=Abergain, Treatment=CON**     |   25    |   NA    |
-|    **Variety=Abergain, Treatment=eCO2**    |   18    |   NA    |
-|     **Variety=Aspect, Treatment=CON**      |   17    |   18    |
-|     **Variety=Aspect, Treatment=eCO2**     |   13    |   17    |
 |     **Variety=Carraig, Treatment=CON**     |   14    |   15    |
 |    **Variety=Carraig, Treatment=eCO2**     |   10    |   13    |
-|     **Variety=Dunluce, Treatment=CON**     |   24    |   NA    |
-|    **Variety=Dunluce, Treatment=eCO2**     |   19    |   29    |
-|     **Variety=Lilora, Treatment=CON**      |   16    |   26    |
-|     **Variety=Lilora, Treatment=eCO2**     |   15    |   NA    |
-|       **Variety=Moy, Treatment=CON**       |   NA    |   NA    |
-|      **Variety=Moy, Treatment=eCO2**       |   NA    |   NA    |
-| **Variety=Semi-natural11, Treatment=CON**  |   NA    |   NA    |
-| **Variety=Semi-natural11, Treatment=eCO2** |   NA    |   NA    |
-|  **Variety=Semi-natural6, Treatment=CON**  |   17    |   19    |
-| **Variety=Semi-natural6, Treatment=eCO2**  |   13    |   17    |
-|  **Variety=Semi-natural7, Treatment=CON**  |   NA    |   NA    |
-| **Variety=Semi-natural7, Treatment=eCO2**  |   NA    |   NA    |
+|   **Variety=Aberchoice, Treatment=CON**    |   15    |   17    |
+|   **Variety=Aberchoice, Treatment=eCO2**   |   12    |   15    |
+|     **Variety=Aspect, Treatment=CON**      |   17    |   18    |
+|     **Variety=Aspect, Treatment=eCO2**     |   13    |   17    |
 |     **Variety=Solomon, Treatment=CON**     |   16    |   18    |
 |    **Variety=Solomon, Treatment=eCO2**     |   11    |   13    |
 |      **Variety=Wild4, Treatment=CON**      |   16    |   19    |
 |     **Variety=Wild4, Treatment=eCO2**      |   13    |   15    |
-|      **Variety=Wild6, Treatment=CON**      |   19    |   30    |
-|     **Variety=Wild6, Treatment=eCO2**      |   17    |   26    |
+|  **Variety=Semi-natural6, Treatment=CON**  |   17    |   19    |
+| **Variety=Semi-natural6, Treatment=eCO2**  |   13    |   17    |
+|     **Variety=Lilora, Treatment=CON**      |   16    |   26    |
+|     **Variety=Lilora, Treatment=eCO2**     |   15    |   NA    |
 |      **Variety=Wild7, Treatment=CON**      |   18    |   21    |
 |     **Variety=Wild7, Treatment=eCO2**      |   13    |   16    |
+|      **Variety=Wild6, Treatment=CON**      |   19    |   30    |
+|     **Variety=Wild6, Treatment=eCO2**      |   17    |   26    |
+|     **Variety=Dunluce, Treatment=CON**     |   24    |   NA    |
+|    **Variety=Dunluce, Treatment=eCO2**     |   19    |   29    |
+|    **Variety=Abergain, Treatment=CON**     |   25    |   NA    |
+|    **Variety=Abergain, Treatment=eCO2**    |   18    |   NA    |
+|       **Variety=Moy, Treatment=CON**       |   NA    |   NA    |
+|      **Variety=Moy, Treatment=eCO2**       |   NA    |   NA    |
+| **Variety=Semi-natural11, Treatment=CON**  |   NA    |   NA    |
+| **Variety=Semi-natural11, Treatment=eCO2** |   NA    |   NA    |
+|  **Variety=Semi-natural7, Treatment=CON**  |   NA    |   NA    |
+| **Variety=Semi-natural7, Treatment=eCO2**  |   NA    |   NA    |
 
 ### Look at survival curves, averaging over varieties
 
@@ -398,7 +420,7 @@ pander(germ_fit_treatment)
 | **Treatment=eCO2** |  1260   | 1260  |  1260   |  827   |   17   |   16    |   17    |
 
 Plot survival curves for Treatments (averaging across varieties)
-![](analysis_report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 #### Hypothesis test
 
@@ -465,7 +487,7 @@ Look at some visuals
 plot(test.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-26-2.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->![](analysis_report_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
 
 Looks like proportional hazard decreases over time for the treatment
 effect. The effect of Variety seems to be less of an issue.
@@ -486,7 +508,7 @@ pander(test2.ph$table)
 plot(test2.ph)
 ```
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
 
 Same message. Looks like proportional hazard decreases over time for the
 treatment effect
@@ -527,7 +549,7 @@ model with main effect variety
 
     ## Warning: Removed 1 rows containing missing values (geom_errorbar).
 
-![](analysis_report_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](analysis_report_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 ``` r
 survfit(coxph.fit_full)

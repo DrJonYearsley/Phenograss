@@ -26,6 +26,19 @@ library(DHARMa)
 load('germination_data.RData')
 ```
 
+Order varieties by median germination time in the control
+```{r}
+control = subset(germination, Treatment=='CON')
+varietyOrder = aggregate(Day~Variety, data=control, FUN=median)
+
+# Order Varieties
+varietyOrder = varietyOrder[order(varietyOrder$Day), ]
+germination$Variety = reorder(germination$Variety, 
+                              match(germination$Variety,
+                                    varietyOrder$Variety))
+```
+
+
 ## Overall visualisation
 
 ### Germination time distributions
@@ -42,8 +55,23 @@ ggplot(data=subset(germination, Day<30),
        title='Germination time distribution')
 ```
 
+plot the treatment and varieties in order of the median germination day under the control
 
+```{r echo=FALSE}
+ggplot(data=subset(germination, Day<30), 
+       aes(fill=Treatment,y=Day, x=Variety)) +
+  geom_violin() +
+  theme_bw() +
+  scale_fill_brewer(palette ='Dark2') +
+  labs(x='',
+       y='Days to germinate',
+       title='Germination times <30 days (Varieties and treatment)') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+```
 
+Plot just the control data 
 
 ```{r echo=FALSE}
 # Subset data into control 
@@ -59,7 +87,9 @@ germination_TRT = subset(germination, Treatment=='eCO2')
 germination_TRT$Variety = reorder(germination_TRT$Variety,
                                   germination_TRT$Day,
                                   FUN=median)
+```
 
+```{r echo=FALSE}
 # Plot distribution of germination times
 ggplot(data=subset(germination_CON, Day<30), 
        aes(x=Variety,y=Day)) +
@@ -75,8 +105,7 @@ ggplot(data=subset(germination_CON, Day<30),
 
 ```
 
-
-
+Plot just the treatment data
 
 ```{r echo=FALSE}
 # Plot distribution of germination times
@@ -87,7 +116,7 @@ ggplot(data=subset(germination_TRT, Day<30),
   scale_fill_brewer(palette ='Dark2') +
   labs(x='',
        y='Days to germinate',
-       title='Treatment (+2 C & CO2)') +
+       title='Treatment (+2 degreeC & +CO2)') +
   theme(axis.text.x = element_text(angle=60, 
                                    hjust = 1, 
                                    size=16))
