@@ -1,0 +1,47 @@
+---
+title: 'Phenograss: Visualise data from chamber expt'
+author: "Jon Yearsley"
+date: "30th March 2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Setup and load data
+
+```{r message=FALSE}
+rm(list=ls())
+
+library(survival)
+library(survminer)
+library(timereg)
+library(broom)
+library(pander)
+library(emmeans)
+library(DHARMa)
+library(ggplot2)
+
+# Load data
+d=read.table("data_for_mfa.csv", sep=";", dec=",", header=T)
+d$Chamber = as.factor(d$Chamber)
+d$Treatment[d$Treatment=='WAT'] = 'CON'
+d$Treatment[d$Treatment=='eCO2W'] = 'eCO2'
+```
+
+## Overall visualisation
+
+```{r}
+summary(d)
+```
+
+
+
+```{r}
+ggplot(data=d, aes(x=Phyllochron12, fill=Treatment)) +
+  geom_histogram(binwidth=1,center=0, position='dodge') +
+  scale_fill_brewer(palette = 'Dark2') +
+  theme_bw()
+```
+

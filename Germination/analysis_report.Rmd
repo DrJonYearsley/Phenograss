@@ -1,7 +1,7 @@
 ---
 title: 'Phenograss: Survival analysis of germination data'
 author: "Jon Yearsley"
-date: "26th March 2020"
+date: '`r format(Sys.Date(), " %d %B, %Y")`'
 output: github_document
 ---
 
@@ -26,7 +26,22 @@ library(DHARMa)
 load('germination_data.RData')
 ```
 
+Order varieties by median germination time in the control
+```{r}
+control = subset(germination, Treatment=='Ambient')
+varietyOrder = aggregate(Day~Variety, data=control, FUN=median)
+
+# Order Varieties
+varietyOrder = varietyOrder[order(varietyOrder$Day), ]
+germination$Variety = reorder(germination$Variety, 
+                              match(germination$Variety,
+                                    varietyOrder$Variety))
+```
+
+
 ## Overall visualisation
+
+### Germination time distributions
 
 ```{r echo=FALSE}
 # Look at distribution of germination times
@@ -39,6 +54,109 @@ ggplot(data=subset(germination, Day<30),
          y='Number Germinated',
        title='Germination time distribution')
 ```
+
+plot the treatment and varieties in order of the median germination day under the control
+
+```{r echo=FALSE}
+ggplot(data=subset(germination, Day<30), 
+       aes(fill=Treatment,y=Day, x=Variety)) +
+  geom_violin(draw_quantiles=0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Dark2') +
+  labs(x='',
+       y='Days to germinate',
+       title='Germination times <30 days (bar = median)') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+```
+
+Plot just the control data 
+
+```{r echo=FALSE}
+# Subset data into control 
+germination_CON = subset(germination, Treatment=='Ambient')
+# Order Varieties by median germination Day
+germination_CON$Variety = reorder(germination_CON$Variety,
+                                  germination_CON$Day,
+                                  FUN=median)
+
+# Subset data into control 
+germination_TRT = subset(germination, Treatment=='+CO2+Temp')
+# Order Varieties by median germination Day
+germination_TRT$Variety = reorder(germination_TRT$Variety,
+                                  germination_TRT$Day,
+                                  FUN=median)
+```
+
+```{r echo=FALSE}
+# Plot distribution of germination times
+ggplot(data=subset(germination_CON, Day<30), 
+       aes(x=Variety,y=Day, fill=heading)) +
+  geom_violin(draw_quantiles = 0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Set1') +
+  labs(x='',
+       y='Days to germinate',
+       title='Control') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+
+```
+
+```{r echo=FALSE}
+# Plot distribution of germination times
+ggplot(data=subset(germination_CON, Day<30), 
+       aes(x=Variety,y=Day, fill=ploidy)) +
+  geom_violin(draw_quantiles = 0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Accent') +
+  labs(x='',
+       y='Days to germinate',
+       title='Control') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+```
+
+
+---------------
+
+Plot just the treatment data
+
+```{r echo=FALSE}
+# Plot distribution of germination times
+ggplot(data=subset(germination_TRT, Day<30), 
+       aes(x=Variety,y=Day, fill=heading)) +
+  geom_violin(draw_quantiles = 0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Set1') +
+  labs(x='',
+       y='Days to germinate',
+       title='Treatment (elevated CO2 & temp)') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+
+```
+
+```{r echo=FALSE}
+# Plot distribution of germination times
+ggplot(data=subset(germination_TRT, Day<30), 
+       aes(x=Variety,y=Day, fill=ploidy)) +
+  geom_violin(draw_quantiles = 0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette ='Accent') +
+  labs(x='',
+       y='Days to germinate',
+       title='Treatment (elevated CO2 & temp)') +
+  theme(axis.text.x = element_text(angle=60, 
+                                   hjust = 1, 
+                                   size=16))
+
+```
+
 
 Look at overall numbers that germinated
 ```{r}
@@ -241,89 +359,5 @@ Same message. Looks like proportional hazard decreases over time for the treatme
 Need to find time varying version of Cox model.
 
 
-
-
-
-### Effect of variety
-
-Use Cox PH model on data from the control
-
-```{r}
-# Fit the full model
-coxph.fit_full <- coxph(Surv(Day, germinated) ~ Variety, 
-                        data=subset(germination, Treatment=='CON'), 
-                        method="breslow")  # Could use efron
-
-# Fit null model testing for Variety on control data
-coxph.fit_null <- coxph(Surv(Day, germinated) ~ 1, 
-                         data=subset(germination, Treatment=='CON'), 
-                         method="breslow")  # Could use efron
-
-# Perform hypothesis test
-anova(coxph.fit_full, coxph.fit_null, test='ChiSq')
-```
-
-
-Strong effect of Variety on germination. Plot the hazard ratio for the model with main effect variety
-```{r echo=FALSE}
-ggforest(coxph.fit_full, data=germination)
-```
-
-
-```{r}
-survfit(coxph.fit_full)
-```
-
-
-
-## Time varying coefficients
-
-### Modify Cox PH model (fit with time bins)
-
-Bin data into 3 bins t<14, 14<t<18, t>18
-
-```{r}
-# Create dataframe with time bins
-germin2 <- survSplit(Surv(Day, germinated) ~ ., 
-                  data= germination, 
-                  cut=c(14,18),
-                  episode= "tgroup", id="id")
-```
-
-
-```{r}
-# Fit model
-coxph.fit_full2 <- coxph(Surv(Day, germinated) ~ Treatment:strata(tgroup), 
-                        data=germin2, 
-                        method="breslow")  # Could use efron
-```
-
-```{r}
-# Look at mean fitted values
-coxph.fit_full2$means
-```
-
-
-
-### Fit model with time varying coefficients
-
-The hazard rate for Treatment will be allowed to vary with time
-
-```{r eval=TRUE}
-m = timecox(Surv(Day, germinated) ~ const(Variety)+Treatment, 
-            data=germination, 
-            max.time=25, 
-            residuals=TRUE)
-```
-
-
-Plot results, and add in null expectation of no variation with time.
-```{r echo=FALSE}
-plot(m,score=TRUE)
-```
-
-```{r}
-summary(m)
-```
 
 
