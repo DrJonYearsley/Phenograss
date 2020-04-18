@@ -47,4 +47,18 @@ agg_carlow=aggregate(sub_carlow, by=sub_carlow@data$CATEGORY,fact=c(rows, cols),
 
 #3)
 #use rasterize to create raster object from soil data and use same method as with elevation data (extremely slow)
+
+#for the whole of Ireland
+#visualization
+moist@data$id = rownames(moist@data)
+moist.points = fortify(moist, region="id")
+
+moist.df = join(moist.points, moist@data, by="id")
+
+ggplot(moist.df) + 
+  aes(long,lat,group=group,fill=CATEGORY) + 
+  geom_polygon() +
+  coord_equal() +
+  scale_fill_brewer("Soil moisture",palette ="Set1" )
+
 save.image(file="soil.new.rdata")
