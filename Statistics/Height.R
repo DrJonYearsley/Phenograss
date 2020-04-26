@@ -14,10 +14,16 @@
 library(tidyverse)
 library(MASS)
 library(tseries)
-setwd("C:/00 Dana/Uni/Internship/Work")
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
 
 #load data table with measured height values
-height=read.table("Plant Height Data Collection.csv", sep=";", dec=".", header=T)
+height=read.table("Plant Height Data.csv", sep=";", dec=",", header=T)
+str(height)
+height=Filter(function(x)!all(is.na(x)), height)
+str(height)
+height$Treatment=as.character(height$Treatment)
+height$Treatment=as.factor(height$Treatment)
+
 #load data table with calculated growth rates
 #use overall growth rate unil first cut
 growth=read.table("Plant_height_before_1_cut.csv", sep=";", dec=".", header=T)
