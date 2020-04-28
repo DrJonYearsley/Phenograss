@@ -27,6 +27,7 @@ names(biomass)=c("Plant_ID", "Variety", "Treatment","Chamber", "Cut_1", "Cut_2")
 #data exploration
 boxplot(biomass$Cut_2~biomass$Variety)
 boxplot(biomass$Cut_2~biomass$Treatment)
+hist(biomass$Cut_2)
 #t.test
 #normality
 # test for whole data
@@ -100,7 +101,7 @@ shapiro.test(biomass2_rezi)
 boxplot(biomass$Cut_1~biomass$Variety)
 boxplot(biomass$Cut_1~biomass$Treatment)
 boxplot(biomass$Cut_1~biomass$type) #to do: create column with type
-
+hist(biomass_Cut_1)
 #Anova Assumptions
 #normality
 # test for whole data
