@@ -14,18 +14,49 @@ library(PMCMR)
 library(PMCMRplus)
 library(tidyverse)
 
-setwd("C:/00 Dana/Uni/Internship/Work")
-germ=read.table("germination_4_stats.csv", sep=";", dec=".", header=T)
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
+germ=read.table("Raw Data Germination Trial.csv", sep=";", dec=".", header=T, skip=1)
 str(germ) #use fraction of germination
+#delete empty cloumns off data.frame
+germ=Filter(function(x)!all(is.na(x)), germ)
+str(germ)#check 
+
 summary(germ)
 
-#cumulative germination
+germ$sum=rowSums(germ[,5:34])
+germ$total=rep(NA)
+germ$Fraction=rep(NA)
+#no of seeds per pot
+#5 seeds per pot: Moy, Semi-natural, wild
+germ$total[germ$Variety=="Moy"|
+              germ$Variety=="Semi-natural6"|
+              germ$Variety=="Semi-natural7"|
+              germ$Variety=="Semi-natural11"|
+              germ$Variety=="Wild4"|
+              germ$Variety=="Wild6"|
+              germ$Variety=="Wild7"]=5
+
+#10 seeds per pot: cultivars
+germ$total[germ$Variety=="Lilora"|
+                germ$Variety=="Solomon"|
+                germ$Variety=="Carraig"|
+                germ$Variety=="Dunluce"|
+                germ$Variety=="Aberchoice"|
+                germ$Variety=="Abergain"|
+                germ$Variety=="Aspect"]=10
+germ$Fraction=germ$sum/germ$total
+
+#QAQC
+any(germ$Fraction[germ$fraction>1|germ$Fraction<0]) #none smaller than 0 or bigger than 1
+
+#data exploration 
 boxplot(germ$Fraction~germ$Variety)
 boxplot(germ$Fraction~germ$Treatment)
-boxplot(germ$Fraction~germ$type)
-boxplot(germ$Fraction~germ$sum_treatments)
+
+
+
 #test for normal distribution
-hist(germ$Fraction)
+hist(germ$Fraction) 
 qqnorm(germ$Fraction)
 qqline(germ$Fraction)
 shapiro.test(germ$Fraction) 
@@ -33,29 +64,25 @@ shapiro.test(germ$Fraction)
 #as values only can be between 0 and 1 it is a binomial distribution
 #not normally distributed, therefore non-parametric test
 
-kruskal.test(germ$Fraction~germ$Variety) #significant: p-value: 2.2*10^-16
-kruskal.test(germ$Fraction~germ$Treatment) #not significant p-value: 0.82
-kruskal.test(germ$Fraction~germ$type) #significant: p-value: 2.3*10^-9
-kruskal.test(germ$Fraction~germ$sum_treatments) #not significant: p-value: 0.78
+kruskal.test(germ$Fraction~germ$Variety) #significant: p-value: < 2.2e-16
+kruskal.test(germ$Fraction~germ$Treatment) #not significant p-value: 0.7829
 
 #posthoc tests
 posthoc.kruskal.nemenyi.test(germ$Fraction~germ$Variety, dist = "Chisquare")
-posthoc.kruskal.nemenyi.test(germ$Fraction~germ$type, dist="Chisquare")
 
 #fir glm with binomial distribution
 #for 
 model_var.treat=glm(germ$Fraction~germ$Variety*germ$Treatment, family="quasibinomial")
 summary(model_variety)
 
-model_typ.comtreat=glm(germ$Fraction~germ$type*germ$sum_treatments, family="quasibinomial")
-summary(model_typ.comtreat)
 
-model_var.typ=glm(germ$Fraction~germ$Variety*germ$sum_treatments, family="quasibinomial")
+model_var.typ=glm(germ$Fraction~germ$Variety*germ$Treatment, family="quasibinomial")
 summary(model_var.typ)
 
 #try boxcox 
 lm.germ=lm(germ$Fraction~germ$Variety*germ$Treatment)
 plot(lm.germ)
 bx=boxcox(lm.germ)
+
 #stats analysis for D50 Germination
 
