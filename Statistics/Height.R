@@ -14,125 +14,108 @@
 library(tidyverse)
 library(MASS)
 library(tseries)
+library(reshape2)
+library(agricolae)
+library(PMCMR)
 setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
 
 #load data table with measured height values
 height=read.table("Plant Height Data.csv", sep=";", dec=",", header=T)
 str(height)
-height=Filter(function(x)!all(is.na(x)), height)
+height=Filter(function(x)!all(is.na(x)), height) #remove columns with NA
+height=na.omit(height) #remove rows with NA
+str(height) #check
+height$Treatment=as.character(height$Treatment) #change factor to charactor to remove one empty factor level
+height$Treatment=as.factor(height$Treatment) #change back to factor (ugly workaround but I didn't find a faster solution)
 str(height)
-height$Treatment=as.character(height$Treatment)
-height$Treatment=as.factor(height$Treatment)
 
-#load data table with calculated growth rates
-#use overall growth rate unil first cut
-growth=read.table("Plant_height_before_1_cut.csv", sep=";", dec=".", header=T)
-str(growth)
-growth_tidy=cbind.data.frame(growth$Variety, growth$Treatment, growth$Growth_until_first_cut)
-colnames(growth_tidy)=c("Variety", "Treatment", "Growth_rate")
-mean(growth$Growth_until_first_cut)
+#display height with line plot
+matplot(t(height[,5:19]), type="l", xlab="weeks", ylab="Plant Height [cm]")
 
-#some growth rates are below 0, possible to review measurements for mistakes?
-growth$Growth_until_first_cut[growth$Growth_until_first_cut<0]=0
-#boxplot by treatment
-par(mfrow=c(2,2))
-boxplot(growth$Growth_until_first_cut[growth$Treatment=="CON"]~
-          growth$Variety[growth$Treatment=="CON"],
-        main="Growth CON", xlab="Variety", ylab="growth rate [cm/d]")
-boxplot(growth$Growth_until_first_cut[growth$Treatment=="WAT"]~
-          growth$Variety[growth$Treatment=="WAT"],
-        main="Growth WAT", xlab="Variety", ylab="growth rate [cm/d]")
-boxplot(growth$Growth_until_first_cut[growth$Treatment=="eCO2"]~
-          growth$Variety[growth$Treatment=="eCO2"],
-        main="Growth eCO2", xlab="Variety", ylab="growth rate [cm/d]")
-boxplot(growth$Growth_until_first_cut[growth$Treatment=="eCO2W"]~
-          growth$Variety[growth$Treatment=="eCO2W"],
-        main="Growth eCO2W",xlab="Variety", ylab="growth rate [cm/d]")
+#calculate growth rate (between cuts)
+#biomass cuts:
+#1 cut: after week 5
+height$growthrate_1cut=(height[,9]-height[,5])/(length(height[,5:9])*7) #calculate dailygrowth rate
+mean(height$growthrate_1cut) #mean: 0.5170238
+#2 cut: after week 9
+height$growthrate_cut2=(height[,13]-height[,10])/(length(height[,10:13])*7) #calculate growth rate
+mean(height$growthrate_cut2) #mean: 1.096057
+#3 cut: after week 13
+height$growthrate_cut3=(height[,17]-height[,14])/(length(height[,14:17])*7) #calculate growth rate
+mean(height$growthrate_cut3) #mean: 0.6936331
+#global growth rate
+height$growthrate_global=rowSums(height[20:22])/length(height[20:22]) #calculate growth rate
+mean(height$growthrate_global) #global mean: 0.7689045
 
-View(growth)
-#Data exploration
-labels=unique(growth_tidy$Variety)
-boxplot(growth_tidy$Growth_rate~growth_tidy$Variety,
+#QAQC
+any(height[,20:22]<0) #there are some negative growth rates
+which(height[,20:22]<0) #find out which ones (236 and 806)
+
+#boxplot variety
+labels=unique(height$Variety)
+boxplot(height$growthrate_global~height$Variety,
         main="Growth rate until first cut among varieties",
         ylab="Growth rate [cm/d]",
         xaxt = "n",  xlab = "")
-# x axis with ticks but without labels
 axis(1, labels = FALSE)
 # Plot x labs at default x position
-text(x=labels,y = par("usr")[1] - 0.25, srt = 45, adj = 1,
+text(x=labels,y = par("usr")[1] - 0.1, srt = 60, adj = 0.5,
      labels = labels, xpd = TRUE)
-boxplot(growth_tidy$Growth_rate~growth_tidy$Treatment)
 
-#change structure of data frame for anova 
-#get data frame with columns: Treatment, ID, Observation.No, Value
-#each round measurement is numbered -> Observation.No
-height_tidy=gather(data=df_test, observation.no, value, -Treatment, -ID, -Variety)
-str(height_tidy)
-growth=gather(data=growth, observation.no, value, -Treatment, -Variety)
-str(growth_tidy)
+#boxplot treatment
+boxplot(height$growthrate_global~height$Treatment)
+
+#boxplot by treatment by cut
+#**********************************************
+#to display other treatment change "==" to "!="
+#**********************************************
+#for first cut and ambient treatment
+boxplot(height$growthrate_1cut[height$Treatment=="Ambient"]~
+          height$Variety[height$Treatment=="Ambient"],
+        main="Growth ambient until first cut", xlab="Variety", ylab="growth rate [cm/d]")
+#for second cut
+boxplot(height$growthrate_2cut[height$Treatment=="Ambient"]~
+          height$Variety[height$Treatment=="Ambient"],
+        main="Growth ambient until second cut", xlab="Variety", ylab="growth rate [cm/d]")
+#for third cut
+boxplot(height$growthrate_3cut[height$Treatment=="Ambient"]~
+          height$Variety[height$Treatment=="Ambient"],
+        main="Growth ambient until third cut", xlab="Variety", ylab="growth rate [cm/d]")
+#for global rate
+boxplot(height$growthrate_global[height$Treatment=="Ambient"]~
+          height$Variety[height$Treatment=="Ambient"],
+        main="Growth ambient", xlab="Variety", ylab="growth rate [cm/d]")
+
 
 #plot histogram
-hist(growth_tidy$Growth_rate)
+hist(height$growthrate_global)
 
-#Assumptions for anova
-  #continous dependent variable -> assumption is met
-  #categorial independent variable -> assumption is met
-  #no significant outliers -> 
-
-  #normally distributed data 
-
-  #sphericity (homogenity of variance?) -> most likley not met 
-
-#two way anova
+#***************************************************************
+#ttest
   #alpha is 0.05
   #normality
-qqnorm(growth_tidy$Growth_rate)
-qqline(growth_tidy$Growth_rate)
+qqnorm(height$growthrate_global)
+qqline(height$growthrate_global)
 #based on qqplot normality could be assumed 
-shapiro.test(growth_tidy$Growth_rate) #p value is 0.039
+shapiro.test(height$growthrate_global) #p value is 0.0006381
     #--> not normaly distributed
 #independence -> can be assumed
 #equality of variance 
-#kruskal wallis test
-kruskal.test(Growth_rate~Variety, growth_tidy) #p value 1.64*10^-14
-kruskal.test(Growth_rate~Treatment, growth_tidy) #p-value 0.0081
-interT.V=interaction(growth_tidy$Variety, growth_tidy$Treatment)
-kruskal.test(Growth_rate~interT.V, growth_tidy) #p value 2.36*10^-8
 
-#post hoc test
-attach(growth_tidy)
-posthoc.kruskal.nemenyi.test(x=Growth_rate, g=Treatment, dist="Chisquare")
-posthoc.kruskal.nemenyi.test(x=Growth_rate, g=Variety, dist="Chisquare")
-test=posthoc.kruskal.nemenyi.test(x=Growth_rate, g=interT.V, dist="Chisquare")
+#wilcoxon test for treatment
+wilcox.test(height$growthrate_global~height$Treatment) #p value 0.0004546
 
-#two way anova when normality is assumed based on the qqplot
+#kruskal test for variety
+kruskal.test(height$Variety, height$growthrate_global) #p value 0.4576 -> not significant
+#kruskal test for interaction 
+interT.V=interaction(height$Variety, height$growthrate_global)
+kruskal.test(interT.V, height$growthrate_global) #p value 0.2333 -> not significant
+
+#ttest when normality is assumed based on the qqplot
 #equality of variance
-bartlett.test(Growth_rate~Treatment) #equality of variance cannot be assumed
-bartlett.test(Growth_rate~Variety) #equality of variance can be assumed
-bartlett.test(Growth_rate~interaction(Treatment, Variety)) #cannot be assumed
-anov.height=aov(Growth_rate~Variety) #p avlue 1.09*10^-14 
-summary(anov.height)
+bartlett.test(height$growthrate_global~height$Treatment) #equality of variance cannot be assumed
 
-#t-test bewteen CON+WAT and eCO2+eCO2W
-Growth_two=growth_tidy
-Growth_two$Treatment[Growth_two$Treatment=="WAT"]="CON"
-Growth_two$Treatment[Growth_two$Treatment=="eCO2W"]="eCO2"
-Growth_two$Treatment=factor(Growth_two$Treatment)
-str(Growth_two)
-#data exploration
-boxplot(Growth_two$Growth_rate~Growth_two$Treatment)
-#t.test assumptions
-  #normal distribiution
-qqnorm(Growth_two$Growth_rate)
-qqline(Growth_two$Growth_rate)
-#--> can be assumed
-  #equality of variance
-bartlett.test(Growth_two$Growth_rate~Growth_two$Treatment)
-#equality of variance cannot be assumed
-#use welch test as normality can be assumed
-t.test(Growth_two$Growth_rate~Growth_two$Treatment, var.equal = F)
 
-lm.growth=lm(Growth_two$Growth_rate~Growth_two$Treatment*Growth_two$Variety)
+lm.growth=lm(height$growthrate_global~height$Treatment*height$Variety)
 plot(lm.growth)
-boxcox(lm.growth)
-
+summary(lm.growth)
