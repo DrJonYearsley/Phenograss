@@ -13,18 +13,19 @@ library(PMCMR)
 library(tidyverse)
 library(MASS)
 
-setwd("C:/00 Dana/Uni/Internship/Work")
-#read table with values for phyllochron 
-dat=read.table("Phyllochron.csv", sep=";", dec=" ", header=T)
-#change names
-names(dat)=c("ID", "Variety", "Treatment", "Chamber", "Phyllo12", "Phyllo13", "Phyllo14", "Phyllo23", "Phyllo24", "Phyllo34", "Phyllo1S", "Type")
-str(dat) #check data
-#test datafarme for phyllochron 1-2
-phyllo=cbind.data.frame("Variety"=dat$Variety, 
-                        "Treatment"=dat$Treatment, 
-                        "Phyllochron"=dat$Phyllo12,
-                        "type"=dat$Type)
-str(phyllo)
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
+#read in phyllochron data as list
+files_list=list.files(pattern ="^Leaf Phyllochron")
+list_phyllo=list()
+list_phyllo=lapply(files_list, read.csv2)
+#remove empty columns from dataframes in list_phyllo 
+#would be neater with to do it with lapply 
+for (i in 1:length(list_phyllo)){
+  list_phyllo[[i]]=Filter(function(x)!all(is.na(x)), list_phyllo[[i]])
+}
+files_list_short=substr(files_list, start = 1, stop=20) #create mames for list
+names(list_phyllo)=files_list_short
+
 
 #write Master Table with signficance results (only kruskal, not posthoc)
 master_stats=data.frame(names(dat[,5:11]), "sig_treatment"=NA, "sig_Variety"=NA, "sig_type"=NA)
