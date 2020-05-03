@@ -12,6 +12,7 @@ library(PMCMRplus)
 library(PMCMR)
 library(tidyverse)
 library(MASS)
+library(rmarkdown)
 
 setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
 #read in phyllochron data as list
@@ -25,6 +26,70 @@ for (i in 1:length(list_phyllo)){
 }
 files_list_short=substr(files_list, start = 1, stop=20) #create mames for list
 names(list_phyllo)=files_list_short
+
+#write a script that loops through list and nested loop that loops through dataframe
+#loop should write results in pdf via markdown
+#first: test for normality
+
+for (i in 1:length(list_phyllo)) {
+  name_phyllo=names(list_phyllo[i])
+  data=list_phyllo[[i]]
+  for (x in 5:8) {
+    name_month=names(data[x])
+    #histogram for phyllochron values
+    hist(data[,x], main=paste(name_phyllo, "for", name_month))
+    #boxplot for treatment
+    boxplot(data[,x]~data$Treatment, main=paste(name_phyllo, "for", name_month))
+    #boxplot for Variety with display of names as labels
+    labels=unique(data$Variety)
+    boxplot(data[,x]~data$Variety, 
+            main=paste(name_phyllo, "for", name_month),
+            ylab="Days",
+            xaxt = "n",  xlab = "")
+    axis(1, labels = FALSE)
+    # Plot x labs at default x position
+    text(x=labels,y = par("usr")[1] - 0.1, srt = 60, adj = 0.5,
+         labels = labels, xpd = TRUE)
+    }
+}
+
+for (i in 2:length(list_phyllo)) {
+  name_phyllo=names(list_phyllo[i])
+  data=list_phyllo[[i]]
+  for (x in 5:8) {
+    name_month=names(data[x])
+    print(paste(name_phyllo, "for", name_month))
+    print(shapiro.test(data[,x]))
+    qqnorm(data[,x])
+    qqline(data[,x])
+   
+     }
+}
+
+#significance test
+for (i in 2:length(list_phyllo)) {
+  name_phyllo=names(list_phyllo[i])
+  data=list_phyllo[[i]]
+  for (x in 5:8) {
+    name_month=names(data[x])
+    print(paste(name_phyllo, "for", name_month))
+    qqnorm(data[,x])
+    qqline(data[,x])
+    print(shapiro.test(data[,x]))
+    test.shapiro=shapiro.test(data[,x])
+    if(test.shapiro[[2]]<0.05){
+      print("Based on shapiro test normality cannot be assumed")
+    print(wilcox.test(data[,x]~data$Treatment))
+    print(kruskal.test(data[,x]~data$Variety))
+    test.kruskal=kruskal.test(data[,x]~data$Variety)
+    if(test.kruskal[[3]]>0.05){
+      print("As the Kruskal test is significant a posthoc test will be performed")
+    print(posthoc.kruskal.nemenyi.test(data[,x]~data$Variety))
+    } else {}
+    } else {}
+  }
+}
+
 
 
 #write Master Table with signficance results (only kruskal, not posthoc)

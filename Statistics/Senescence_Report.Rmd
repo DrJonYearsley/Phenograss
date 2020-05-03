@@ -1,0 +1,63 @@
+---
+title: "Senescence Data anlysis"
+author: "Dana Looschelders"
+date: "30 4 2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Senescence significance tests  
+ by Dana Looschelders  
+the script performs the following analysis  
+  data exploration (boxplot, histogram)  
+  assumptions test for t-test  
+  t-test   
+  wilcoxon test and kruskal test (with posthoc test)  
+ significance level of 0.05  
+statistics to account for difference between Treatments  
+
+```{r, message=FALSE, echo=FALSE}
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/") #set working directory
+
+library(agricolae)
+library(PMCMR)
+#for Sene.data
+Sene=read.table("Time to Leaf Senescence from Germination.csv", sep=";", dec=".", header=T)
+#delete empty cloumns off data.frame
+Sene=Filter(function(x)!all(is.na(x)), Sene)
+str(Sene)#check 
+```
+
+# Data Exploration  
+```{r, message=FALSE}
+summary(Sene)
+
+#boxplot
+hist(Sene$Senescence)
+boxplot(Sene$Senescence~Sene$Treatment)
+boxplot(Sene$Senescence~Sene$Variety)
+```
+# t-test Assumptions  
+### Normality  
+```{r, message=FALSE}
+qqnorm(Sene$Senescence)
+qqline(Sene$Senescence)
+shapiro.test(Sene$Senescence) #p value = 1.505e-09 -> normalty cannot be assumed as p>0.05
+#independence -> can be assumed
+#equality of variance 
+  #use wilcox test as normality cannot be assumed
+wilcox.test(Sene$Senescence~Sene$Treatment) #p-value = 0.07853 -> not significant
+
+#for Variety
+kruskal.test(Sene$Senescence~Sene$Variety) #p-value = 0.0003811
+#post hoc test
+posthoc.kruskal.nemenyi.test(Sene$Senescence~Sene$Variety)
+
+```
+
