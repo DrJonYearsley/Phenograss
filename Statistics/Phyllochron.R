@@ -82,7 +82,7 @@ for (i in 2:length(list_phyllo)) {
     print(wilcox.test(data[,x]~data$Treatment))
     print(kruskal.test(data[,x]~data$Variety))
     test.kruskal=kruskal.test(data[,x]~data$Variety)
-    if(test.kruskal[[3]]>0.05){
+    if(test.kruskal[[3]]<0.05){
       print("As the Kruskal test is significant a posthoc test will be performed")
     print(posthoc.kruskal.nemenyi.test(data[,x]~data$Variety))
     } else {}

@@ -1,0 +1,91 @@
+---
+title: "Germination_report"
+author: "Dana Looschelders"
+date: "3 5 2020"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(agricolae)
+library(PMCMR)
+library(PMCMRplus)
+library(tidyverse)
+```
+
+# Germination significance tests  
+ by Dana Looschelders  
+#the script performs the following tasks
+  #data exploration (boxplot, histogram)
+  #assumption test
+  #kruskal test 
+  #posthoc test (nemenyi test)
+  #fit glm with quasibinomial distribution
+
+```{r, message=FALSE, echo=FALSE}
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
+germ=read.table("Raw Data Germination Trial.csv", sep=";", dec=".", header=T, skip=1)
+str(germ) #use fraction of germination
+#delete empty cloumns off data.frame
+germ=Filter(function(x)!all(is.na(x)), germ)
+germ$sum=rowSums(germ[,5:34])
+germ$total=rep(NA)
+germ$Fraction=rep(NA)
+#no of seeds per pot
+#5 seeds per pot: Moy, Semi-natural, wild
+germ$total[germ$Variety=="Moy"|
+              germ$Variety=="Semi-natural6"|
+              germ$Variety=="Semi-natural7"|
+              germ$Variety=="Semi-natural11"|
+              germ$Variety=="Wild4"|
+              germ$Variety=="Wild6"|
+              germ$Variety=="Wild7"]=5
+
+#10 seeds per pot: cultivars
+germ$total[germ$Variety=="Lilora"|
+                germ$Variety=="Solomon"|
+                germ$Variety=="Carraig"|
+                germ$Variety=="Dunluce"|
+                germ$Variety=="Aberchoice"|
+                germ$Variety=="Abergain"|
+                germ$Variety=="Aspect"]=10
+germ$Fraction=germ$sum/germ$total
+
+#QAQC
+any(germ$Fraction[germ$fraction>1|germ$Fraction<0]) #none smaller than 0 or bigger than 1
+
+```
+
+# Data Exploration  
+```{r, message=FALSE}
+summary(germ$fraction)
+
+#boxplot
+hist(germ$Fraction)
+#data exploration 
+boxplot(germ$Fraction~germ$Variety)
+boxplot(germ$Fraction~germ$Treatment)
+
+```
+# t-test Assumptions  
+### Normality  
+```{r, message=FALSE}
+#test for normal distribution
+hist(germ$Fraction) 
+qqnorm(germ$Fraction)
+qqline(germ$Fraction)
+shapiro.test(germ$Fraction) 
+
+#as values only can be between 0 and 1 it is a binomial distribution
+#not normally distributed, therefore non-parametric test
+
+kruskal.test(germ$Fraction~germ$Variety) #significant: p-value: < 2.2e-16
+kruskal.test(germ$Fraction~germ$Treatment) #not significant p-value: 0.7829
+
+#posthoc tests
+posthoc.kruskal.nemenyi.test(germ$Fraction~germ$Variety, dist = "Chisquare")
+
+```
+
