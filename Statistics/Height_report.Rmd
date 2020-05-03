@@ -1,0 +1,111 @@
+---
+title: "Height_report"
+author: "Dana Looschelders"
+date: "3 5 2020"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Height as growth rate significance tests  
+ by Dana Looschelders  
+#This script performs the following analysis:
+  #create four boxplot (one for each treatment) for varieties
+  #create boxplot for treatment
+  #create boxplot for variety
+  #plot histogram of growth rate until first cut
+  #test assumptions for parametric tests (discepancy between qqplot and shapiro test)
+  #Kruskal-Wallis test
+  #posthoc nemenyi test
+  #when normality is assumed based on qqplot: bartletts test and t.test
+  #boxcox transformation
+  
+
+```{r, message=FALSE, echo=FALSE, include=FALSE}
+library(tidyverse)
+library(MASS)
+library(tseries)
+library(reshape2)
+library(agricolae)
+library(PMCMR)
+setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
+
+#load data table with measured height values
+height=read.table("Plant Height Data.csv", sep=";", dec=",", header=T)
+str(height)
+height=Filter(function(x)!all(is.na(x)), height) #remove columns with NA
+height=na.omit(height) #remove rows with NA
+str(height) #check
+height$Treatment=as.character(height$Treatment) #change factor to charactor to remove one empty factor level
+height$Treatment=as.factor(height$Treatment) #change back to factor (ugly workaround but I didn't find a faster solution)
+str(height)
+#calculate growth rate (between cuts)
+#biomass cuts:
+#1 cut: after week 5
+height$growthrate_1cut=(height[,9]-height[,5])/(length(height[,5:9])*7) #calculate dailygrowth rate
+mean(height$growthrate_1cut) #mean: 0.5170238
+#2 cut: after week 9
+height$growthrate_cut2=(height[,13]-height[,10])/(length(height[,10:13])*7) #calculate growth rate
+mean(height$growthrate_cut2) #mean: 1.096057
+#3 cut: after week 13
+height$growthrate_cut3=(height[,17]-height[,14])/(length(height[,14:17])*7) #calculate growth rate
+mean(height$growthrate_cut3) #mean: 0.6936331
+#global growth rate
+height$growthrate_global=rowSums(height[20:22])/length(height[20:22]) #calculate growth rate
+mean(height$growthrate_global) #global mean: 0.7689045
+
+#QAQC
+any(height[,20:22]<0) #there are some negative growth rates
+which(height[,20:22]<0) #find out which ones (236 and 806)
+```
+
+# Data Exploration  
+```{r, message=FALSE}
+#display height with line plot
+matplot(t(height[,5:19]), type="l", xlab="weeks", ylab="Plant Height [cm]")
+
+summary(height)
+
+#boxplot
+hist(height$growthrate_global)
+boxplot(height$growthrate_global~height$Treatment)
+boxplot(height$growthrate_global~height$Variety)
+```
+# t-test Assumptions  
+### Normality  
+```{r, message=FALSE}
+#***************************************************************
+#ttest
+  #alpha is 0.05
+  #normality
+qqnorm(height$growthrate_global)
+qqline(height$growthrate_global)
+#based on qqplot normality could be assumed 
+shapiro.test(height$growthrate_global) #p value is 0.0006381
+    #--> not normaly distributed
+#independence -> can be assumed
+#equality of variance 
+
+#wilcoxon test for treatment
+wilcox.test(height$growthrate_global~height$Treatment) #p value 0.0004546
+
+#kruskal test for variety
+kruskal.test(height$Variety, height$growthrate_global) #p value 0.4576 -> not significant
+#kruskal test for interaction 
+interT.V=interaction(height$Variety, height$growthrate_global)
+kruskal.test(interT.V, height$growthrate_global) #p value 0.2333 -> not significant
+
+#ttest when normality is assumed based on the qqplot
+#equality of variance
+bartlett.test(height$growthrate_global~height$Treatment) #equality of variance cannot be assumed
+
+
+lm.growth=lm(height$growthrate_global~height$Treatment*height$Variety)
+plot(lm.growth)
+summary(lm.growth)
+```
