@@ -61,3 +61,7 @@ posthoc.kruskal.nemenyi.test(Sene$Senescence~Sene$Variety)
 
 ```
 
+# GLM
+```{r}
+summary(glm(Sene$Senescence~Sene$Variety*Sene$Treatment))
+```

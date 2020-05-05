@@ -187,5 +187,6 @@ posthoc.kruskal.nemenyi.test(x=biomass$Cut_1, g=biomass$Variety, dist="Chisquare
 # GLM
 ```{r}
 #GLM
+plot(glm(biomass$Cut_1~biomass$Variety*biomass$Treatment))
 summary(glm(biomass$Cut_1~biomass$Variety*biomass$Treatment))
 ```

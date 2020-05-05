@@ -17,17 +17,17 @@ library(tidyverse)
 
 # Germination significance tests  
  by Dana Looschelders  
-#the script performs the following tasks
-  #data exploration (boxplot, histogram)
-  #assumption test
-  #kruskal test 
-  #posthoc test (nemenyi test)
-  #fit glm with quasibinomial distribution
+#the script performs the following tasks  
+  #data exploration (boxplot, histogram)  
+  #assumption test  
+  #kruskal test  
+  #posthoc test (nemenyi test)  
+  #fit glm with quasibinomial distribution  
 
 ```{r, message=FALSE, echo=FALSE}
 setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/")
 germ=read.table("Raw Data Germination Trial.csv", sep=";", dec=".", header=T, skip=1)
-str(germ) #use fraction of germination
+
 #delete empty cloumns off data.frame
 germ=Filter(function(x)!all(is.na(x)), germ)
 germ$sum=rowSums(germ[,5:34])
@@ -89,3 +89,8 @@ posthoc.kruskal.nemenyi.test(germ$Fraction~germ$Variety, dist = "Chisquare")
 
 ```
 
+# GLM  
+```{r}
+plot(glm(germ$Fraction~germ$Treatment*germ$Variety))
+summary(glm(germ$Fraction~germ$Treatment*germ$Variety))
+```
