@@ -1,5 +1,5 @@
 #analysis of biomass 
-#stats to account for difference between CON and WAT Treatment
+#stats to account for difference between treatments
 #Script:
   #1. Biomass second cut
     #data exploration
@@ -100,9 +100,8 @@ shapiro.test(biomass2_rezi)
 #data exploration
 boxplot(biomass$Cut_1~biomass$Variety)
 boxplot(biomass$Cut_1~biomass$Treatment)
-boxplot(biomass$Cut_1~biomass$type) #to do: create column with type
 hist(biomass_Cut_1)
-#Anova Assumptions
+#Assumptions test
 #normality
 # test for whole data
 qqnorm(biomass$Cut_1)
