@@ -86,3 +86,5 @@ bx=boxcox(lm.germ)
 
 #stats analysis for D50 Germination
 
+plot(glm(germ$Fraction~germ$Treatment*germ$Variety))
+

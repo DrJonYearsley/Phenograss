@@ -12,18 +12,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-# Height as growth rate significance tests  
+# Height as growth rate significance tests    
  by Dana Looschelders  
-#This script performs the following analysis:
-  #create four boxplot (one for each treatment) for varieties
-  #create boxplot for treatment
-  #create boxplot for variety
-  #plot histogram of growth rate until first cut
-  #test assumptions for parametric tests (discepancy between qqplot and shapiro test)
-  #Kruskal-Wallis test
-  #posthoc nemenyi test
-  #when normality is assumed based on qqplot: bartletts test and t.test
-  #boxcox transformation
+#This script performs the following analysis:  
+  #create four boxplot (one for each treatment) for varieties  
+  #create boxplot for treatment  
+  #create boxplot for variety  
+  #plot histogram of growth rate until first cut  
+  #test assumptions for parametric tests (discepancy between qqplot and shapiro test)  
+  #Kruskal-Wallis test  
+  #posthoc nemenyi test  
+  #when normality is assumed based on qqplot: bartletts test and t.test  
+  #boxcox transformation  
   
 
 ```{r, message=FALSE, echo=FALSE, include=FALSE}
