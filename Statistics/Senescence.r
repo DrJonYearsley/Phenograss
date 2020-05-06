@@ -12,7 +12,12 @@ setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount/") #set working directory
 library(agricolae)
 library(PMCMR)
 #for Sene.data
-Sene=read.table("Time to Leaf Senescence from Germination.csv", sep=";", dec=".", header=T)
+#Sene=read.table("Time to Leaf Senescence from Germination.csv", sep=";", dec=".", header=T)
+
+# Read in the data directly from the Excel file that is on github
+library(readxl)
+Sene=read_excel("data_rosemount/Time to Leaf Senescence from Germination.xlsx", sheet=1)
+
 #delete empty cloumns off data.frame
 Sene=Filter(function(x)!all(is.na(x)), Sene)
 str(Sene)#check 
