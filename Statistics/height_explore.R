@@ -129,12 +129,14 @@ library(performance)
 library(broom)
 library(merTools)
 
+# Try fitting a lm
 m = glm(growth.rate~cut*time*Treatment, 
         data=subset(gr,cut!='Cut 3'), 
         family=gaussian)
 
 sim = simulateResiduals(m, n=200)
 plot(sim)
+
 
 plot(m)  # Some over-dispersion, otherwise pretty good
 summary(m)
@@ -145,9 +147,12 @@ m0 = update(m, .~.-cut:time:Treatment)
 anova(m0,m, test='F')  # Slight 3 way interaction
 
 # *******************************
-# Include Variety as a random effect on intercept
-m2 = lmer(growth.rate~time*Treatment +(1|Variety), 
-          data=subset(gr,cut!='Cut 3'),
+# Include Variety and Plant.ID 
+# as a random effect on intercept
+gr_sub = subset(gr,cut!='Cut 3')
+
+m2 = lmer(growth.rate~factor(time)*Treatment +(1|Variety), 
+          data=gr_sub,
           REML=FALSE)
 
 # Validate model (DHARMa)
@@ -155,7 +160,7 @@ sim_lme = simulateResiduals(m2, n=200)
 plot(sim_lme)
 
 #performance
-check_model(m2)  # Not too bad... some over-dispersion
+check_model(m2)  # Not too bad... some mild over-dispersion perhaps
 check_collinearity(m2, component='all')  # Multicollinearity is fine
 model_performance(m2)
 
@@ -163,14 +168,19 @@ model_performance(m2)
 summary(m2)
 
 
-m2_null = update(m2, . ~ . - time:Treatment)
+m2_null = update(m2, . ~ . - factor(time):Treatment)
 m2_null2 = update(m2, . ~ . - Treatment)
 
 
 anova(m2_null, m2)  # Evidence of a Treatment:time interaction
-anova(m2_null2, m2)  # Intercept does not depend on Treatment
+anova(m2_null2, m2)  
 
-m3 = update(m2, . ~ . - Treatment)
+# Refit model 
+m3 = lmer(growth.rate~1 + factor(time)*Treatment  + (1|Variety), 
+          data=gr_sub,
+          REML=FALSE)
+
+summary(m3)
 
 # Plot random effects term
 tmp = REsim(m3)
@@ -180,3 +190,36 @@ plotREsim(tmp, labs=TRUE)
 tmp2 = FEsim(m3)
 plotFEsim(tmp2)
 
+
+# Function to check for overdispersion
+overdisp_fun <- function(model) {
+  rdf <- df.residual(model)
+  rp <- residuals(model,type="pearson")
+  Pearson.chisq <- sum(rp^2)
+  prat <- Pearson.chisq/rdf
+  pval <- pchisq(Pearson.chisq, df=rdf, lower.tail=FALSE)
+  c(chisq=Pearson.chisq,ratio=prat,rdf=rdf,p=pval)
+}
+
+overdisp_fun(m2)  # This test shows overdispersion is not an issue
+
+
+# # Make prediction with model aggregating over Variety
+# gr_agg = aggregate(growth.rate~time+Treatment+cut, data=gr_sub, FUN=median)
+# gr_agg$pred = predict(m3, newdata=gr_agg, re.form=NA, type='response')
+
+# Use predictInterval for 95% CI then aggregate
+tmp = predictInterval(m3, newdata=gr_sub, which='fixed', type='linear')
+gr_sub = cbind(gr_sub,tmp)
+tmp_agg = aggregate(cbind(growth.rate,fit,lwr,upr)~time+Treatment+cut, data=gr_sub, FUN=median)
+
+ggplot(data=tmp_agg, 
+       aes(x=time, y=fit, ymax=upr, ymin=lwr,colour=Treatment, fill=cut, group=Treatment)) +
+  geom_point(aes(y=growth.rate),shape=25, size=4) +
+  geom_point(aes(y=fit),fill=NA,shape=21, size=2) +
+  geom_linerange() +
+  scale_fill_brewer(name='Cuts', palette='Dark2') +
+  scale_colour_brewer(name='Treatment', palette='Set1') +
+  labs(title='Average over plant ID') +
+  theme_bw() + 
+  format
