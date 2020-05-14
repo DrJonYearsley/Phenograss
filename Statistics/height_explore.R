@@ -123,34 +123,38 @@ ggplot(d=subset(gr, Treatment=='Ambient'),
 # Look at some initial analyses
 
 library(DHARMa)
-library(tweedie)
+
 library(lme4)
 library(performance)
-library(broom)
 library(merTools)
 
-# Try fitting a lm
-m = glm(growth.rate~cut*time*Treatment, 
-        data=subset(gr,cut!='Cut 3'), 
-        family=gaussian)
 
-sim = simulateResiduals(m, n=200)
-plot(sim)
-
-
-plot(m)  # Some over-dispersion, otherwise pretty good
-summary(m)
-
-# Remove three way interaction
-m0 = update(m, .~.-cut:time:Treatment)
-
-anova(m0,m, test='F')  # Slight 3 way interaction
-
-# *******************************
-# Include Variety and Plant.ID 
-# as a random effect on intercept
+# Create a subset to remove cut-3 (not much data in cut-3)
 gr_sub = subset(gr,cut!='Cut 3')
 
+
+# Try fitting a linear model first
+m_lm = glm(growth.rate~Variety + factor(time)*Treatment,
+        data=gr,
+        family=gaussian)
+
+sim = simulateResiduals(m_lm, n=200)
+plot(sim)
+
+# Remove three interaction
+m_lm_null1 = update(m_lm, .~.-factor(time)*Treatment)
+
+# Remove Variety
+m_lm_null2 = update(m_lm, .~.-Variety)
+
+anova(m_lm_null1,m_lm, test='F')  # Significant ineraction interaction
+anova(m_lm_null2,m_lm, test='F')  # Significant effect of Variety
+
+summary(m_lm)
+
+# *******************************
+# Include Variety
+# as a random effect on intercept
 m2 = lmer(growth.rate~factor(time)*Treatment +(1|Variety), 
           data=gr_sub,
           REML=FALSE)
@@ -205,13 +209,20 @@ overdisp_fun(m2)  # This test shows overdispersion is not an issue
 
 
 # # Make prediction with model aggregating over Variety
-# gr_agg = aggregate(growth.rate~time+Treatment+cut, data=gr_sub, FUN=median)
+gr_agg = aggregate(growth.rate~time+Treatment+cut, data=gr_sub, FUN=median)
 # gr_agg$pred = predict(m3, newdata=gr_agg, re.form=NA, type='response')
 
 # Use predictInterval for 95% CI then aggregate
-tmp = predictInterval(m3, newdata=gr_sub, which='fixed', type='linear')
+tmp = predictInterval(m3, newdata=gr_sub, 
+                      which='fixed', 
+                      type='linear',
+                      include.resid.var=0,
+                      level=0.95)
 gr_sub = cbind(gr_sub,tmp)
 tmp_agg = aggregate(cbind(growth.rate,fit,lwr,upr)~time+Treatment+cut, data=gr_sub, FUN=median)
+
+
+
 
 ggplot(data=tmp_agg, 
        aes(x=time, y=fit, ymax=upr, ymin=lwr,colour=Treatment, fill=cut, group=Treatment)) +
@@ -220,6 +231,6 @@ ggplot(data=tmp_agg,
   geom_linerange() +
   scale_fill_brewer(name='Cuts', palette='Dark2') +
   scale_colour_brewer(name='Treatment', palette='Set1') +
-  labs(title='Average over plant ID') +
+  labs(title='Average over plant ID & 95%CI') +
   theme_bw() + 
   format
