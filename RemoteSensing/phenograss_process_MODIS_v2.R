@@ -46,7 +46,7 @@ scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 corinePath = './Data/CORINE_Ireland'
 corineFilename = 'corine2018_pasturecover.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(1,2,3)  # List of squares to analyse
+squareList = c(4:21)  # List of squares to analyse
 
 
 # Import squares from shapefile
@@ -200,9 +200,10 @@ for (s in squareList) {
   # Create a date for each observation
   d[[s]]$date = strptime(paste0(d[[s]]$year,'-',d[[s]]$doy), format="%Y-%j")
 
+  d_sq = d[[s]]
   # Save data to a file
   fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',s,'.RData') )
-  save(d[[s]], pastureThreshold, r.file.date, hdf.files, file = fname.df)
+  save(d_sq, pastureThreshold, r.file.date, hdf.files, file = fname.df)
 }
 
 
