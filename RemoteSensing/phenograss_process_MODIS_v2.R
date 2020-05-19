@@ -92,7 +92,7 @@ file.dates = sapply(hdf.files,
 r.file.date = strptime(file.dates, format = "%Y.%m.%d", tz = "")
 
 # Create a list to contain data from each square
-d = vector('list', length=nSquares)
+d = vector('list', length=length(squareList))
 
 for (f in 1:nFiles) {
   print(hdf.files[f])
@@ -202,7 +202,7 @@ for (s in squareList) {
 
   # Save data to a file
   fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',s,'.RData') )
-  save(d, pastureThreshold, r.file.date, hdf.files, file = fname.df)
+  save(d[[s]], pastureThreshold, r.file.date, hdf.files, file = fname.df)
 }
 
 
