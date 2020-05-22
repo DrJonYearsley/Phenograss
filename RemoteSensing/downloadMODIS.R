@@ -8,18 +8,19 @@
 # *****************************************
 
 
-setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+#setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+#setwd('~/MEGAsync/Projects/GrasslandPhenology/Data')
 library(MODIS)
 library(rgdal)
 library(gdalUtils)
 
-period = as.Date(c("2019/01/01", "2019/10/23"))
+period = as.Date(c("2019/10/01", "2020/05/01"))
 
 tile = c(17,03)  # The horizontal and vertical tile coords for Ireland (h17v03)
 
 ## Change options for MODIS package
 # # Permanently set MODIS options
-# MODISoptions(localArcPath='~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+# 
 # # Move the location of the data archive
 # orgStruc(to = '~/WorkFiles/PeopleStuff/GrasslandPhenology/Data', move=TRUE)
 
