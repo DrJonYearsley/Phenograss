@@ -8,7 +8,7 @@
 # *****************************************
 
 
-#setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
 #setwd('~/MEGAsync/Projects/GrasslandPhenology/Data')
 library(MODIS)
 library(rgdal)
