@@ -196,13 +196,13 @@ for (f in 1:nFiles) {
 
 
 # Save the data frame for each square in a separate file
-for (s in squareList) {
+for (t in squareList) {
   # Create a date for each observation
-  d[[s]]$date = strptime(paste0(d[[s]]$year,'-',d[[s]]$doy), format="%Y-%j")
+  d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
 
-  d_sq = d[[s]]
+  d_sq = d[[t]]
   # Save data to a file
-  fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',s,'.RData') )
+  fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
   save(d_sq, pastureThreshold, r.file.date, hdf.files, file = fname.df)
 }
 
