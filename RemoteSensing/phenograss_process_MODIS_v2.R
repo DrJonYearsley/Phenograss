@@ -35,18 +35,18 @@ rm(list=ls())
 setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
 
 # Directories containing the input and output MODIS data 
-inputDir = c('./Data/MODIS/MYD13Q1.006','../Data/MODIS/MOD13Q1.006')
+inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
 quadratPath = './Data/Quadrats'
 outputDir = './Data/MODIS'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A2017' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
+yearStr = 'A2019' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 corinePath = './Data/CORINE_Ireland'
 corineFilename = 'corine2018_pasturecover.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(4:21)  # List of squares to analyse
+squareList = c(1:9)  # List of squares to analyse
 
 
 # Import squares from shapefile
