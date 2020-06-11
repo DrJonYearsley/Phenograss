@@ -30,23 +30,20 @@ d = as.matrix(dist(pixels, method="euclidean")/1000)
 
 # Calculate Moran's I for different distance bins
 
-moran = data.frame(bins = seq(from=0.5,to=10,by=0.5),
+moran = data.frame(bins = seq(from=0.2,to=10,by=0.5),
                    I = NA,
                    I_lowerCI = NA,
                    I_upperCI=NA)
 
 for (i in 1:nrow(moran)) {
-  if (i==1) {
-    lower = 0
-    upper = moran$bins[i]
-  } else if (i==nrow(moran)) {
-    lower = moran$bins[i-1]
+  if (i==nrow(moran)) {
+    lower = moran$bins[i]
     upper = max(d+10)
   } else {
-    lower = moran$bins[i-1]
-    upper = moran$bins[i]
+    lower = moran$bins[i]
+    upper = moran$bins[i+1]
   }
-  w = which(d>=lower & d<upper, arr.ind=TRUE)
+  w = which(d>lower & d<=upper, arr.ind=TRUE)
   I = cor.test(x=d_sq$evi[w[,1]], 
                y=d_sq$evi[w[,2]],
                method='pearson',
