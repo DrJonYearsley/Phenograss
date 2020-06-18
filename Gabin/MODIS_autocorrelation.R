@@ -5,7 +5,7 @@
 
 rm(list=ls())
 
-load('data/modis_pasture_A2018_square1.RData')
+load('./data/modis_pasture_A2018_square1.RData')
 
 # Calculate unique pixel ID's
 x_values = unique(d_sq$x_MODIS)
@@ -25,12 +25,14 @@ rownames(pixels) <- pixel_list
 
 
 # Distance is in km
-d = as.matrix(dist(pixels, method="euclidean")/1000) 
+#d = as.matrix(dist(pixels, method="euclidean"))
+d = as.matrix(dist(cbind(d_sq$x_ITM, d_sq$y_ITM), method="euclidean"))
 
+ind2 = match(d_sq$pixelID, pixel_list)
 
 # Calculate Moran's I for different distance bins
 
-moran = data.frame(bins = seq(from=0.2,to=10,by=0.5),
+moran = data.frame(bins = seq(from=0.1,to=10,length=10)*1000,
                    I = NA,
                    I_lowerCI = NA,
                    I_upperCI=NA)
@@ -43,7 +45,7 @@ for (i in 1:nrow(moran)) {
     lower = moran$bins[i]
     upper = moran$bins[i+1]
   }
-  w = which(d>lower & d<=upper, arr.ind=TRUE)
+  w = which(d>=lower & d<upper, arr.ind=TRUE)
   I = cor.test(x=d_sq$evi[w[,1]], 
                y=d_sq$evi[w[,2]],
                method='pearson',
