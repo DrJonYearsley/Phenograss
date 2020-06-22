@@ -110,21 +110,3 @@ ggplot(data=subset(phyllo,phylloID='1-2'),
   theme_bw() + 
   format
 
-
-# *****************************
-# Look at some initial analyses
-
-library(DHARMa)
-library(tweedie)
-
-d = subset(phyllo, month!='September')
-
-m = glm(days~month*phylloID, 
-        data=d, 
-        family=Gamma())
-
-sim = simulateResiduals(m, n=200)
-plot(sim)
-
-sim_groups = recalculateResiduals(sim, group=d$Chamber)
-plot(sim_groups)
