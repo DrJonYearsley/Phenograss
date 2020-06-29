@@ -64,6 +64,13 @@ str(Phyllo_34) #check if data was read in correctly
 
 Phyllo_Germ_Cum=read_excel("data_rosemount/Percentage Cumulative Germination.xlsx")
 str(Phyllo_Germ_Cum) #check if data was read in correctly
+#column name is a date and therefore not read correctly 
+#create column names
+dates=seq.Date(from=as.Date("2019-12-16"), to=as.Date("2020-01-14"), by = "day") #create date sequence
+columnnames=c("Treatment", "Variety", as.character(dates)) #create vector with column names
+Phyllo_Germ_Cum=read_excel("data_rosemount/Percentage Cumulative Germination.xlsx", 
+                           col_names = as.character(columnnames)) #read in data and assign creates vector with column names
+str(Phyllo_Germ_Cum) #check again
 
 Height=read_excel("data_rosemount/Plant Height Data.xlsx")
 str(Height) #check if data was read in correctly
