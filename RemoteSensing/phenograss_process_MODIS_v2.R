@@ -40,7 +40,7 @@ quadratPath = './Data/Quadrats'
 outputDir = './Data/MODIS'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A2019' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
+yearStr = 'A2013' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 corinePath = './Data/CORINE_Ireland'
