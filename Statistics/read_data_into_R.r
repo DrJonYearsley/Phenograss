@@ -5,10 +5,11 @@ library(ggplot2) #library for graphing data
 library(tidyverse)#library to organise data
 
 #packages for mixed models
-library(lme4)
-library(nlme)
-library(arm)
-
+#library(lme4)
+#library(nlme)
+#library(arm)
+#library(car)
+#library(MASS)
 
 #read in data directly from github folder
 Biomass=read_excel("data_rosemount/Biomass Data.xlsx")
@@ -18,7 +19,7 @@ D50=read_excel("data_rosemount/D50 Data.xlsx")
 str(D50) #check if data was read in correctly
 
 Tiller_first=read_excel("data_rosemount/Date of 1st Tiller Appearance.xlsx")
-str(Tiller) #check if data was read in correctly
+str(Tiller_first) #check if data was read in correctly
 
 Senescence=read_excel("data_rosemount/Date of Leaf Senescence.xlsx")
 str(Senescence) #check if data was read in correctly
@@ -75,7 +76,11 @@ str(Phyllo_Germ_Cum) #check again
 Height=read_excel("data_rosemount/Plant Height Data.xlsx")
 str(Height) #check if data was read in correctly
 
-Growth_rate=read_excel("data_rosemount/Growth Rate Data.xlsx")
+Growth_rate=read_excel("data_rosemount/Growth Rate Data.xlsx", 
+                       col_types = c("numeric", "text","text", 
+                                     "numeric","numeric","numeric",
+                                     "numeric","numeric", "numeric"))
+#this time coltypes need tobe specified, otherwise reads the growth rate as string
 str(Growth_rate) #check if data was read in correctly
 #there is extra data in the spreadsheet -> remove those rows
 Growth_rate=Growth_rate[1:336,]
@@ -108,7 +113,47 @@ Tussock=read_excel("data_rosemount/Tussock Diameter Data.xlsx")
 str(Tussock) #check if data was read in correctly
 
 #combine some parameters for mixed model 
-dat=cbind.data.frame(Biomass, Germ_Sene$Senescence, Height[,5:length(Height)], 
-                     Tiller[,5:length(Tiller)], Tussock$`Tussock Diameter 18/05/2020`,
-                     Max_Growth[,5:length(Max_Growth)],Growth_rate[,5:length(Growth_rate)] )
+dat=cbind.data.frame(Biomass[,c(1:4,10)], Germ_Sene$Senescence, Tiller[,10], 
+                     Tussock$`Tussock Diameter 18/05/2020`,
+                     Growth_rate[,5:length(Growth_rate)])
+str(dat)
+colnames(dat)[5:13]=c("Biomass", "Senescence", "Tiller", "Tussock", "Growth_May", "Growth_Jun", "Growth_Jul", "Growth_Aug", "Growth_Sep")
 
+#find fitting distribution
+qqp(dat$Biomass, "lnorm") #lognormal
+qqp(dat$Biomass, "norm") #normal
+shapiro.test(dat$Biomass) #not normaly distributed
+
+qqp(dat$Tussock, "lnorm") #lognormal
+qqp(dat$Tussock, "norm") #normal
+shapiro.test(dat$Tussock) #p-value 0.013 -> prob normally distributed
+
+qqp(dat$Senescence, "lnorm") #lognormal
+qqp(dat$Senescence, "norm") #normal
+shapiro.test(dat$Senescence) #not normally distributed
+
+qqp(dat$Tiller, "lnorm") #lognormal
+qqp(dat$Tiller, "norm") #normal
+shapiro.test(dat$Tiller) #not normally distributed
+
+qqp(dat$Growth_May, "lnorm") #lognormal
+qqp(dat$Growth_May, "norm") #normal
+shapiro.test(dat$Growth_May) #p value 0.03
+
+qqp(dat$Growth_Jun, "lnorm") #lognormal
+qqp(dat$Growth_Jun, "norm") #normal
+shapiro.test(dat$Growth_Jun) #p value 0.058
+
+qqp(dat$Growth_Jul, "lnorm") #lognormal
+qqp(dat$Growth_Jul, "norm") #normal
+shapiro.test(dat$Growth_Jul) #p value 0.003
+
+qqp(dat$Growth_Aug, "lnorm") #lognormal
+qqp(dat$Growth_Aug, "norm") #normal
+shapiro.test(dat$Growth_Aug) #not normally distributed
+
+qqp(dat$Growth_Sep, "lnorm") #lognormal
+qqp(dat$Growth_Sep, "norm") #normal
+shapiro.test(dat$Growth_Sep) #not normally distributed
+
+#most of the data is not normally distributed
