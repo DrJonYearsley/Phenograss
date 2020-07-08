@@ -3,13 +3,13 @@
 library(readxl) #library to read .xlsx files (otherwise .csv files are needed)
 library(ggplot2) #library for graphing data
 library(tidyverse)#library to organise data
-
+library()
 #packages for mixed models
-#library(lme4)
-#library(nlme)
-#library(arm)
-#library(car)
-#library(MASS)
+library(lme4)
+library(nlme)
+library(arm)
+library(car)
+library(MASS)
 
 #read in data directly from github folder
 Biomass=read_excel("data_rosemount/Biomass Data.xlsx")
@@ -157,3 +157,58 @@ qqp(dat$Growth_Sep, "norm") #normal
 shapiro.test(dat$Growth_Sep) #not normally distributed
 
 #most of the data is not normally distributed
+
+#data analysis
+#example with tiller number 
+
+#descriptive stats
+range(Tiller$`Tiller Week 6 (20/02/2020)`) #range
+mean(Tiller$`Tiller Week 6 (20/02/2020)`) #mean
+median(Tiller$`Tiller Week 6 (20/02/2020)`) #median
+sd(Tiller$`Tiller Week 6 (20/02/2020)`) #standard deviation
+quantile(Tiller$`Tiller Week 6 (20/02/2020)`) #quantiles
+
+#or use summary to get all relevant statistical parameters
+summary(Tiller$`Tiller Week 6 (20/02/2020)`) 
+
+#violin plot with varieties
+ggplot(Tiller, aes(x=Tiller$Variety, y=Tiller$`Tiller Week 6 (20/02/2020)`))+ #specifies the data used for x and y
+  geom_violin(trim=F)+ #adds violin shape without trimmed edges
+  geom_boxplot(width=0.1)+ #adds tiny boxplot in violin 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ #rotates the axix labels on x axis
+  xlab("Variety")+ #adds title for x axis
+  ylab("Tiller [No]")+ #adds title for y axis
+  ggtitle("Number of Tillers in Week 6") #adds plot title
+
+#violin plot with treatments
+ggplot(Tiller, aes(x=Tiller$Treatment, y=Tiller$`Tiller Week 6 (20/02/2020)`))+ #specifies the data used for x and y
+  geom_violin(trim=F)+ #adds violin shape without trimmed edges
+  geom_boxplot(width=0.1)+ #adds tiny boxplot in violin 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ #rotates the axix labels on x axis
+  xlab("Treatment")+ #adds title for x axis
+  ylab("Tiller [No]")+ #adds title for y axis
+  ggtitle("Number of tillers in week 6") #adds plot title
+
+#pretty density plot
+plot(density(Tiller$`Tiller Week 6 (20/02/2020)`),
+     main="Kernel Density of Tiller Number")
+polygon(density(Tiller$`Tiller Week 6 (20/02/2020)`), col="lightblue")
+abline(v=mean(Tiller$`Tiller Week 6 (20/02/2020)`), col="red")
+
+#density plot with car package to group data by variety or treatment
+densityPlot(Tiller$`Tiller Week 6 (20/02/2020)`, 
+            g = as.factor(Tiller$Treatment), #add grouping factor
+            method="kernel", #choose method of calculating density
+            main="Kernel Density of Tiller Number", #add title to plot
+            cex.legend=0.1) #scale legend
+
+#histogram plot
+hist(Tiller$`Tiller Week 6 (20/02/2020)`, #with frequency
+     main = "Histogram of Tiller Number from Week 6") #plot title
+hist(Tiller$`Tiller Week 6 (20/02/2020)`, prob=TRUE, #with density
+     main = "Histogram of Tiller Number from Week 6") #plot title
+
+#histogram plot with density
+hist(Tiller$`Tiller Week 6 (20/02/2020)`, prob=TRUE) #histogram 
+lines(density(Tiller$`Tiller Week 6 (20/02/2020)`), col="red") #density as red line
+
