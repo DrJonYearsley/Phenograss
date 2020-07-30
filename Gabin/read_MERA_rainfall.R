@@ -8,7 +8,9 @@
 #
 # ***************************************
 
+
 setwd("~/WorkFiles/MEGA/Projects/GrasslandPhenology/Data/")
+#setwd("~/MEGAsync/Projects/GrasslandPhenology/Data/")
 
 rm(list=ls())
 library(rgdal)
@@ -22,7 +24,9 @@ files = list.files(path = '~/WorkFiles/Data/Climate/MERA/TPrecip',
                    pattern='TotalPrecip_2017',
                    full.names = TRUE)
 
-
+# files = list.files(path = '~/Data/MERA',
+#                    pattern='TotalPrecip_2013',
+#                    full.names = TRUE)
 
 # Import data
 # rain = read.table('TotalPrecip_2017_01.txt', header=TRUE, sep='', 
@@ -82,9 +86,19 @@ for (f in 1:length(files)) {
     } else {
       offset = ind[i]
     }
+    
+    timeStr = rain$validityTime[1 + offset]
+    if (nchar(timeStr)<4) {
+      timeStr = paste0('0',timeStr)
+    }
+    
     tmp_data = data.frame(rain[ind_quadrats + offset,],
                           date = as.Date(rain$validityDate[1 + offset], "%Y%m%d"),
-                          sq_info)
+                          sq_info,
+                          time = strptime(paste0(rain$validityDate[1 + offset],' ',
+                                   strtrim(timeStr,2),':00:00'),
+                             format="%Y%m%d %H:%M:%S"))
+    
     
     if (i==0 & f==1) {
       rain_final = tmp_data
