@@ -44,9 +44,9 @@ quadrats_wgs84 = spTransform(quadrats, CRSobj=CRS("+init=epsg:4326"))
 box = bbox(ireland_wgs84)
 
 # Using fread is faster
-rain = fread(files[[1]])
-names(rain) = c('Latitude', 'Longitude', 'Value', 'dataDate',
-                'dataTime', 'validityDate', 'validityTime')
+rain = fread(files[[1]], select=c(1,2,3,6,7))
+names(rain) = c('Latitude', 'Longitude', 'Value', 
+                'validityDate', 'validityTime')
 
 
 # Find values of Latitude within the file
@@ -73,9 +73,9 @@ sq_info = rbind(tmp[ind_quadrats,c(1,2,5)])
 
 for (f in 1:length(files)) {
   if (f>1) {
-    rain = fread(files[[f]])
-    names(rain) = c('Latitude', 'Longitude', 'Value', 'dataDate',
-                    'dataTime', 'validityDate', 'validityTime')
+    rain = fread(files[[f]], select=c(1,2,3,6,7))
+    names(rain) = c('Latitude', 'Longitude', 'Value',  
+                    'validityDate', 'validityTime')
     # Find values of Latitude within the file
     ind = which(grepl('Latitude', rain$Latitude))
   }
