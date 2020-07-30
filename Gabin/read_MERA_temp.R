@@ -34,24 +34,26 @@ ireland = readOGR(dsn='Quadrats/', layer='country')
 ireland_wgs84 = spTransform(ireland, CRSobj=CRS("+init=epsg:4326"))
 quadrats_wgs84 = spTransform(quadrats, CRSobj=CRS("+init=epsg:4326"))
 
-box = bbox(ireland_wgs84)
 
+# Import first column of the file
 # Using fread is faster
-temp = fread(files[[1]], select=c(1,2,3,6,7))
-names(temp) = c('Latitude', 'Longitude', 'Value', 
-                'validityDate', 'validityTime')
+temp = fread(files[[1]], select=c(1))
+names(temp) = c('Latitude')
 
 
 # Find values of Latitude within the file
 ind = which(grepl('Latitude', temp$Latitude))
 
-# Create a subset of temp with first day's results
-temp_sub = temp[1:(ind[1]-1),]
+# Import just one set of results
+temp_sub = fread(files[[1]], 
+                 skip=0, 
+                 nrows=nrow_read,
+                 select=c(1,2),
+                 showProgress=FALSE)
+names(temp_sub) = c('Latitude', 'Longitude')
 
 
-# Convert variables and remove the headers for each day
-temp_sub$Latitude = as.numeric(temp_sub$Latitude)
-temp_sub$Longitude = as.numeric(temp_sub$Longitude)
+# Convert variables and calculate subset overlapping quadrats
 ind_long = temp_sub$Longitude>180
 temp_sub$Longitude[ind_long] =  temp_sub$Longitude[ind_long] - 360
 
@@ -64,15 +66,17 @@ ind_quadrats = which(!is.na(tmp[,1]))
 
 sq_info = rbind(tmp[ind_quadrats,c(1,2,5)])
 
+
+# Import data by reading sections of the files
 for (f in 1:length(files)) {
-  if (f>1) {
-    temp = fread(files[[f]], select=c(1,2,3,6,7))
-    names(temp) = c('Latitude', 'Longitude', 'Value', 
-                    'validityDate', 'validityTime')
-    # Find values of Latitude within the file
-    ind = which(grepl('Latitude', temp$Latitude))
-  }
+  print(paste('Reading file ',files[[f]]))
   
+  if (f>1) {
+    temp = fread(files[[f]], select=1)
+    names(temp) = c('Latitude')
+    # Find values of Latitude within the file
+    ind = which(grepl('Latitude', tmp$Latitude))
+  }
   for (i in 0:length(ind)) {
     if (i==0) {
       offset = 0
@@ -80,14 +84,24 @@ for (f in 1:length(files)) {
       offset = ind[i]
     }
     
-    timeStr = temp$validityTime[1 + offset]
+    temp_sub = fread(files[[f]], 
+                     skip=offset, 
+                     nrows=nrow_read,
+                     select=c(1,2,3,6,7),
+                     colClasses=c(rep('numeric',3),rep('character',4)))
+    names(temp_sub) = c('Latitude', 'Longitude', 'Value', 
+                        'validityDate', 'validityTime')
+    
+    
+    timeStr = temp_sub$validityTime[1]
     if (nchar(timeStr)<4) {
       timeStr = paste0('0',timeStr)
     }
-    tmp_data = data.frame(temp[ind_quadrats + offset,],
-                          date = as.Date(temp$validityDate[1 + offset], "%Y%m%d"),
+    tmp_data = data.frame(temp_sub[ind_quadrats,],
+                          date = as.Date(temp_sub$validityDate[1], 
+                                         "%Y%m%d"),
                           sq_info,
-                          time = strptime(paste0(temp$validityDate[1 + offset],' ',
+                          time = strptime(paste0(temp_sub$validityDate[1],' ',
                                                  strtrim(timeStr,2),':00:00'),
                                           format="%Y%m%d %H:%M:%S"))
     
@@ -99,9 +113,6 @@ for (f in 1:length(files)) {
   }
 }
 
-temp_final$Latitude = as.numeric(temp_final$Latitude)
-temp_final$Longitude = as.numeric(temp_final$Longitude)
-temp_final$Value = as.numeric(temp_final$Value)
 temp_final$Temp = temp_final$Value - 273.15
 temp_final$doy = as.numeric(format(temp_final$date,'%j'))
 

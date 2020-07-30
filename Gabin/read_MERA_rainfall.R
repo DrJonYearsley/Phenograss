@@ -29,9 +29,6 @@ files = list.files(path = '~/WorkFiles/Data/Climate/MERA/TPrecip',
 #                    full.names = TRUE)
 
 # Import data
-# rain = read.table('TotalPrecip_2017_01.txt', header=TRUE, sep='', 
-#                   col.names=c('Latitude', 'Longitude', 'Rain',
-#                 'dataDate', 'dataTime', 'validityDate','ValidityTime'))
 
 # Import the quadrat and Ireland data
 quadrats = readOGR(dsn='Quadrats/', layer='agriclimate_quadrats_Ireland')
@@ -41,24 +38,32 @@ ireland = readOGR(dsn='Quadrats/', layer='country')
 ireland_wgs84 = spTransform(ireland, CRSobj=CRS("+init=epsg:4326"))
 quadrats_wgs84 = spTransform(quadrats, CRSobj=CRS("+init=epsg:4326"))
 
-box = bbox(ireland_wgs84)
-
 # Using fread is faster
-rain = fread(files[[1]], select=c(1,2,3,6,7))
-names(rain) = c('Latitude', 'Longitude', 'Value', 
-                'validityDate', 'validityTime')
+rain = fread(files[[1]], select=1, showProgress=FALSE)
+names(rain) = c('Latitude')
 
 
 # Find values of Latitude within the file
 ind = which(grepl('Latitude', rain$Latitude))
 
-# Create a subset of rain with first day's results
-rain_sub = rain[1:(ind[1]-1),]
+# Calculate number of grid squares (rows) to read in
+nrow_read = ind[1] - 1
 
 
-# Convert variables and remove the headers for each day
-rain_sub$Latitude = as.numeric(rain_sub$Latitude)
-rain_sub$Longitude = as.numeric(rain_sub$Longitude)
+# Clear rain data
+rm(list='rain')
+
+# Import just one set of results
+rain_sub = fread(files[[1]], 
+                 skip=0, 
+                 nrows=nrow_read,
+                 select=c(1,2),
+                 showProgress=FALSE)
+names(rain_sub) = c('Latitude', 'Longitude')
+
+
+
+# Convert variables 
 ind_long = rain_sub$Longitude>180
 rain_sub$Longitude[ind_long] =  rain_sub$Longitude[ind_long] - 360
 
@@ -72,30 +77,43 @@ ind_quadrats = which(!is.na(tmp[,1]))
 sq_info = rbind(tmp[ind_quadrats,c(1,2,5)])
 
 for (f in 1:length(files)) {
+  print(paste('Reading file ',files[[f]]))
+        
   if (f>1) {
-    rain = fread(files[[f]], select=c(1,2,3,6,7))
-    names(rain) = c('Latitude', 'Longitude', 'Value',  
-                    'validityDate', 'validityTime')
+    rain = fread(files[[f]], select=1)
+    names(rain) = c('Latitude')
     # Find values of Latitude within the file
     ind = which(grepl('Latitude', rain$Latitude))
   }
-  
+        
   for (i in 0:length(ind)) {
+  
     if (i==0) {
       offset = 0
     } else {
       offset = ind[i]
     }
     
-    timeStr = rain$validityTime[1 + offset]
+    
+    rain_sub = fread(files[[f]], 
+                     skip=offset, 
+                     nrows=nrow_read,
+                     select=c(1,2,3,6,7),
+                     colClasses=c(rep('numeric',3),rep('character',4)))
+    names(rain_sub) = c('Latitude', 'Longitude','Value',
+                        'validityDate', 'validityTime')
+    
+    
+    timeStr = rain_sub$validityTime[1]
     if (nchar(timeStr)<4) {
       timeStr = paste0('0',timeStr)
     }
     
-    tmp_data = data.frame(rain[ind_quadrats + offset,],
-                          date = as.Date(rain$validityDate[1 + offset], "%Y%m%d"),
+    tmp_data = data.frame(rain_sub[ind_quadrats,],
+                          date = as.Date(rain_sub$validityDate[1], 
+                                         "%Y%m%d"),
                           sq_info,
-                          time = strptime(paste0(rain$validityDate[1 + offset],' ',
+                          time = strptime(paste0(rain_sub$validityDate[1],' ',
                                    strtrim(timeStr,2),':00:00'),
                              format="%Y%m%d %H:%M:%S"))
     
@@ -107,11 +125,6 @@ for (f in 1:length(files)) {
     }
   }
 }
-
-rain_final$Latitude = as.numeric(rain_final$Latitude)
-rain_final$Longitude = as.numeric(rain_final$Longitude)
-rain_final$Value = as.numeric(rain_final$Value)
-
 
 
 # Convert daily rainfall from kg/m-3 to mm
