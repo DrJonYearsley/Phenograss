@@ -91,14 +91,11 @@ library(performance)
 library(merTools)
 
 
-# Create a subset to remove cut-3 (not much data in cut-3)
-gr_sub = subset(gr,cut!='Cut 3')
 
 
 # Try fitting a linear model first
-m_lm = glm(growth.rate~Variety + factor(time)*Treatment,
-        data=gr,
-        family=gaussian)
+m_lm = lm(biomass~Variety + Treatment,
+        data=biomass_long)
 
 sim = simulateResiduals(m_lm, n=200)
 plot(sim)
