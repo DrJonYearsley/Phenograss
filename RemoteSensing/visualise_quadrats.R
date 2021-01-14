@@ -9,6 +9,24 @@ setwd('~/MEGAsync/Projects/GrasslandPhenology/RemoteSensing/')
 
 library(ggplot2)
 
+# Draw map of the squares
+library(rgdal)
+
+IR = readOGR(dsn='../Data/Quadrats/country.shp')
+squares = readOGR('../Data/Quadrats/agriclimate_quadrats_Ireland.shp')
+
+IR_modis = spTransform(IR, CRSobj = proj4string(squares))
+plot(IR_modis)
+plot(squares, add=T, col='black')
+
+squares$ID = c(1:21)
+plot(subset(squares, ID==8), add=T, col='red')
+
+
+
+
+# *****************************************
+
 load ("~/MEGAsync/Projects/GrasslandPhenology/Data/modis_pasture_A2018_square8.RData")
 
 x_values = unique(d_sq$x_MODIS)

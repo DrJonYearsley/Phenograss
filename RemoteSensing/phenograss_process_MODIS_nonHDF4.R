@@ -34,21 +34,23 @@ library(gdalUtils)
 
 rm(list=ls())
 
-setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
+# setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
+setwd('~/Research/Phenograss')
 
 # Directories containing the input and output MODIS data 
-inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
+# inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
+inputDir = c('/Volumes/Untitled/MODIS/MODIS_v6_gri_format/')
 quadratPath = './Data/Quadrats'
-outputDir = './Data/MODIS'
+outputDir = './Data/MODIS_squares'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = '2013' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
+yearStr = '2001' # Some text (or reg expression) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 corinePath = './Data/CORINE_Ireland'
 corineFilename = 'corine2018_pasturecover.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(1:9)  # List of squares to analyse
+squareList = c(1:21)  # List of squares to analyse
 
 
 # Import squares from shapefile
@@ -87,11 +89,11 @@ nFiles = length(gri.files) # Calculate number of files to import
 # Extract date of the file [to be edited for gri file]
 file.dates = sapply(gri.files, 
                     FUN=function(x){
-                      tmp=regexpr(pattern = '/[0-9]{4}.[0-9]{2}.[0-9]{2}/',x)
-                      dat=substring(x, first=tmp[1]+1, last=tmp[1]+attr(tmp,'match.length')-2 )
+                      tmp=regexpr(pattern = '[0-9]{4}_[0-9]{2}_[0-9]{2}',x)
+                      dat=substring(x, first=tmp[1], last=tmp[1]+attr(tmp,'match.length')-1 )
                       return(dat)}, 
                     simplify=TRUE, USE.NAMES=FALSE) 
-r.file.date = strptime(file.dates, format = "%Y.%m.%d", tz = "")
+r.file.date = strptime(file.dates, format = "%Y_%m_%d", tz = "")
 
 # Create a list to contain data from each square
 d = vector('list', length=length(squareList))
@@ -100,7 +102,7 @@ for (f in 1:nFiles) {
   print(gri.files[f])
   
   # Read in the MODIS data and crop to Ireland (raster has 3 bands, NDVI, EVI and pixel reliability)
-  modis = brick(file.path(inputDir,gri.files[f]))
+  modis = brick(gri.files[f])
   
   # Read in the data
   ndvi = modis$NDVI
@@ -190,13 +192,15 @@ for (f in 1:nFiles) {
 
 # Save the data frame for each square in a separate file
 for (t in squareList) {
-  # Create a date for each observation
-  d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
-
-  d_sq = d[[t]]
-  # Save data to a file
-  fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
-  save(d_sq, pastureThreshold, r.file.date, gri.files, file = fname.df)
+  if (nrow(d[[t]]>0)) {
+    # Create a date for each observation
+    d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
+    
+    d_sq = d[[t]]
+    # Save data to a file
+    fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
+    save(d_sq, pastureThreshold, r.file.date, gri.files, file = fname.df)
+  }
 }
 
 

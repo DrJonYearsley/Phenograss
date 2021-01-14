@@ -32,21 +32,23 @@ library(gdalUtils)
 
 rm(list=ls())
 
-setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
+# setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology')
+setwd('~/Research/Phenograss')
 
 # Directories containing the input and output MODIS data 
-inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
+# inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
+inputDir = c('/Volumes/Untitled/MODIS/MYD13Q1.006','/Volumes/Untitled/Data/MODIS/MOD13Q1.006')
 quadratPath = './Data/Quadrats'
-outputDir = './Data/MODIS'
+outputDir = './Data/MODIS_squares'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = 'A2013' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
+yearStr = 'A2005' # Some text (or reg experession) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 0.0001 # Scale factor to apply to NDVI and EVI data from MODIS
 corinePath = './Data/CORINE_Ireland'
 corineFilename = 'corine2018_pasturecover.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(1:9)  # List of squares to analyse
+squareList = c(1:21)  # List of squares to analyse
 
 
 # Import squares from shapefile
@@ -197,13 +199,15 @@ for (f in 1:nFiles) {
 
 # Save the data frame for each square in a separate file
 for (t in squareList) {
-  # Create a date for each observation
-  d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
-
-  d_sq = d[[t]]
-  # Save data to a file
-  fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
-  save(d_sq, pastureThreshold, r.file.date, hdf.files, file = fname.df)
+  if (nrow(d[[t]]>0)) {
+    # Create a date for each observation
+    d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
+    
+    d_sq = d[[t]]
+    # Save data to a file
+    fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
+    save(d_sq, pastureThreshold, r.file.date, hdf.files, file = fname.df)
+  }
 }
 
 
