@@ -15,26 +15,24 @@ library(nlme)
 library(tidyr)
 library(viridisLite)
 
-dataDir = '~/MEGAsync/Projects/GrasslandPhenology/Data/PhenologyOutput/'
+dataDir = '~/Research/Phenograss/Data/PhenologyOutput'
 
 input_file_preffix = 'phenology'
 
 # Import data --------
-squares = c(1:5)
-years = c(2011:2017)
-
-#starting_breaks = c(50, 100, 200, 300)
+squares = c(1:9,13:21)
+years = c(2003:2004,2011:2014,2016:2017)
 
 
 # Filename segmented data
-for (s in 1:length(squares)) {
+for (i in 1:length(squares)) {
   for (y in 1:length(years)) {
-    filename = paste0(input_file_preffix,'_square_',squares[s],'_',years[y],'.RData')
+    filename = paste0(input_file_preffix,'_square_',squares[i],'_',years[y],'.RData')
     load(file.path(dataDir,filename))
     
-    output_smoothed$square = squares[s]
+    output_smoothed$square = squares[i]
     
-    if (y==1 & s==1) {
+    if (y==1 & i==1) {
       phenology = output_smoothed
     } else {
       phenology = rbind(phenology,
@@ -67,36 +65,54 @@ tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square+year,
                 na.rm=TRUE)
 
 
-# Try an INLA model
-library(inlabru)
-library(INLA)
+# # Try an INLA model
+# library(inlabru)
+# library(INLA)
 
 
 # Fit model for phenology dates of phase 1 -----
 
 
 # Mixed model for phase 1
-m_phase1 = lme(t_phase1~as.factor(year),
+m_phase1 = lme(t_phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
                random= ~1 | pixelID,
                data=phenology_wide,
                na.action=na.exclude)
 
-# Fit this same model using INLA
-m_inla = inla(t_phase1~1+as.factor(year)+f(pixelID, model='iid'),
-              data=phenology_wide,
-              family='gaussian',
-              control.compute = list(dic = TRUE))
+summary(m_phase1)
+
+# # Fit this same model using INLA
+# m_inla = inla(t_phase1~1+as.factor(year)+f(pixelID, model='iid'),
+#               data=phenology_wide,
+#               family='gaussian',
+#               control.compute = list(dic = TRUE))
 
 
 # Fit a generalised least squares with spatial autocorrelation
 # spatial structure is fixed to reduce computation time
+
+phenology_wide$dummy = interaction(phenology_wide$year, phenology_wide$square, sep='_')
 gls_phase1 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
                  correlation = corExp(value = 500,
-                                      form=~x_ITM_centre + y_ITM_centre | year, 
+                                      form=~x_ITM_centre + y_ITM_centre| dummy, 
                                       nugget=FALSE,
                                       fixed=T),
                  data=phenology_wide,
                  na.action=na.exclude)
+
+summary(gls_phase1)
+
+
+gls_null1 = update(gls_phase1, .~.-x_ITM_centre)
+gls_null2 = update(gls_phase1, .~.-y_ITM_centre)
+
+acf(gls_phase1$residuals, lag.max=20, type='partial')  # Makes sense... spatial correlation roughly 1-2 km
+
+
+library(emmeans)
+
+m_eff = emmeans(gls_phase1, spec='year')
+summary(m_eff)
 
 
 gls_phase1_v2 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),

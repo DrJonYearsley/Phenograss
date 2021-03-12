@@ -9,23 +9,26 @@ rm(list=ls())
 
 library(segmented)
 library(ggplot2)
+library(mgcv)
 
-setwd('~/MEGAsync/Projects/GrasslandPhenology/Data/PhenologyOutput/')
+setwd('~/Research/Phenograss/Data/PhenologyOutput/')
 
 dataDir = '.'
 
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 8
-year = 2002
+square = 20
+year = 2019
 
-starting_breaks = c(50, 100, 200, 300)
+# starting_breaks = c(50, 100, 200, 300)
 
 
 # Filename segmented data
 filename = paste0(input_file_prefix,'_square_',square,'_',year,'.RData')
 load(file.path(dataDir,filename))
+
+d_final$evi = d_final$evi / 0.0001^2
 
 pixel_list = unique(d_final$pixelID)
 nPixel = length(pixel_list)
@@ -68,9 +71,15 @@ ggplot(data=subset(output_smoothed,phase==1 & warning==FALSE),
            y=y_MODIS,
            fill = t)) +
   geom_tile() + 
-  scale_fill_viridis_c('Day of\nYear',option='magma') +
-  labs(title=paste('Phase 1: Square',square,'Year=',year)) +
+  coord_equal() +
+  scale_fill_viridis_c('Day of\nYear',option='magma', limits=c(0,150)) +
+  labs(x = 'X coord (MODIS CRS)',
+       y = 'Y coord (MODIS CRS)',
+    title=paste('Phase 1: Square',square,'Year=',year)) +
   theme_bw()
+
+ggsave(width=11, height=6,
+       filename = paste0('phenophase1_map_square',square,'_',year,'.png'))
 
 ggplot(data=subset(output_smoothed,phase==2 & warning==FALSE), 
        aes(x=x_MODIS,
@@ -78,7 +87,7 @@ ggplot(data=subset(output_smoothed,phase==2 & warning==FALSE),
            fill = t)) +
   geom_tile() + 
   scale_fill_viridis_c('Day of\nYear',option='magma') +
-  labs(title=paste('Phase 1: Square',square,'Year=',year)) +
+  labs(title=paste('Phase 2: Square',square,'Year=',year)) +
   theme_bw()
 
 # *****************************************
@@ -86,9 +95,9 @@ ggplot(data=subset(output_smoothed,phase==2 & warning==FALSE),
 
 p = sample(pixel_list, size=1)
 
-# Select unusual pixels
-ind = which(output_smoothed$phase==1 & output_smoothed$t>200 & output_smoothed$t<1300)
-p = sample(output_smoothed$pixelID[ind],size=1)
+# # Select unusual pixels
+# ind = which(output_smoothed$phase==1 & output_smoothed$t>200 & output_smoothed$t<1300)
+# p = sample(output_smoothed$pixelID[ind],size=1)
 
 d_sub = d_final[d_final$pixelID==p,]
 
@@ -159,7 +168,7 @@ segmentEVI = function(d_sub,
                           })
   
   
-  return(list(m_seg_raw,m_seg_smooth)) 
+  return(list(m_seg_raw,m_seg_smooth, d_sub[evi_deviation>-6,], m_gam)) 
 }
 
 
@@ -180,7 +189,7 @@ d_pred = data.frame(doy=c(-100:465),
 m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub)
 d_pred$evi = predict(m_gam, newdata=d_pred)
 
-
+d_pred$evi = predict(segments[[4]], newdata=d_pred)
 
 
 
@@ -214,7 +223,7 @@ ggplot() +
                   y=y,
                   group=factor(phase)), alpha=0.3) +
   geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
-  geom_point(data=d_sub,aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
+  geom_point(data=segments[[3]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
   geom_path(data=d_pred, aes(x=doy, y=evi)) +
   scale_colour_brewer(palette = 'Dark2') +
   scale_fill_discrete('MODIS\nQuality\nFlag',

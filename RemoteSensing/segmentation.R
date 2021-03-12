@@ -9,7 +9,7 @@
 rm(list=ls())
 
 dataDir = '~/Research/Phenograss/Data/MODIS_squares'
-outputDir = '~/MEGAsync/Projects/GrasslandPhenology/Data/PhenologyOutput/'
+outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
 
 
 #library(quantreg)
@@ -19,10 +19,12 @@ library(ggplot2)
 
 # Import data --------
 square = c(1:9,13:21)
+#square = c(13:21)
 
 
-year = 2010
+year = 2012
 knots = -1
+min_obs = 15      # Minimum number of rows for trying to segment data
 starting_breaks = c(50,100, 200, 300)
 
 for (s in square) {
@@ -104,34 +106,47 @@ for (s in square) {
     # +++++++++++++++++++++++++++++++++++++++++++++++++
     # Perform segmentation on data smoothed using a GAM
     
-    m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub)
+    m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
+                         data=d_sub),
+                     error = function(e) {
+                       NA
+                     },
+                     warning = function(e) {
+                       NA
+                     })
     
-    # Remove EVI data points that are more than 6 SE below from the prediction
-    tmp = predict(m_gam, se.fit = TRUE)
-    evi_deviation = (d_sub$evi-tmp$fit)/tmp$se.fit
     
-    # Smooth data after removing data more than 6 se below prediction  
-    m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub[evi_deviation>-6,])
-    
-    # Add smoothed predictions to the data frame
-    d_sub$evi_smooth = NA
-    d_sub$evi_smooth[evi_deviation>-6] = predict(m_gam)
-    
-    # If a lone prediction is 
-    
-    # Segmenting the smoothed predictions
-    m_smooth = lm(evi_smooth~doy, data=d_sub[evi_deviation>-6,])
-    
-    m_seg_smooth = tryCatch(segmented(m_smooth, 
-                                      seg.Z = ~doy,
-                                      psi = list(doy=starting_breaks),
-                                      control=seg.control(display=FALSE)),
-                            error = function(e) {
-                              NA
-                            },
-                            warning = function(e) {
-                              NA
-                            })
+    if (!is.na(m_gam)) {
+      # Remove EVI data points that are more than 6 SE below from the prediction
+      tmp = predict(m_gam, se.fit = TRUE)
+      evi_deviation = (d_sub$evi-tmp$fit)/tmp$se.fit
+      
+      # Smooth data after removing data more than 6 se below prediction  
+      m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub[evi_deviation>-6,])
+      
+      # Add smoothed predictions to the data frame
+      d_sub$evi_smooth = NA
+      d_sub$evi_smooth[evi_deviation>-6] = predict(m_gam)
+      
+      # If a lone prediction is 
+      
+      # Segmenting the smoothed predictions
+      m_smooth = lm(evi_smooth~doy, data=d_sub[evi_deviation>-6,])
+      
+      m_seg_smooth = tryCatch(segmented(m_smooth, 
+                                        seg.Z = ~doy,
+                                        psi = list(doy=starting_breaks),
+                                        control=seg.control(display=FALSE)),
+                              error = function(e) {
+                                NA
+                              },
+                              warning = function(e) {
+                                NA
+                              })
+    } else {
+      m_seg = NA
+      m_seg_smooth = NA
+    }
     
     
     return(list(m_seg_raw,m_seg_smooth)) 

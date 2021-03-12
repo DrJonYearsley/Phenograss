@@ -4,8 +4,9 @@
 # ************************
 
 rm(list=ls())
+dataDir = '~/MEGAsync/Projects/GrasslandPhenology/Data'
 
-load('./data/modis_pasture_A2018_square1.RData')
+load(file.path(dataDir,'modis_pasture_A2017_square1.RData'))
 
 # Calculate unique pixel ID's
 x_values = unique(d_sq$x_MODIS)

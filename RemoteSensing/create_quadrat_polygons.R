@@ -1,6 +1,6 @@
 # create_quadrat_polygons.R
 #
-# Reads in the eatsings and northings (TM75) of centre of 
+# Reads in the eastings and northings (TM75) of centre of 
 # each quadrat, converts coordinates to MODIS CRS and then 
 # defines a 10 km (roughly) box around the centre. 
 # The corners of this box are saved as a shapefile in the MODIS CRS.

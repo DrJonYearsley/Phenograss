@@ -20,7 +20,7 @@ plot(IR_modis)
 plot(squares, add=T, col='black')
 
 squares$ID = c(1:21)
-plot(subset(squares, ID==8), add=T, col='red')
+plot(subset(squares, ID%in%c(10:13)), add=T, col='white')
 
 
 
