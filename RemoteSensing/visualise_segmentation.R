@@ -66,20 +66,48 @@ ggplot(data=subset(output_smoothed,phase==0),
   labs(title=paste('Phase 0: Square',square,'Year=',year)) +
   theme_bw()
 
-ggplot(data=subset(output_smoothed,phase==1 & warning==FALSE), 
+
+
+
+tmp = subset(output_smoothed,phase==1 & warning==FALSE)
+range(tmp$t, na.rm=TRUE)
+nColour = 9
+vals = round(seq(10,
+                 80,
+                 length.out=nColour-1), digits=2)
+col_lab = paste('< ',vals[1])
+tmp$sos = col_lab[1]
+for (i in 2:(nColour-1)) {
+  ind = tmp$t>=vals[i-1] & tmp$t<vals[i]
+  col_lab = c(col_lab, paste0(vals[i-1],' - ',vals[i]))
+  tmp$sos[ind] = col_lab[i]
+}
+ind = tmp$t>=vals[nColour-1]
+col_lab = c(col_lab, paste0('> ',vals[i]))
+tmp$sos[ind] = col_lab[i+1]
+tmp$sos[is.na(tmp$t)] = NA
+tmp$sos = factor(tmp$sos, ordered=T, levels=rev(col_lab))
+
+ggplot(data=tmp,
        aes(x=x_MODIS,
            y=y_MODIS,
-           fill = t)) +
-  geom_tile() + 
+           fill=sos)) +
+  geom_tile(colour='darkblue') +
   coord_equal() +
-  scale_fill_viridis_c('Day of\nYear',option='magma', limits=c(0,150)) +
-  labs(x = 'X coord (MODIS CRS)',
-       y = 'Y coord (MODIS CRS)',
-    title=paste('Phase 1: Square',square,'Year=',year)) +
+  scale_fill_brewer('Start of Season\n(day of year)',
+                    palette='Greens', 
+                    direction=1,
+                    na.value='darkgray') +
+  labs(x='X Coord (MODIS CRS)',
+       y='Y Coord (MODIS CRS)') +
   theme_bw()
 
 ggsave(width=11, height=6,
        filename = paste0('phenophase1_map_square',square,'_',year,'.png'))
+
+
+
+
 
 ggplot(data=subset(output_smoothed,phase==2 & warning==FALSE), 
        aes(x=x_MODIS,

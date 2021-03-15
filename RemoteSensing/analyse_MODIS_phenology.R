@@ -21,7 +21,7 @@ input_file_preffix = 'phenology'
 
 # Import data --------
 squares = c(1:9,13:21)
-years = c(2003:2004,2011:2014,2016:2017)
+years = c(2002:2019)
 
 
 # Filename segmented data
@@ -64,6 +64,7 @@ tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square+year,
                 FUN=mean, 
                 na.rm=TRUE)
 
+rm(list='phenology')
 
 # # Try an INLA model
 # library(inlabru)
@@ -103,22 +104,188 @@ gls_phase1 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
 summary(gls_phase1)
 
 
-gls_null1 = update(gls_phase1, .~.-x_ITM_centre)
-gls_null2 = update(gls_phase1, .~.-y_ITM_centre)
+anova(gls_phase1, type='marginal')
 
 acf(gls_phase1$residuals, lag.max=20, type='partial')  # Makes sense... spatial correlation roughly 1-2 km
+
+
 
 
 library(emmeans)
 
 m_eff = emmeans(gls_phase1, spec='year')
-summary(m_eff)
+sos = as.data.frame(summary(m_eff))
+contrast(m_eff, infer=c(T,T))
 
+as.Date(paste(round(sos$emmean),sos$year),format="%j %Y")
+
+# WOrk out date from day of year
+as.Date(paste('52',sos$year),format="%j %Y")
 
 gls_phase1_v2 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
                  data=phenology_wide,
                  na.action=na.exclude)
 
+ggplot(data=as.data.frame(summary(m_eff)),
+       aes(x=year,
+           y=emmean,
+           ymin=lower.CL,
+           ymax=upper.CL)) +
+  geom_pointrange() + 
+  labs(x='Year',
+       y='Day of Year') +
+  theme_bw() + 
+  theme(axis.title = element_text(size=18),
+        axis.text = element_text(size=18))
+
+
+save(gls_phase1, phenology_wide, file='gls_model_2002_2019.Rdata')
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+load(file.path(dataDir,'gls_model_2002_2019.Rdata'))
+phenology_wide$phase1_residual = residuals(gls_phase1)
+phenology_wide$phase1_fit = predict(gls_phase1)
+
+library(sf)
+library(rgdal)
+# Produce a map of fitted values ---
+tmp = subset(phenology_wide, year==2019 & !is.na(phase1_fit) & square%in%c(1:21))
+IR = readOGR(dsn='~/MEGAsync/Projects/GrasslandPhenology/Data/Quadrats/country.shp')
+squares = readOGR('~/MEGAsync/Projects/GrasslandPhenology/Data/Quadrats/agriclimate_quadrats_Ireland.shp')
+
+tmp = aggregate(phase1_fit~square, data=subset(phenology_wide, year==2019), FUN=mean, na.rm=TRUE)
+nColour = 7
+vals = round(seq(49,
+                 55,
+                 length.out=nColour), 
+             digits=2)
+tmp$fit = NA
+col_lab = c()
+for (i in 2:nColour) {
+  ind = tmp$phase1_fit>=vals[i-1] & tmp$phase1_fit<vals[i]
+  col_lab = c(col_lab, paste0(vals[i-1],' - ',vals[i]))
+  tmp$fit[ind] = col_lab[i-1]
+}
+
+squares@data$fit = NA
+squares@data$fit[tmp$square] = tmp$fit
+
+squares_sf = st_as_sf(squares)
+IR_sf = st_as_sf(IR)
+
+ggplot() +
+  geom_sf(data=IR_sf, fill='white') +
+  geom_sf(data=squares_sf, aes(fill=factor(fit, ordered=T, levels=rev(col_lab)))) +
+  scale_fill_brewer('Start of Season\n(day of year)',
+                      palette='Greens', 
+                      direction=1,na.value='darkgray') +
+  theme_void()
+
+ggsave(filename = 'gls_fitted_map_year2019.png', height=10, units='cm')
+
+
+
+
+
+
+# Calculate some R-squared between predictions and data -----
+m = lm(t_phase1~factor(square) + phase1_fit, 
+       data=subset(phenology_wide, square=20))
+
+summary(m)
+
+ggplot(data=subset(phenology_wide, square==20),
+       aes(x=phase1_fit,
+           y=t_phase1,
+           colour=factor(year))) +
+  geom_point() + 
+  geom_abline(slope=1, 
+              intercept=0, 
+              colour='darkred', 
+              linetype='dashed',
+              size=1.5) +
+  scale_colour_viridis_d('Year') +
+  labs(x='Fitted Value (day of year)',
+       y='Pixel Start of Season (day of year)') +
+  theme_bw() + 
+  theme(axis.title = element_text(size=18),
+        axis.text = element_text(size=18))
+
+
+ggsave(filename = 'gls_fitted_vs_data_square20_year2019.png', height=20, units='cm')
+
+
+
+# Plot model fit ----
+tmp = subset(phenology_wide, square==20 & year==2019)
+nColour = 5
+vals = round(seq(52.5,
+           52.6,
+           length.out=nColour-1), digits=2)
+col_lab = paste('< ',vals[1])
+tmp$fit = col_lab[1]
+for (i in 2:(nColour-1)) {
+  ind = tmp$phase1_fit>=vals[i-1] & tmp$phase1_fit<vals[i]
+  col_lab = c(col_lab, paste0(vals[i-1],' - ',vals[i]))
+  tmp$fit[ind] = col_lab[i]
+}
+
+
+ind = tmp$phase1_fit>=vals[i]
+col_lab = c(col_lab, paste0('> ',vals[i]))
+tmp$fit[ind] = col_lab[i+1]
+tmp$fit[is.na(tmp$phase1_fit)] = NA
+tmp$fit = factor(tmp$fit, ordered=T, levels=rev(col_lab))
+
+ggplot(data=tmp,
+       aes(x=x_MODIS,
+           y=y_MODIS,
+           fill=fit)) +
+  geom_tile(colour='darkblue') +
+  coord_equal() +
+  scale_fill_brewer('Start of Season\n(day of year)',
+                    palette='Greens', 
+                    direction=1,na.value='darkgray') +
+  labs(x='X Coord (MODIS CRS)',
+       y='Y Coord (MODIS CRS)') +
+  theme_bw()
+
+ggsave(filename = 'gls_fit_square20_year2019.png',height=10,units='cm')
+
+
+
+# Plot residuals ----
+nColour = 7
+vals = seq(-50,50,by=100/(nColour-2))
+col_lab = '< -50'
+tmp$residual = col_lab[1]
+for (i in 2:(nColour-1)) {
+  ind = tmp$phase1_residual>=vals[i-1] & tmp$phase1_residual<vals[i]
+  col_lab = c(col_lab, paste0(vals[i-1],' - ',vals[i]))
+  tmp$residual[ind] = col_lab[i]
+}
+ind = tmp$phase1_residual>=vals[i]
+col_lab = c(col_lab, paste0('> ',vals[i]))
+tmp$residual[ind] = col_lab[i+1]
+tmp$residual[is.na(tmp$phase1_residual)] = NA
+tmp$residual = factor(tmp$residual, ordered=T, levels=rev(col_lab))
+
+ggplot(data=tmp,
+       aes(x=x_MODIS,
+           y=y_MODIS,
+           fill=residual)) +
+  geom_tile(colour='darkblue') +
+  coord_equal() +
+  scale_fill_brewer('Residuals (days)',
+                    palette='RdBu', 
+                    direction=1,
+                    na.value='darkgray') +
+  labs(x='X Coord (MODIS CRS)',
+       y='Y Coord (MODIS CRS)') +
+  theme_bw()
+
+ggsave(filename = 'gls_residual_square20_year2019.png',height=10,units='cm')
 
 # # INLA version of spatial model
 # Mesh <- inla.mesh.2d(locations, 
