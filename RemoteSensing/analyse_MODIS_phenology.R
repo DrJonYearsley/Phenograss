@@ -142,6 +142,7 @@ ggplot(data=as.data.frame(summary(m_eff)),
 save(gls_phase1, phenology_wide, file='gls_model_2002_2019.Rdata')
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Load pre-save model fit data ------
 
 load(file.path(dataDir,'gls_model_2002_2019.Rdata'))
 phenology_wide$phase1_residual = residuals(gls_phase1)
@@ -290,3 +291,41 @@ ggsave(filename = 'gls_residual_square20_year2019.png',height=10,units='cm')
 # # INLA version of spatial model
 # Mesh <- inla.mesh.2d(locations, 
 #                      max.edge = c(10, 10))
+
+
+
+# Permutation test ---------
+# Test whether SOS is more variable after 2011
+
+library(emmeans)
+# Calculate fitted effect across years
+m_eff = emmeans(gls_phase1, spec='year')
+sos = as.data.frame(summary(m_eff))
+
+
+var_stat = function(d, y1, y2) {
+  # Function to evaluate variation before and after a set date
+  return(sd(d$emmean[d$year%in%y2]) / sd(d$emmean[d$year%in%y1]))
+}
+
+mean_stat = function(d, y) {
+  # Function to evaluate variation before and after a set date
+  return(mean(d$emmean[d$year>y]) / mean(d$emmean[d$year<=y]))
+}
+
+y1 = c(2002:2010)
+y2=c(2011:2019)
+nPerm = 10000
+stat_array = array(NA, dim=c(nPerm,1))
+ind = sos$year%in%c(y1,y2)
+for (p in 1:nPerm) {
+  d_perm = data.frame(year=sample(sos$year[ind]), emmean=sos$emmean[ind])
+  stat_array[p] = var_stat(d_perm, y1,y2)
+}
+
+stat_obs = var_stat(sos, y1, y2)
+
+# Empirical p-value
+(sum(stat_array>=stat_obs)+1)/(nPerm+1)
+
+hist(stat_array, 100)

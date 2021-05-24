@@ -17,32 +17,26 @@ biomass = read_excel('./data_rosemount/Biomass Data.xlsx',
 
 # Put data in long format
 biomass_long = pivot_longer(biomass,
-                           cols = -c(1:4),
-                           names_to = 'date',
+                           cols = c(5:9),
+                           names_to = c('cut','date'),
+                           names_sep = '[[:punct:]]{2}',
                            values_to = 'biomass',
                            values_drop_na = TRUE,
-                           names_pattern = "([0-9]{2}[[:punct:]]{1}[0-9]{2}[[:punct:]][0-9]{4})")
+                           names_pattern = "([0-9]{1}[[:punct:]]{2}[0-9]{2}[[:punct:]]{1}[0-9]{2}[[:punct:]]{1}[0-9]{4})")
+
+biomass_long = pivot_longer(biomass,
+                            cols = c(5:9),
+                            names_to = c('cut','date'),
+                            names_sep = "[[:punct:]]{2}",
+                            values_to = 'biomass',
+                            values_drop_na = TRUE,
+                            names_prefix = "(Biomass[[:punct:]]{1}Cut[[:punct:]]{1})")
+
 
 # Calculate days from 16th Dec 2019
-biomass_long$date = as.Date(biomass_long$date, format="%d.%m.%Y")
+biomass_long$date = as.Date(biomass_long$date, format="%d.%m.%Y.")
 biomass_long$days = julian(biomass_long$date, origin=as.Date('2019-12-16'))
 
-# Biomass was cut week 5, 9 and 13
-biomass_long$cut = 'Cut_1'
-
-ind = difftime(biomass_long$date, as.Date('2020-02-13'), units='days')<=0
-biomass_long$cut[ind] = 'Cut_0'
-
-# ind = difftime(biomass_long$date, as.Date('2020-02-13'), units='days')>0 &
-#   difftime(biomass_long$date, as.Date('2020-03-12'), units='days')<=0
-# biomass_long$cut[ind] = 'Cut_1'
-
-ind = difftime(biomass_long$date, as.Date('2020-03-12'), units='days')>0 &
-  difftime(biomass_long$date, as.Date('2020-04-09'), units='days')<=0
-biomass_long$cut[ind] = 'Cut_2'
-
-ind = difftime(biomass_long$date, as.Date('2020-04-09'), units='days')>0
-biomass_long$cut[ind] = 'Cut_3'
 
 # Recode variables
 biomass_long$cut = as.factor(biomass_long$cut)
@@ -50,7 +44,7 @@ biomass_long$Variety = as.factor(biomass_long$Variety)
 biomass_long$Treatment = as.factor(biomass_long$Treatment)
 biomass_long$Chamber = as.factor(biomass_long$Chamber)
 
-tmp2 = aggregate(days~Plant.ID+Variety+Treatment+cut, data=biomass_long, FUN=min)
+#tmp2 = aggregate(days~Plant.ID+Variety+Treatment+cut, data=biomass_long, FUN=min)
 
 
 
@@ -60,23 +54,60 @@ format = theme(axis.title = element_text(size=14),
                axis.text = element_text(size=12))
 
 
+ggplot(data=subset(biomass_long, Treatment=='Ambient' & Variety=='Aberchoice'),
+       aes(x=days,
+           y=biomass)) +
+  geom_point(aes(colour=cut)) + 
+  geom_path()
+
 
 table(biomass_long$days)
 
+# Total biomass per variety
+tmp = aggregate(biomass~Plant.ID+Treatment+Variety, data=biomass_long, FUN=sum)
+d1 = aggregate(biomass~Variety+Treatment, data=tmp, FUN=mean)
+d2 = aggregate(biomass~Variety+Treatment, data=tmp, FUN=function(x){sd(x)/sqrt(sum(is.finite(x)))})
 
-# Average of varieties and plants
-d = aggregate(biomass~days+Treatment+cut, data=biomass_long, FUN=median)
+names(d1) = c('Variety','Treatment','mean')
+names(d2) = c('Variety','Treatment','se')
+d = merge(d1,d2)
 
-ggplot(data=d, 
-       aes(x=days, y=biomass, colour=Treatment, fill=cut, group=Treatment)) +
-  geom_path(size=1) +
-  geom_point(shape=21, size=3) +
-  scale_fill_brewer(name='Cuts', palette='Dark2') +
-  scale_colour_brewer(name='Treatment', palette='Set1') +
-  labs(title='Average over plant ID') +
+varietyList = sample(unique(d$Variety), size=8)
+
+ggplot(data=subset(d, Variety%in% varietyList),
+       aes(x=Treatment,
+           y=mean,
+           ymin=mean-2*se,
+           ymax=mean+2*se,
+           colour=Variety,
+           group=Variety)) +
+  geom_point(size=3) +
+  geom_path() +
+  labs(y='Mean Biomass [grams]') +
+  scale_color_brewer('Variety',palette='Dark2') + 
   theme_bw() + 
-  format
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=18),
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=20))
 
+ggsave(filename='biomass_reaction_norm.png', width=8, height=4)
+
+# # Average of varieties and plants
+# d = aggregate(biomass~days+Treatment+cut, 
+#               data=biomass_long, 
+#               FUN=median)
+# 
+# ggplot(data=d, 
+#        aes(x=days, y=biomass, colour=Treatment, fill=cut, group=Treatment)) +
+#   geom_path(size=1) +
+#   geom_point(shape=21, size=3) +
+#   scale_fill_brewer(name='Cuts', palette='Dark2') +
+#   scale_colour_brewer(name='Treatment', palette='Dark2') +
+#   labs(title='Average over plant ID') +
+#   theme_bw() + 
+#   format
+# 
 
 
 
@@ -94,14 +125,14 @@ library(merTools)
 
 
 # Try fitting a linear model first
-m_lm = lm(biomass~Variety + Treatment,
-        data=biomass_long)
+m_lm = lm(biomass~Variety * Treatment,
+        data=tmp)
 
 sim = simulateResiduals(m_lm, n=200)
 plot(sim)
 
 # Remove three interaction
-m_lm_null1 = update(m_lm, .~.-factor(time)*Treatment)
+m_lm_null1 = update(m_lm, .~.-Treatment:Variety)
 
 # Remove Variety
 m_lm_null2 = update(m_lm, .~.-Variety)
@@ -114,8 +145,8 @@ summary(m_lm)
 # *******************************
 # Include Variety
 # as a random effect on intercept
-m2 = lmer(growth.rate~factor(time)*Treatment +(1|Variety), 
-          data=gr_sub,
+m2 = lmer(biomass~Treatment +(1|Variety), 
+          data=tmp,
           REML=FALSE)
 
 # Validate model (DHARMa)
@@ -124,34 +155,16 @@ plot(sim_lme)
 
 #performance
 check_model(m2)  # Not too bad... some mild over-dispersion perhaps
-check_collinearity(m2, component='all')  # Multicollinearity is fine
 model_performance(m2)
 
 # Model summary
 summary(m2)
 
 
-m2_null = update(m2, . ~ . - factor(time):Treatment)
-m2_null2 = update(m2, . ~ . - Treatment)
+m2_null = update(m2, . ~ . - Treatment)
 
 
-anova(m2_null, m2)  # Evidence of a Treatment:time interaction
-anova(m2_null2, m2)  
-
-# Refit model 
-m3 = lmer(growth.rate~1 + factor(time)*Treatment  + (1|Variety), 
-          data=gr_sub,
-          REML=FALSE)
-
-summary(m3)
-
-# Plot random effects term
-tmp = REsim(m3)
-plotREsim(tmp, labs=TRUE)
-
-# Plot fixed effects
-tmp2 = FEsim(m3)
-plotFEsim(tmp2)
+anova(m2_null, m2)  # Evidence of a Treatment effect
 
 
 # Function to check for overdispersion
@@ -166,30 +179,3 @@ overdisp_fun <- function(model) {
 
 overdisp_fun(m2)  # This test shows overdispersion is not an issue
 
-
-# # Make prediction with model aggregating over Variety
-gr_agg = aggregate(growth.rate~time+Treatment+cut, data=gr_sub, FUN=median)
-# gr_agg$pred = predict(m3, newdata=gr_agg, re.form=NA, type='response')
-
-# Use predictInterval for 95% CI then aggregate
-tmp = predictInterval(m3, newdata=gr_sub, 
-                      which='fixed', 
-                      type='linear',
-                      include.resid.var=0,
-                      level=0.95)
-gr_sub = cbind(gr_sub,tmp)
-tmp_agg = aggregate(cbind(growth.rate,fit,lwr,upr)~time+Treatment+cut, data=gr_sub, FUN=median)
-
-
-
-
-ggplot(data=tmp_agg, 
-       aes(x=time, y=fit, ymax=upr, ymin=lwr,colour=Treatment, fill=cut, group=Treatment)) +
-  geom_point(aes(y=growth.rate),shape=25, size=4) +
-  geom_point(aes(y=fit),fill=NA,shape=21, size=2) +
-  geom_linerange() +
-  scale_fill_brewer(name='Cuts', palette='Dark2') +
-  scale_colour_brewer(name='Treatment', palette='Set1') +
-  labs(title='Average over plant ID & 95%CI') +
-  theme_bw() + 
-  format

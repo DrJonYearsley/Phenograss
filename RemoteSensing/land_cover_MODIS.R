@@ -34,7 +34,7 @@ grassland = readOGR(dsn=file.path(grasslandPath,'ISGS13_Habitats_01a.shp'), laye
 # Transform grassland data into MODIS CRS
 grassland_modis = spTransform(grassland, CRS=modis_crs)
 
-# Subset sn grassland for certain Forrit habitats
+# Subset sn grassland for certain Fossit habitats
 grassland_subset = subset(grassland_modis, FOSS_HAB %in% c('GS','GS1','GS2','GS3','GS4'))
 
 # Calculate fraction of MODIS pixel covered by grass

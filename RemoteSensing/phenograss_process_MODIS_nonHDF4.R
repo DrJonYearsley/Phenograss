@@ -50,7 +50,7 @@ scalingFactor = 1 # Scale factor to apply to NDVI and EVI data from MODIS (this 
 corinePath = './Data/CORINE_Ireland'
 corineFilename = 'corine2018_pasturecover.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(1)  # List of squares to analyse
+squareList = c(10:13)  # List of squares to analyse
 
 
 # Import squares from shapefile
@@ -121,6 +121,7 @@ for (f in 1:nFiles) {
   
 
   for (s in squareList) {
+    ind = which(s==squareList)
     # Crop to one of the squares
     evi_crop = crop(evi, squares[s,]) * scalingFactor^2
     ndvi_crop = crop(ndvi, squares[s,]) * scalingFactor^2
@@ -153,7 +154,7 @@ for (f in 1:nFiles) {
     
     # Create a data frame
     if (f==1) {
-      d[[s]] = cbind(coord_info,
+      d[[ind]] = cbind(coord_info,
                 data.frame(satellite = satellite,
                            square = s,
                            year=format(r.file.date[f],"%Y"),
@@ -161,7 +162,7 @@ for (f in 1:nFiles) {
                            evi=getValues(evi_pasture), 
                            ndvi=getValues(ndvi_pasture), 
                            QC=getValues(QC_pasture)))
-      d[[s]] = subset(d[[s]], is.finite(evi))
+      d[[ind]] = subset(d[[ind]], is.finite(evi))
     } else {
       tmp = cbind(coord_info,
                   data.frame(satellite = satellite,
@@ -171,7 +172,7 @@ for (f in 1:nFiles) {
                              evi=getValues(evi_pasture), 
                              ndvi=getValues(ndvi_pasture), 
                              QC=getValues(QC_pasture)))
-      d[[s]] = rbind(d[[s]], subset(tmp, is.finite(evi)))
+      d[[ind]] = rbind(d[[ind]], subset(tmp, is.finite(evi)))
     }
   }
   if (save_rasters) {
@@ -192,11 +193,13 @@ for (f in 1:nFiles) {
 
 # Save the data frame for each square in a separate file
 for (t in squareList) {
-  if (nrow(d[[t]]>0)) {
+  ind = which(t==squareList)
+  
+  if (nrow(d[[ind]]>0)) {
     # Create a date for each observation
-    d[[t]]$date = strptime(paste0(d[[t]]$year,'-',d[[t]]$doy), format="%Y-%j")
+    d[[ind]]$date = strptime(paste0(d[[ind]]$year,'-',d[[ind]]$doy), format="%Y-%j")
     
-    d_sq = d[[t]]
+    d_sq = d[[ind]]
     # Save data to a file
     fname.df = file.path(outputDir,paste0('modis_pasture_',yearStr,'_square',t,'.RData') )
     save(d_sq, pastureThreshold, r.file.date, gri.files, file = fname.df)

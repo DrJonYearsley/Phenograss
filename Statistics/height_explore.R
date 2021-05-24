@@ -48,10 +48,11 @@ height_long$cut = as.factor(height_long$cut)
 height_long$Variety = as.factor(height_long$Variety)
 height_long$Treatment = as.factor(height_long$Treatment)
 height_long$Chamber = as.factor(height_long$Chamber)
+height_long$month = as.numeric(format(height_long$date,'%m'))
 
 # Calculate growth rates
-tmp = aggregate(cbind(height,days)~Plant.ID+Variety+Treatment+cut, data=height_long, FUN=diff)
-tmp2 = aggregate(days~Plant.ID+Variety+Treatment+cut, data=height_long, FUN=min)
+tmp = aggregate(cbind(height,days)~Plant.ID+Variety+Treatment+cut+Chamber, data=height_long, FUN=diff)
+tmp2 = aggregate(days~Plant.ID+Variety+Treatment+cut+Chamber, data=height_long, FUN=min)
 
 
 # Construct final dataframe
@@ -60,6 +61,7 @@ for (r in 1:nrow(tmp)) {
     gr = data.frame(Plant.ID=tmp$Plant.ID[r],
                     Variety = tmp$Variety[r],
                     Treatment = tmp$Treatment[r],
+                    Chamber = tmp$Chamber[r],
                     cut = tmp$cut[r],
                     time = tmp2$days[r]+cumsum(tmp$days[[r]]),
                     growth.rate =  tmp$height[[r]]/tmp$days[[r]])
@@ -68,6 +70,7 @@ for (r in 1:nrow(tmp)) {
                data.frame(Plant.ID=tmp$Plant.ID[r],
                     Variety = tmp$Variety[r],
                     Treatment = tmp$Treatment[r],
+                    Chamber = tmp$Chamber[r],
                     cut = tmp$cut[r],
                     time = tmp2$days[r]+cumsum(tmp$days[[r]]),
                     growth.rate =  tmp$height[[r]]/tmp$days[[r]]))
@@ -77,6 +80,11 @@ for (r in 1:nrow(tmp)) {
 
 head(gr)
 tail(gr)
+
+
+tmp = aggregate(data=gr, growth.rate~cut+Variety+Treatment+Chamber, FUN=mean)
+
+pivot_wider(tmp, names_from='cut', values_from='growth.rate')
 
 # ******************************************************
 # Visualise the data
@@ -89,7 +97,7 @@ table(height_long$days)
 
 
 # Average of varieties and plants
-d = aggregate(height~days+Treatment+cut, data=height_long, FUN=median)
+d = aggregate(height~days+Treatment+cut+Chamber, data=height_long, FUN=median)
 
 ggplot(data=d, 
        aes(x=days, y=height, colour=Treatment, fill=cut, group=Treatment)) +

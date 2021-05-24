@@ -12,20 +12,240 @@ dataDir = '~/Research/Phenograss/Data/MODIS_squares'
 outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
 
 
-#library(quantreg)
 library(mgcv)
 library(segmented)
 library(ggplot2)
 
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++ Start of function definitions ++++++++++++++++++++++++++
+
+# *************************************
+# Function to perform segmentation on spring, autumn and summer separately ----
+segmentEVI2 = function(d_sub, 
+                       nBreaks = 2, 
+                       knots=-1,
+                       use_raw = FALSE,
+                       sd_filter_threshold=4) {
+  # This functions fits a segmented linear model to raw data and smoothed data
+  # the smoothed data gives fewer NA's and more consistent results. 
+  
+  require(segmented)
+  
+  # +++++++++++++++++++++++++++++++++++++++++++++++++
+  # Smooth time series in order to identify outlier data
+  m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
+                       data=d_sub,
+                       gamma=1),  # Gamma controls over/under fitting
+                   error = function(e) {
+                     NULL
+                   },
+                   warning = function(e) {
+                     NULL
+                   })
+  
+  
+  if (!is.null(m_gam)) {
+    # Remove EVI data points that are more than 6 SE below from the prediction from m_gam
+    tmp = predict(m_gam, se.fit = TRUE, newdata = d_sub)
+    evi_deviation = ((d_sub$evi-tmp$fit)/tmp$se.fit)
+    filter_ind = evi_deviation>-sd_filter_threshold
+  }
+  
+  # Fit a gam and find the time of the maximum  evi
+  m_gam2 = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
+                        data=d_sub[filter_ind, ],
+                        gamma=1),  # Gamma controls over/under fitting
+                    error = function(e) {
+                      NULL
+                    },
+                    warning = function(e) {
+                      NULL
+                    }) 
+  if (!is.null(m_gam2)) {
+    pred_df = data.frame(doy=c(1:365))
+    pred_df$fit = predict(m_gam2, newdata=pred_df)
+    peak_doy = pred_df$doy[pred_df$fit==max(pred_df$fit)]
+  } else {
+    peak_doy = NA
+  }
+  
+  
+  # +++++++++++++++++++++++++++++++++++++++++++++++++
+  # Perform segmentation on raw evi data 
+  if (is.na(peak_doy)) {
+    doy_divider = 180
+  } else {
+    doy_divider = peak_doy
+  }
+  
+  
+  # Estimate start of season
+  m_raw_spring = lm(evi~doy, data=d_sub[filter_ind & d_sub$doy<doy_divider,])   # DOY=150 is 30th May
+  spring_break=nBreaks
+  m_seg_spring = NULL
+  while(spring_break>0 & is.null(m_seg_spring)) {
+    m_seg_spring = tryCatch(segmented(m_raw_spring, 
+                                      seg.Z = ~doy,
+                                      npsi=spring_break,
+                                      control=seg.control(it.max=50, 
+                                                          fix.npsi=TRUE, 
+                                                          n.boot=15, 
+                                                          display=FALSE)),
+                            error = function(e) {
+                              NULL
+                            },
+                            warning = function(e) {
+                              NULL
+                            })
+    spring_break = spring_break-1
+  }
+  
+  
+  # Estimate end of season
+  m_raw_autumn = lm(evi~doy, data=d_sub[filter_ind & d_sub$doy>doy_divider,])   # DOY=150 is 30th May
+  autumn_break=nBreaks
+  m_seg_autumn = NULL
+  while(autumn_break>0 & is.null(m_seg_autumn)) {
+    m_seg_autumn = tryCatch(segmented(m_raw_autumn, 
+                                      seg.Z = ~doy,
+                                      npsi=autumn_break,
+                                      control=seg.control(it.max=50, 
+                                                          fix.npsi=TRUE, 
+                                                          n.boot=15, 
+                                                          display=FALSE)),
+                            error = function(e) {
+                              NULL
+                            },
+                            warning = function(e) {
+                              NULL
+                            })
+    autumn_break = autumn_break - 1
+  }
+  
+  
+  return(list(spring=m_seg_spring, autumn=m_seg_autumn, peak_doy=peak_doy, filtered=filter_ind, d_sub=d_sub, m_gam2=m_gam2, pred_df=pred_df)) 
+}
+
+
+
+# *************************************
+# Function to perform segmentation on the whole time series ----
+segmentEVI = function(d_sub, 
+                      nBreaks = 4, 
+                      useHighQuality=FALSE, 
+                      knots=-1,
+                      use_raw = FALSE,
+                      sd_filter_threshold=4) {
+  # This functions fits a segmented linear model to raw data and smoothed data
+  # the smoothed data gives fewer NA's and more consistent results. 
+  
+  require(segmented)
+  
+  
+  
+  # +++++++++++++++++++++++++++++++++++++++++++++++++
+  # Perform segmentation on data smoothed using a GAM
+  
+  
+  
+  
+  
+  m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
+                       data=d_sub,
+                       gamma=1),  # Gamma controls over/under fitting
+                   error = function(e) {
+                     NULL
+                   },
+                   warning = function(e) {
+                     NULL
+                   })
+  
+  
+  if (!is.null(m_gam)) {
+    # Remove EVI data points that are more than 6 SE below from the prediction from m_gam
+    tmp = predict(m_gam, se.fit = TRUE, newdata = d_sub)
+    evi_deviation = ((d_sub$evi-tmp$fit)/tmp$se.fit)
+    filter_ind = evi_deviation>-sd_filter_threshold
+    # # Option to visualise the filtered data
+    # plot(d_sub$doy, d_sub$evi)
+    # points(d_sub$doy[filter_ind], d_sub$evi[filter_ind], pch=20)
+    
+    
+    # Smooth data after removing data more than sd_filter_threshold se below prediction  
+    m_gam2 = gam(evi~s(doy, bs='cr',k=knots), 
+                 data=d_sub[filter_ind,],
+                 gamma=1)  # Gamma controls over/under fitting
+    
+    # Add smoothed predictions to the data frame
+    d_sub$evi_smooth = NA
+    d_sub$evi_smooth[filter_ind] = predict(m_gam2)
+    
+    # If a lone prediction is 
+    
+    # Segmenting the smoothed predictions
+    m_smooth = lm(evi_smooth~doy, data=d_sub[filter_ind,])
+    
+    m_seg_smooth = tryCatch(segmented(m_smooth, 
+                                      seg.Z = ~doy,
+                                      npsi = nBreaks,
+                                      control=seg.control(it.max=50, 
+                                                          fix.npsi=TRUE, 
+                                                          n.boot=15, 
+                                                          display=FALSE)),
+                            error = function(e) {
+                              NULL
+                            },
+                            warning = function(e) {
+                              NULL
+                            })
+  } else {
+    m_seg_smooth = NULL
+  }
+  
+  
+  
+  if (use_raw) {
+    # +++++++++++++++++++++++++++++++++++++++++++++++++
+    # Perform segmentation on raw evi data 
+    
+    m_raw = lm(evi~doy, data=d_sub[filter_ind,])
+    
+    m_seg_raw = tryCatch(segmented(m_raw, 
+                                   seg.Z = ~doy,
+                                   npsi=nBreaks,
+                                   control=seg.control(it.max=50, 
+                                                       fix.npsi=TRUE, 
+                                                       n.boot=15, 
+                                                       display=FALSE)),
+                         error = function(e) {
+                           NULL
+                         },
+                         warning = function(e) {
+                           NULL
+                         })
+  } else {
+    m_seg_raw = NULL
+  }       
+  
+  
+  return(list(m_seg_raw, m_seg_smooth, filtered=filter_ind, d_sub=d_sub, m_gam2=m_gam2)) 
+}
+
+
+# +++++++++++++ End of function definitions ++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 # Import data --------
 square = c(1:9,13:21)
-#square = c(13:21)
+square = c(1)
 
 
 year = 2012
 knots = -1
 min_obs = 15      # Minimum number of rows for trying to segment data
-starting_breaks = c(50,100, 200, 300)
+starting_breaks = c(50, 100, 200, 300)
 
 for (s in square) {
   # Load the focal year and years either side
@@ -41,11 +261,6 @@ for (s in square) {
   if (length(file)!=1 | length(file_prev)!=1 | length(file_next)!=1) {
     error('File names not found correctly')
   }
-  
-  
-  # file_prev = paste0('modis_pasture_A',year-1,'_square',s,'.RData')
-  # file = paste0('modis_pasture_A',year,'_square',s,'.RData')
-  # file_next = paste0('modis_pasture_A',year+1,'_square',s,'.RData')
   
   # Load data from previous year after day 265
   load(file_prev)
@@ -70,88 +285,12 @@ for (s in square) {
                            'y',match(d_final$y_MODIS,y_values))
   
   
-  # *************************************
-  # Function to perform segmentation ----
-  segmentEVI = function(d_sub, 
-                        starting_breaks = c(100, 200,300), 
-                        useHighQuality=FALSE, 
-                        knots=-1,
-                        use_raw = FALSE) {
-    # This functions fits a segmented linear model to raw data and smoothed data
-    # the smoothed data gives fewer NA's and more consistent results. 
-    
-    require(segmented)
-    
-    
-    
-    if (use_raw) {  
-      # +++++++++++++++++++++++++++++++++++++++++++++++++
-      # Perform segmentation on raw evi data
-      m_raw = lm(evi~doy, data=d_sub)
-      
-      m_seg_raw = tryCatch(segmented(m_raw, 
-                                     seg.Z = ~doy,
-                                     psi = list(doy=starting_breaks),
-                                     control=seg.control(display=FALSE)),
-                           error = function(e) {
-                             NA
-                           },
-                           warning = function(e) {
-                             NA
-                           })
-    } else {
-      m_seg_raw = NA
-    }       
-    
-    # +++++++++++++++++++++++++++++++++++++++++++++++++
-    # Perform segmentation on data smoothed using a GAM
-    
-    m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
-                         data=d_sub),
-                     error = function(e) {
-                       NA
-                     },
-                     warning = function(e) {
-                       NA
-                     })
-    
-    
-    if (!is.na(m_gam)) {
-      # Remove EVI data points that are more than 6 SE below from the prediction
-      tmp = predict(m_gam, se.fit = TRUE)
-      evi_deviation = (d_sub$evi-tmp$fit)/tmp$se.fit
-      
-      # Smooth data after removing data more than 6 se below prediction  
-      m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub[evi_deviation>-6,])
-      
-      # Add smoothed predictions to the data frame
-      d_sub$evi_smooth = NA
-      d_sub$evi_smooth[evi_deviation>-6] = predict(m_gam)
-      
-      # If a lone prediction is 
-      
-      # Segmenting the smoothed predictions
-      m_smooth = lm(evi_smooth~doy, data=d_sub[evi_deviation>-6,])
-      
-      m_seg_smooth = tryCatch(segmented(m_smooth, 
-                                        seg.Z = ~doy,
-                                        psi = list(doy=starting_breaks),
-                                        control=seg.control(display=FALSE)),
-                              error = function(e) {
-                                NA
-                              },
-                              warning = function(e) {
-                                NA
-                              })
-    } else {
-      m_seg = NA
-      m_seg_smooth = NA
-    }
-    
-    
-    return(list(m_seg_raw,m_seg_smooth)) 
+  # Remove scaling factor from evi if evi is too small
+  scalingFactor = 0.0001
+  if (mean(d_final$evi, na.rm=T)<1e-6) {
+    d_final$evi = d_final$evi/scalingFactor^2
+    d_final$ndvi = d_final$ndvi/scalingFactor^2
   }
-  
   
   
   
@@ -183,14 +322,16 @@ for (s in square) {
   output$year = year
   
   for (i in 1:length(starting_breaks)) {
-    
     # Add in data holder for raw data segmentation
-    d_add = data.frame(t = NA, lowerCI=NA, upperCI=NA, slope=NA, slopeprev = NA)
+    d_add = data.frame(t = as.numeric(NA), 
+                       lowerCI=as.numeric(NA), 
+                       upperCI=as.numeric(NA), 
+                       slope=as.numeric(NA), 
+                       slopeprev = as.numeric(NA))
     names(d_add) = paste0(label,i,modelStr[1])    
     output = cbind(output, d_add)
     
     # Add in data holder for smoothed data segmentation
-    d_add = data.frame(t = NA, lowerCI=NA, upperCI=NA, slope=NA, slopeprev = NA)
     names(d_add) = paste0(label,i,modelStr[2])    
     output = cbind(output, d_add)
   }
@@ -203,16 +344,28 @@ for (s in square) {
     print(paste0('Estimating pixel ',pixel_list[p]))
     
     # Subset data from this pixel
-    d_sub = d_final[d_final$pixelID==pixel_list[p],]
+    p = sample.int(nPixel, size=1)
+    d_pixel = d_final[d_final$pixelID==pixel_list[p],]
     
-    segments = segmentEVI(d_sub, 
-                          starting_breaks = starting_breaks,
-                          useHighQuality=FALSE,
-                          knots=knots)
+    segments = segmentEVI2(d_pixel, 
+                           nBreaks = 3,
+                           knots=knots, 
+                           use_raw = TRUE,
+                           sd_filter_threshold = 6)
+    
+    #d_pixel$evi_smooth = segments$d_sub$evi_smooth
+    
+    plot(d_pixel$doy, d_pixel$evi)
+    plot(segments$spring,  add=T, col="blue")
+    plot(segments$autumn,  add=T, col="red")
+    points(d_pixel$doy[segments$filtered], d_pixel$evi[segments$filtered], pch=20, col="red")
+    points(segments$pred_df$doy,segments$pred_df$fit, pch=20)
+    
+    
     
     for (model in c(1,2)) {
       # Record estimates if they have been made 
-      if (!is.na(segments[[model]][1])) {
+      if (!is.null(segments[[model]])) {
         # Calculate estimated segment break dates and 95% CI
         CI = confint(segments[[model]])
         
@@ -251,186 +404,133 @@ for (s in square) {
   # Just extract smoothed data
   output_smoothed = subset(output_long, smooth=='smooth')
   
-  # Loop around all pixels and move the phenophases so that phase 1 starts in the year
-  # at the first positive slope
-  output_smoothed$phase = as.integer(output_smoothed$phase)
+  # Loop around all pixels and move the phenophases so that: 
+  #    phase 1 
+  #         starts in the year 
+  #         at the first positive slope
+  #    phase 2
+  #         is the first maximum (i.e. slope is positive before and negative after)
+  #    phase 3
+  #         is within the year
+  #         has a negative slope before
+  #         a slope after that is less steep (or maybe positive) compared to before
+  
+  
+  output_smoothed$phase = as.numeric(output_smoothed$phase)
   output_smoothed$warning = FALSE
   for (p in 1:nPixel) {
     ind = which(output_smoothed$pixelID==pixel_list[p])
     if (all(is.finite(output_smoothed$t[ind]))) {
       
-      # Phenophase 1 needs a growing segment in the focal year that 
-      # shows increased growth from the last phase
-      test_cond = output_smoothed$t[ind]>0 & output_smoothed$slope[ind]>0
+      # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      # Phenophase 1 
+      #         starts in the year 
+      #         at the first positive slope
       
-      if (any(test_cond)) {
-        phase1_ind = which(test_cond)[1]
+      test_cond_phase1 = output_smoothed$t[ind]>0 & output_smoothed$slope[ind]>0
+      
+      
+      # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      # Phenophase 2 
+      #       is the first maximum (i.e. slope is positive before and negative after)
+      
+      test_cond_phase2 = output_smoothed$t[ind]>0 & 
+        output_smoothed$t[ind]<366 & 
+        output_smoothed$slopeprev[ind]>0 &
+        output_smoothed$slope[ind]<0      
+      
+      # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      # Phenophase 3 
+      #         is within the year
+      #         has a negative slope before
+      #         a slope after that is less steep (or maybe positive) compared to before
+      
+      test_cond_phase3 = output_smoothed$t[ind]>0 & 
+        output_smoothed$t[ind]<366 & 
+        output_smoothed$slopeprev[ind]<0 & 
+        output_smoothed$slopeprev[ind] < output_smoothed$slope[ind]
+      
+      
+      # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      # Find possible break points for each phenophase
+      phase1_ind = NA
+      phase2_ind = NA
+      phase3_ind = NA
+      if (any(test_cond_phase1)) {
+        phase1_ind = which(test_cond_phase1)[1]  # Take first valid phase 1 (SOS) break point
         
-        # Correct phase
-        output_smoothed$phase[ind] = output_smoothed$phase[ind] - output_smoothed$phase[ind[phase1_ind]] + 1
         
-        # If previous phase has higher slope then remove phases
-        if (output_smoothed$slopeprev[ind[phase1_ind]]>output_smoothed$slope[ind[phase1_ind]]) {
-          output_smoothed$warning[ind] = TRUE
-          output_smoothed$phase[ind] = NA
+        # Adjust any preceding breakpoints
+        output_smoothed$phase[ind[1:phase1_ind]] = phase1_ind-rev(c(1:phase1_ind)) + 1
+      } 
+      
+      # Pick phenophase 2 if it is after phenophase 1
+      if (any(test_cond_phase2) & is.na(phase1_ind)) {
+        # No phenophase 1 defined
+        phase2_ind = which(test_cond_phase2)[1]
+      } else if (any(test_cond_phase2[-c(1:phase1_ind)]) ) {
+        # Phenophase 1 defined
+        phase2_ind = which(test_cond_phase2[-c(1:phase1_ind)])[1]
+      }
+      
+      # Adjust any breakpoints between phenophases 1 and 2 to be a value of 1.5
+      if (!is.na(phase2_ind)) {
+        if (!is.na(phase1_ind) & phase2_ind>(phase1_ind+1)) {
+          output_smoothed$phase[ind[(phase1_ind+1):(phase2_ind-1)]] = 1.5
         }
-        
-        # If phase one is later than day 152 (1st June on non leap years) then raise a warning
-        if (output_smoothed$t[ind[phase1_ind]]>=152) {
-          output_smoothed$warning[ind] = TRUE
+        if (is.na(phase1_ind)) {
+          output_smoothed$phase[ind[1:(phase2_ind-1)]] = NA
         }
-        
-      } else {  # No breakpoint meets condition
+      }
+      
+      
+      # Pick phenophase 3 if it is after phenophase 1 and phenophase 2
+      if (any(test_cond_phase3) & is.na(phase2_ind) & is.na(phase1_ind)) {
+        # No phenophases 1 & 2 defined
+        phase3_ind = which(test_cond_phase3)[1]
+      } 
+      if (!is.na(phase2_ind)) {
+        # Phenophase 2 defined
+        if (any(test_cond_phase3[-c(1:phase2_ind)])) {
+          phase3_ind = which(test_cond_phase3[-c(1:phase2_ind)])[1]
+        }
+      } else if (!is.na(phase1_ind)) {
+        # No phenophase 2 but phenophase 1 defined
+        if (any(test_cond_phase3[-c(1:phase1_ind)])) {
+          phase3_ind = which(test_cond_phase3[-c(1:phase1_ind)])[1]
+        }
+      }
+      # Adjust any breakpoints between phenophases 2 and 3  to be a value of 2.5
+      
+      
+      # Correct phase
+      output_smoothed$phase[ind] = output_smoothed$phase[ind] - output_smoothed$phase[ind[phase1_ind]] + 1
+      
+      # If previous phase has higher slope then remove phases
+      if (output_smoothed$slopeprev[ind[phase1_ind]]>output_smoothed$slope[ind[phase1_ind]]) {
+        output_smoothed$warning[ind] = TRUE
         output_smoothed$phase[ind] = NA
+      }
+      
+      # If phase one is later than day 152 (1st June on non leap years) then raise a warning
+      if (output_smoothed$t[ind[phase1_ind]]>=152) {
         output_smoothed$warning[ind] = TRUE
       }
+      
+    } else {  # No breakpoint meets condition
+      output_smoothed$phase[ind] = NA
+      output_smoothed$warning[ind] = TRUE
     }
+    
+    
   }
-  
-  
-  # Save data -------------------
-  filename = paste0('phenology_square_',s,'_',year,'.RData')
-  save(knots,year,s,starting_breaks,output_smoothed,d_final,
-       file=file.path(outputDir,filename))
-  
-  
 }
 
-# # ************************************************
-# # Define phenophase 1 to be the date in the year when the 
-# # slope following the date is positive.
-# 
-# # If phenophase 1 is <0 move all phenophases by 1
-# output_long$phase = as.integer(output_long$phase)
-# ind = output_long$phase==1 & is.finite(output_long$t) & output_long$t<0 & output_long$smooth=='smooth'
-# ind_shift = output_long$pixelID%in%output_long$pixelID[ind] & output_long$smooth=='smooth'
-# output_long$phase[ind_shift] = output_long$phase[ind_shift] - 1
-# 
-# ind = output_long$phase==1 & is.finite(output_long$t) & output_long$t<0 & output_long$smooth=='raw'
-# ind_shift = output_long$pixelID%in%output_long$pixelID[ind] & output_long$smooth=='raw'
-# output_long$phase[ind_shift] = output_long$phase[ind_shift] - 1
-# 
-# output_long$phase = as.factor(output_long$phase)
+
+# Save data -------------------
+filename = paste0('phenology_square_',s,'_',year,'.RData')
+save(knots,year,s,starting_breaks,output_smoothed,d_final,
+     file=file.path(outputDir,filename))
 
 
-
-
-
-# 
-# 
-# # Plot estimate of phenology dates ---
-# ggplot(data=output_smoothed, 
-#        aes(x=t,
-#            fill=factor(phase))) +
-#   geom_histogram(position='dodge',
-#                  bins = 50) +
-#   scale_fill_brewer('Phase',
-#                     palette='Dark2') +
-#   labs(x='Day of Year',
-#        y = 'Number of Pixels',
-#        title=paste('Square',square,'Year=',year)) +
-#   theme_bw() + 
-#   theme(axis.text = element_text(size=18),
-#         axis.title = element_text(size=20),
-#         legend.text = element_text(size=14),
-#         legend.title = element_text(size=14))
-# 
-# ggsave(width=11, height=6,
-#        filename = paste0('phenophases_square',square,'_',year,'.png'))
-# 
-# 
-# ggplot(data=subset(output_smoothed,phase==0), 
-#        aes(x=x_MODIS,
-#            y=y_MODIS,
-#            fill = t)) +
-#   geom_tile() + 
-#   scale_fill_viridis_c('Day of Year',option='magma') +
-#   labs(title=paste('Phase 0: Square',square,'Year=',year)) +
-#   theme_bw()
-# 
-# ggplot(data=subset(output_smoothed,phase==1), 
-#        aes(x=x_MODIS,
-#            y=y_MODIS,
-#            fill = t)) +
-#   geom_tile() + 
-#   scale_fill_viridis_c('Day of\nYear',option='magma') +
-#   labs(title=paste('Phase 1: Square',square,'Year=',year)) +
-#   theme_bw()
-# 
-# 
-# # *****************************************
-# # Visualise a single time series  --------
-# 
-# p = sample(pixel_list, size=1)
-# 
-# # Select unusual pixels
-# ind = which(output_smoothed$phase==1 & output_smoothed$t>100 & output_smoothed$t<130)
-# p = sample(output_smoothed$pixelID[ind],size=1)
-# 
-# d_sub = d_final[d_final$pixelID==p,]
-# 
-# segments = segmentEVI(d_sub, 
-#                       starting_breaks = starting_breaks,
-#                       useHighQuality=FALSE,
-#                       knots = knots)
-# 
-# # Make predictions across the year
-# d_pred = data.frame(doy=c(-100:465), 
-#                     evi=NA, 
-#                     evi_smooth=NA, 
-#                     evi_smooth_lwr=NA, 
-#                     evi_smooth_upr=NA)
-# 
-# m_gam = gam(evi~s(doy, bs='tp',k=knots), data=d_sub)
-# d_pred$evi = predict(m_gam, newdata=d_pred)
-# 
-# 
-# 
-# 
-# 
-# if (is.na(segments[[2]][1])) {
-#   d_pred$evi_smooth = NA
-#   breaks_smooth = NA
-# } else {
-#   tmp = predict(segments[[2]], newdata=d_pred, interval='confidence')
-#   d_pred$evi_smooth = tmp[,1]
-#   d_pred$evi_smooth_lwr = tmp[,2]
-#   d_pred$evi_smooth_upr = tmp[,3]
-#   breaks_smooth = confint(segments[[2]])
-# }
-# 
-# breaks_df = as.data.frame(rbind(breaks_smooth,
-#                                 breaks_smooth))
-# breaks_df$phase = rep(c(1:length(starting_breaks)), times=2)
-# breaks_df$y = rep(range(d_sub$evi), each=length(starting_breaks))
-# names(breaks_df) = c('x','xmin','xmax','phase','y')
-# 
-# ggplot() +
-#   geom_ribbon(data=d_pred, aes(x=doy,
-#                                y=evi_smooth,
-#                                ymin=evi_smooth_lwr, 
-#                                ymax=evi_smooth_upr),
-#               alpha=0.3, fill='blue') +
-#   geom_line(data=d_pred, aes(x=doy, y=evi_smooth),colour='blue') +
-#   geom_ribbon(data=breaks_df,
-#               aes(xmin=xmin,
-#                   xmax=xmax,
-#                   y=y,
-#                   group=factor(phase)), alpha=0.3) +
-#   geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
-#   geom_point(data=d_sub,aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
-#   geom_path(data=d_pred, aes(x=doy, y=evi)) +
-#   scale_colour_brewer(palette = 'Dark2') +
-#   scale_fill_discrete('MODIS\nQuality\nFlag',
-#                       type = c('black','white'), 
-#                       label=c('V. Good','Good')) +
-#   labs(x='Day of Year',
-#        y='EVI',
-#        title=paste('Pixel',p)) +
-#   theme_bw() +
-#   theme(axis.text = element_text(size=18),
-#         axis.title = element_text(size=20),
-#         legend.text = element_text(size=14),
-#         legend.title = element_text(size=14))
-# 
-# ggsave(width=11, height=6,filename = paste0('pheno_pix',p,'_square',square,'_',year,'.png'))
+}

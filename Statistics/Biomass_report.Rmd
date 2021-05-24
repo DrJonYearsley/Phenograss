@@ -3,19 +3,22 @@ title: "Biomass_report"
 author: "Dana Looschelders"
 date: "5 5 2020"
 output:
-  word_document: default
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
-setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount") #set working directory
+#setwd("C:/00_Dana/Uni/Internship/Work/Data Rosemount") #set working directory
+setwd('/Users/jon/git_repos/Phenograss')
 library(agricolae)
 library(PMCMRplus)
 library(MASS)
 library(PMCMR)
 library(tidyverse)
+library(readxl)
 #for biomass (read in excel data on biomass from google drive)
-biomass=read.table("Biomass Data.csv", sep=";", dec=",", header=T)
+#biomass=read.table("Biomass Data.csv", sep=";", dec=",", header=T)
+biomass=read_excel("./data_rosemount/Biomass Data.xlsx")
 str(biomass)
 #delete empty cloumns off data.frame
 biomass=Filter(function(x)!all(is.na(x)), biomass)
@@ -88,7 +91,7 @@ kruskal.test(biomass$Cut_2~biomass$Variety) #p-value = 2.056e-12
 #comparisons of (mean) rank sums of independent samples
 #--> not appropriate for unequal samples
 
-posthoc.kruskal.nemenyi.test(x=biomass$Cut_2, g=biomass$Variety, dist="Chisquare")
+# posthoc.kruskal.nemenyi.test(x=biomass$Cut_2, g=biomass$Variety, dist="Chisquare")
 
 ```
 # Linear model 
@@ -181,7 +184,7 @@ kruskal.test(biomass$Cut_1~biomass$Variety) #
 #comparisons of (mean) rank sums of independent samples
 #--> not appropriate for unequal samples
 
-posthoc.kruskal.nemenyi.test(x=biomass$Cut_1, g=biomass$Variety, dist="Chisquare")
+# posthoc.kruskal.nemenyi.test(x=biomass$Cut_1, g=biomass$Variety, dist="Chisquare")
 
 ```
 # GLM
