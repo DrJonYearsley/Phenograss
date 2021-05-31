@@ -15,7 +15,7 @@ library(raster)
 rm(list=ls())
 
 # Define top level data directory
-setwd('/home/jon/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+setwd('~/Research/Phenograss/Data')
 
 # Load MODIS grid data
 modis = raster('./MODIS/modis_grid_ireland.grd')
@@ -47,19 +47,19 @@ writeRaster(sn_grass_cover,filename='sn_grasscover',format='GTiff')
 # Analyse CORINE data ---------------
 
 # Define location of CORINE data (2018)
-corinePath = './CORINE_Ireland/CLC18_IE_ITM'
+corinePath = './CORINE_Ireland/clc18_All_Ireland'
 
 # Read in CORINE data. make sure this is vector data (shapefile)
-corine = readOGR(dsn=file.path(corinePath,'CLC18_IE_ITM.shp'), layer='CLC18_IE_ITM')
+corine = readOGR(dsn=file.path(corinePath,'clc18_All_Ireland.shp'), layer='clc18_All_Ireland')
 
 # Transform grassland data into MODIS CRS
 corine_modis = spTransform(corine, CRS=modis_crs)
 
 # Subset CORINE for agricultural pasture
-corine_subset = subset(corine_modis, CODE_18%in%231)
+corine_subset = subset(corine_modis, Code_18%in%231)
 
 # Calculate fraction of MODIS pixel covered by grass
 corine_pasture_cover = rasterize(corine_subset, modis, getCover=T)
   
-writeRaster(corine_pasture_cover,filename='corine2018_pasturecover',format='raster')
-writeRaster(corine_pasture_cover,filename='corine2018_pasturecover',format='GTiff')
+writeRaster(corine_pasture_cover,filename='corine2018_pasturecover_All_Ireland',format='raster')
+writeRaster(corine_pasture_cover,filename='corine2018_pasturecover_All_Ireland',format='GTiff')

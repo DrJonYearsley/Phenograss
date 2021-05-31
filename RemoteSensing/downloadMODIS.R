@@ -8,8 +8,8 @@
 # *****************************************
 
 
-setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
-#setwd('~/MEGAsync/Projects/GrasslandPhenology/Data')
+#setwd('~/WorkFiles/PeopleStuff/GrasslandPhenology/Data')
+setwd('~/MEGAsync/Projects/GrasslandPhenology/Data')
 library(MODIS)
 library(rgdal)
 library(gdalUtils)
@@ -20,10 +20,12 @@ tile = c(17,03)  # The horizontal and vertical tile coords for Ireland (h17v03)
 
 ## Change options for MODIS package
 # # Permanently set MODIS options
+MODISoptions(localArcPath = "~/Research/Phenograss/Data/MODIS/",
+             MODISserverOrder = c( "LPDAAC"))
 # 
 # # Move the location of the data archive
 # orgStruc(to = '~/WorkFiles/PeopleStuff/GrasslandPhenology/Data', move=TRUE)
-orgStruc(to = '~/Research/Phenograss/Data/', move=TRUE)
+# orgStruc(to = '~/Research/Phenograss/Data/', move=TRUE)
 
 # # Download MODIS data for Ireland
 

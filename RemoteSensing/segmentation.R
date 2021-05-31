@@ -181,8 +181,7 @@ segmentEVI = function(d_sub,
     d_sub$evi_smooth = NA
     d_sub$evi_smooth[filter_ind] = predict(m_gam2)
     
-    # If a lone prediction is 
-    
+
     # Segmenting the smoothed predictions
     m_smooth = lm(evi_smooth~doy, data=d_sub[filter_ind,])
     
@@ -239,7 +238,7 @@ segmentEVI = function(d_sub,
 
 # Import data --------
 square = c(1:9,13:21)
-square = c(1)
+square = c(10:12)
 
 
 year = 2012
@@ -347,8 +346,8 @@ for (s in square) {
     p = sample.int(nPixel, size=1)
     d_pixel = d_final[d_final$pixelID==pixel_list[p],]
     
-    segments = segmentEVI2(d_pixel, 
-                           nBreaks = 3,
+    segments = segmentEVI(d_pixel, 
+                           nBreaks = 4,
                            knots=knots, 
                            use_raw = TRUE,
                            sd_filter_threshold = 6)

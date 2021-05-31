@@ -39,18 +39,18 @@ setwd('~/Research/Phenograss')
 
 # Directories containing the input and output MODIS data 
 # inputDir = c('./Data/MODIS/MYD13Q1.006','./Data/MODIS/MOD13Q1.006')
-inputDir = c('/Volumes/Untitled/MODIS/MODIS_v6_gri_format/')
+inputDir = c('/Volumes/MODIS_data/MODIS/MODIS_v6_gri_format/')
 quadratPath = './Data/Quadrats'
 outputDir = './Data/MODIS_squares'
 outputSuffix = 'pasture'
 save_rasters = FALSE  # If true save rasters for each MODIS file
-yearStr = '2010' # Some text (or reg expression) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
+yearStr = '2001' # Some text (or reg expression) that specifies the year of the data (e.g. 'A20[0-9][0-9]' specifies years 2000-2019) 
 minQuality = 1 # Minimum quality to use: 0 = use only best quality pixels, 1=use reasonable pixels
 scalingFactor = 1 # Scale factor to apply to NDVI and EVI data from MODIS (this is 0.0001 if it's NASA data)
 corinePath = './Data/CORINE_Ireland'
-corineFilename = 'corine2018_pasturecover.gri'
+corineFilename = 'corine2018_pasturecover_All_Ireland.gri'
 pastureThreshold = 0.7 # The minimum fraction of a pixel that is pasture
-squareList = c(10:13)  # List of squares to analyse
+squareList = c(10:12)  # List of squares to analyse
 
 
 # Import squares from shapefile
