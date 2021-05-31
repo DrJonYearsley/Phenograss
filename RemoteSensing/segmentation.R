@@ -352,13 +352,14 @@ for (s in square) {
                            use_raw = TRUE,
                            sd_filter_threshold = 6)
     
-    #d_pixel$evi_smooth = segments$d_sub$evi_smooth
+    # Save the smoothed data
+    d_pixel$evi_smooth = segments$d_sub$evi_smooth
     
-    plot(d_pixel$doy, d_pixel$evi)
-    plot(segments$spring,  add=T, col="blue")
-    plot(segments$autumn,  add=T, col="red")
-    points(d_pixel$doy[segments$filtered], d_pixel$evi[segments$filtered], pch=20, col="red")
-    points(segments$pred_df$doy,segments$pred_df$fit, pch=20)
+    # plot(d_pixel$doy, d_pixel$evi)
+    # plot(segments$spring,  add=T, col="blue")
+    # plot(segments$autumn,  add=T, col="red")
+    # points(d_pixel$doy[segments$filtered], d_pixel$evi[segments$filtered], pch=20, col="red")
+    # points(segments$pred_df$doy,segments$pred_df$fit, pch=20)
     
     
     
@@ -455,6 +456,8 @@ for (s in square) {
       phase1_ind = NA
       phase2_ind = NA
       phase3_ind = NA
+      
+      # Phenophase 1 (SOS) ++++++++++++++++++++++++++++++++++++++++++
       if (any(test_cond_phase1)) {
         phase1_ind = which(test_cond_phase1)[1]  # Take first valid phase 1 (SOS) break point
         
@@ -463,6 +466,7 @@ for (s in square) {
         output_smoothed$phase[ind[1:phase1_ind]] = phase1_ind-rev(c(1:phase1_ind)) + 1
       } 
       
+      # Phenophase 2 (POS) ++++++++++++++++++++++++++++++++++++++++++
       # Pick phenophase 2 if it is after phenophase 1
       if (any(test_cond_phase2) & is.na(phase1_ind)) {
         # No phenophase 1 defined
@@ -482,7 +486,7 @@ for (s in square) {
         }
       }
       
-      
+      # Phenophase 3 (EOS) ++++++++++++++++++++++++++++++++++++++++++
       # Pick phenophase 3 if it is after phenophase 1 and phenophase 2
       if (any(test_cond_phase3) & is.na(phase2_ind) & is.na(phase1_ind)) {
         # No phenophases 1 & 2 defined
@@ -491,25 +495,34 @@ for (s in square) {
       if (!is.na(phase2_ind)) {
         # Phenophase 2 defined
         if (any(test_cond_phase3[-c(1:phase2_ind)])) {
-          phase3_ind = which(test_cond_phase3[-c(1:phase2_ind)])[1]
+          phase3_ind = which(test_cond_phase3[-c(1:phase2_ind)])[1]+phase2_ind
         }
       } else if (!is.na(phase1_ind)) {
         # No phenophase 2 but phenophase 1 defined
         if (any(test_cond_phase3[-c(1:phase1_ind)])) {
-          phase3_ind = which(test_cond_phase3[-c(1:phase1_ind)])[1]
+          phase3_ind = which(test_cond_phase3[-c(1:phase1_ind)])[1]+phase1_ind
         }
       }
+      
       # Adjust any breakpoints between phenophases 2 and 3  to be a value of 2.5
-      
-      
-      # Correct phase
-      output_smoothed$phase[ind] = output_smoothed$phase[ind] - output_smoothed$phase[ind[phase1_ind]] + 1
-      
-      # If previous phase has higher slope then remove phases
-      if (output_smoothed$slopeprev[ind[phase1_ind]]>output_smoothed$slope[ind[phase1_ind]]) {
-        output_smoothed$warning[ind] = TRUE
-        output_smoothed$phase[ind] = NA
+      if (!is.na(phase3_ind)) {
+        if (!is.na(phase2_ind) & phase3_ind>(phase2_ind+1)) {
+          output_smoothed$phase[ind[(phase2_ind+1):(phase3_ind-1)]] = 2.5
+        }
+        if (is.na(phase2_ind)) {
+          output_smoothed$phase[ind[1:(phase3_ind-1)]] = NA
+        }
       }
+      
+      # # Old code to be kept for time being
+      # # Correct phase
+      # output_smoothed$phase[ind] = output_smoothed$phase[ind] - output_smoothed$phase[ind[phase1_ind]] + 1
+      # 
+      # # If previous phase has higher slope then remove phases
+      # if (output_smoothed$slopeprev[ind[phase1_ind]]>output_smoothed$slope[ind[phase1_ind]]) {
+      #   output_smoothed$warning[ind] = TRUE
+      #   output_smoothed$phase[ind] = NA
+      # }
       
       # If phase one is later than day 152 (1st June on non leap years) then raise a warning
       if (output_smoothed$t[ind[phase1_ind]]>=152) {
@@ -532,4 +545,3 @@ save(knots,year,s,starting_breaks,output_smoothed,d_final,
      file=file.path(outputDir,filename))
 
 
-}
