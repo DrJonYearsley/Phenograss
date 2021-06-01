@@ -14,14 +14,18 @@ library(MODIS)
 library(rgdal)
 library(gdalUtils)
 
-period = as.Date(c("2020/11/01", "2021/03/01"))
+period = as.Date(c("2021/01/01", "2021/06/01"))
 
 tile = c(17,03)  # The horizontal and vertical tile coords for Ireland (h17v03)
 
 ## Change options for MODIS package
 # # Permanently set MODIS options
-MODISoptions(localArcPath = "~/Research/Phenograss/Data/MODIS/",
-             MODISserverOrder = c( "LPDAAC"))
+# MODISoptions(localArcPath = "~/Research/Phenograss/Data/MODIS/",
+#              MODISserverOrder = c( "LPDAAC"))
+
+MODISoptions(MODISserverOrder = c( "LPDAAC"))
+
+
 # 
 # # Move the location of the data archive
 # orgStruc(to = '~/WorkFiles/PeopleStuff/GrasslandPhenology/Data', move=TRUE)
