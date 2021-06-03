@@ -8,12 +8,20 @@
 rm(list=ls())
 setwd('~/git_repos/Phenograss/RemoteSensing/')
 
-library(rgdal)
-library(sp)
+# library(rgdal)
+# library(sp)
+
+library(sf)
+library(stars)
+library(gstat)
+
+meraDir = "/Volumes/MODIS_data/MERA"
+squareDir = "/Volumes/MODIS_data/Quadrats"
+modisDir = "/Volumes/MODIS_data/MODIS"
 
 
 # Import MERA data
-d = read.table('~/WorkFiles/Data/Climate/MERA/TPrecip/TotalPrecip_2012_01.txt',
+d = read.table(file.path(meraDir,'TPrecip/TotalPrecip_2012_01.txt'),
                sep='',
                header=TRUE,
                colClasses = rep('numeric', 7),
@@ -21,28 +29,51 @@ d = read.table('~/WorkFiles/Data/Climate/MERA/TPrecip/TotalPrecip_2012_01.txt',
 
 d$Longitude.[d$Longitude.>180] =  d$Longitude.[d$Longitude.>180]-360
 
+# Import the square quadrats
+squares = st_read(file.path(squareDir, 'agriclimate_quadrats_Ireland.shp'))
+nSquares = nrow(squares)
+crs_modis = st_crs(squares)
 
-# Convert MERA data to be a spatial object
-coordinates(d) = ~Longitude. + Latitude.
-latlong = "+init=epsg:4326"
-proj4string(d) = CRS(latlong)
-str(d)
-
-
-# Import quadrat data
-squares = readOGR(dsn='~/WorkFiles/PeopleStuff/GrasslandPhenology/Data/Quadrats/agriclimate_quadrats_Ireland.shp',
-                  layer='agriclimate_quadrats_Ireland')
+# Read in MODIS grid
+modis = read_stars(file.path(modisDir,'modis_grid_ireland.tif'))
+st_crs(modis) =  crs_squares  # Make sure modis and squares have same CRS
 
 
-squares_WGS84 = spTransform(squares, CRSobj = proj4string(d))
+# Convert squares to wgs84
+squares_wgs84 = st_transform(squares, crs=4326)
+pad = 0.05
+for (s in 1:nSquares) {
+  bbox = st_bbox(squares_wgs84[s,])
+  d_sub = subset(d, Longitude.>bbox[1]-pad & Longitude.<bbox[3]+pad & 
+                   Latitude.>bbox[2]-pad & Latitude.<bbox[4]+pad)
 
-# Transform MERA data onto squares CRS (modis CRS)
-d_MODIS = spTransform(d, CRSobj = proj4string(squares[1,]))
+  d_sub_agg = aggregate(Value.~Longitude.+Latitude.+validityDate., 
+                        data=d_sub, 
+                        FUN=mean,
+                        na.rm=TRUE)
+  
+  # Convert this subset into a spatial object
+  d_wgs84 = st_as_sf(d_sub_agg, 
+                 coords=c("Longitude.", "Latitude."),
+                 crs=4326)
+  # Transform onto modis grid
+  d_modis = st_transform(d_wgs84, crs_squares)
+  
+  v = variogram(Value. ~ 1, data = d_modis)
+  v.fit = fit.variogram(v, vgm(0, "Lin", NA))
+  g = gstat(formula = Value. ~ 1, data = d_modis)
+  
+  # Now interpolate d_modis to put it on the modis grid
+  crop_modis = st_crop(modis, squares[s,])
+  d_crop = predict(crop_modis, model=g)
+}
 
+library(automap)
+v_mod_ok = autofitVariogram(Value. ~ 1, as(d_modis, "Spatial"))
+g = gstat(formula = Value. ~ 1, model = v_mod_ok, data = d_modis)
+z = predict(crop_modis, model=g)
 
+ggplot() +  
+  geom_sf(data=squares[s,]) +
+  geom_sf(data=d_modis) 
 
-tmp = over(squares[2,], d_MODIS, returnList=TRUE)
-
-
-plot(squares_WGS84)
-plot(d, add=T)

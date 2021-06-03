@@ -47,9 +47,6 @@ squares = st_read(file.path(quadratPath,"agriclimate_quadrats_Ireland.shp"))
 crs_squares = st_crs(squares)
 # contains easting and northing
 
-# Convert squares to gtopo crs (because cropping is faster on a regular grid)
-squares_gtopo = st_transform(squares, crs = crs_GTOPO30)
-
 # Read in MODIS grid
 modis = read_stars('MODIS/modis_grid_ireland.tif')
 st_crs(modis) =  crs_squares  # Make sure modis and squares have same CRS
