@@ -103,7 +103,7 @@ names(mera_subset) = c("Longitude",'Latitude','ValidityDate','DailyMean','Square
 
 
 write.csv(mera_subset, 
-          filename=file.path(outputDir,paste0(output_prefix,'_',year,'.csv')),
+          file=file.path(outputDir,paste0(output_prefix,'_',year,'.csv')),
           row.names=FALSE, quote=FALSE)
 save(mera_subset, file = file.path(outputDir,paste0(output_prefix,'_',year,'.RData')))
 
