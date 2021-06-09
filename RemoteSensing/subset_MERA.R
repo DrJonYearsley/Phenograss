@@ -11,17 +11,19 @@ setwd('~/git_repos/Phenograss/RemoteSensing/')
 # library(rgdal)
 # library(sp)
 
+library(data.table)
 library(sf)
 #library(stars)
 #library(gstat)
 
-meraDir = "/Volumes/MODIS_data/MERA"
-squareDir = "/Volumes/MODIS_data/Quadrats"
-modisDir = "/Volumes/MODIS_data/MODIS"
 
-meraFilePrefix = "TPrecip/TotalPrecip"
-outputDir = "/Volumes/MODIS_data/MERA"
-output_prefix = "TotalPrecip_subset"
+meraDir = "/media/jon/MERA_Data"
+squareDir = "/media/jon/MODIS_data/Quadrats"
+modisDir = "/media/jon/MODIS_data/MODIS"
+
+meraFilePrefix = "T2m/Temp2m"
+outputDir = "/media/jon/MODIS_data/MERA"
+output_prefix = "Temp_subset"
 
 # Define padding (in degrees) around square
 pad = 0.05
@@ -45,9 +47,10 @@ for (m in months) {
   meraFilename = paste0(meraFilePrefix,"_",year,'_',m,'.txt')
   
   print(paste0("Importing file ",meraFilename))
-  d = read.table(file.path(meraDir,meraFilename),
-                 sep='',
-                 header=TRUE)
+  d = fread(file.path(meraDir,meraFilename))
+  # d = read.table(file.path(meraDir,meraFilename),
+  #                sep='',
+  #                header=TRUE)
   
   # Remove text data from the data frame
   d$Latitude. = as.numeric(d$Latitude.) # Text will be converted to NA
