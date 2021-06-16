@@ -16,13 +16,13 @@ library(sf)
 #library(stars)
 #library(gstat)
 
-
-meraDir = "/media/jon/MERA_Data"
-squareDir = "/media/jon/MODIS_data/Quadrats"
-modisDir = "/media/jon/MODIS_data/MODIS"
+base = "/Volumes"
+meraDir = file.path(base,"MERA_Data")
+squareDir = file.path(base,"MODIS_data/Quadrats")
+modisDir = file.path(base, "MODIS_data/MODIS")
 
 meraFilePrefix = "T2m/Temp2m"
-outputDir = "/media/jon/MODIS_data/MERA"
+outputDir = file.path(base,"MODIS_data/MERA")
 output_prefix = "Temp_subset"
 
 # Define padding (in degrees) around square
@@ -30,7 +30,8 @@ pad = 0.05
 
 
 months = c("01","02","03","04","05","06","07","08","09","10","11","12")
-year =2012
+#months = c("01","02","03","04","05","06","07","08","09","10")
+year=2015
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -42,73 +43,111 @@ crs_modis = st_crs(squares)
 # Convert squares to wgs84
 squares_wgs84 = st_transform(squares, crs=4326)
 
+
+# Import first 30k lines
+tmp = fread(file.path(meraDir, paste0(meraFilePrefix,"_",year,'_01.txt')),
+            select=1,
+            nrows=300000,
+            header=TRUE)
+names(tmp) = "x1"
+tmp$x1 = as.numeric(tmp$x1)
+ind = which(is.na(tmp$x1))
+
+chunkSize = ind[1]-1
+
+# Import the data for each month
 for (m in months) {
-  # Import MERA data
+  # Import MERA data 
   meraFilename = paste0(meraFilePrefix,"_",year,'_',m,'.txt')
   
   print(paste0("Importing file ",meraFilename))
-  d = fread(file.path(meraDir,meraFilename))
-  # d = read.table(file.path(meraDir,meraFilename),
-  #                sep='',
-  #                header=TRUE)
   
-  # Remove text data from the data frame
-  d$Latitude. = as.numeric(d$Latitude.) # Text will be converted to NA
-  d$Longitude. = as.numeric(d$Longitude.) # Text will be converted to NA
-  d$Value. = as.numeric(d$Value.)
-  d$validityDate. = as.numeric(d$validityDate.)
-  d$validityTime = as.numeric(d$validityTime)
-  d = na.omit(d)
+  fileIO = file(file.path(meraDir,meraFilename), 'rt')
+
+  # Read header
+  file_head = read.table(fileIO, nrows=1, header=FALSE)
+  colNames = file_head[1,]
   
-  # Convert Longitude values
-  d$Longitude.[d$Longitude.>180] =  d$Longitude.[d$Longitude.>180]-360
-  
-  
-  # # Read in MODIS grid
-  # modis = read_stars(file.path(modisDir,'modis_grid_ireland.tif'))
-  # st_crs(modis) =  crs_squares  # Make sure modis and squares have same CRS
-  
-  
-  for (s in 1:nSquares) {
-    bbox = st_bbox(squares_wgs84[s,])
-    d_sub = subset(d, Longitude.>bbox[1]-pad & Longitude.<bbox[3]+pad & 
-                     Latitude.>bbox[2]-pad & Latitude.<bbox[4]+pad)
+  # Import data in chunks
+  import=TRUE
+  counter = 1
+  while (import) {
+    now = Sys.time()
+    file_chunk = read.table(fileIO, 
+                            nrows = chunkSize, 
+                            header=FALSE,
+                            col.names = colNames,
+                            colClasses = "numeric")
     
-    d_sub_agg = aggregate(Value.~Longitude.+Latitude.+validityDate., 
-                          data=d_sub, 
-                          FUN=mean,
-                          na.rm=TRUE)
-    d_sub_agg$square = s
+    counter = counter+1
     
-    if (!exists('mera_subset')) {
-      mera_subset = d_sub_agg
-    } else {
-      mera_subset = rbind(mera_subset, d_sub_agg)
+    # Throw away the line with text. 
+    # If end of file there will be an error and discard will be NULL
+    discard = tryCatch(read.table(fileIO, nrows=1, header=FALSE),
+                       error = function(e) {return(NULL)})
+    
+    # Stop import if the "discard" line doesn't exist
+    if(length(discard)==0) {
+      import=FALSE
+    } else if (any(file_head!=discard)) {
+      warning(paste0("Chunk ",counter,"didn''t end as expected"))
     }
-    # # Convert this subset into a spatial object
-    # d_wgs84 = st_as_sf(d_sub_agg, 
-    #                coords=c("Longitude.", "Latitude."),
-    #                crs=4326)
-    # # Transform onto modis grid
-    # d_modis = st_transform(d_wgs84, crs_squares)
-    # 
-    # v = variogram(Value. ~ 1, data = d_modis)
-    # v.fit = fit.variogram(v, vgm(0, "Lin", NA))
-    # g = gstat(formula = Value. ~ 1, data = d_modis)
-    # 
-    # # Now interpolate d_modis to put it on the modis grid
-    # crop_modis = st_crop(modis, squares[s,])
-    # d_crop = predict(crop_modis, model=g)
+    
+    
+    # Convert Longitude values
+    file_chunk$Longitude[file_chunk$Longitude>180] =  file_chunk$Longitude[file_chunk$Longitude>180]-360
+    
+    for (s in 1:nSquares) {
+      bbox = st_bbox(squares_wgs84[s,])
+      d_sub = subset(file_chunk, Longitude>bbox[1]-pad & Longitude<bbox[3]+pad & 
+                       Latitude>bbox[2]-pad & Latitude<bbox[4]+pad)
+      
+      # Record square ID
+      d_sub$square = s
+      
+      
+      if (!exists('mera_hourly')) {
+        mera_hourly = d_sub
+      } else {
+        mera_hourly = data.table::rbindlist(list(mera_hourly, d_sub))
+      }
+      rm(list=c('d_sub'))
+    }
+    rm(list=c('file_chunk'))
+
+    print(paste0('Read chunk ',counter,' in ',signif(difftime(Sys.time(), now),3),' secs.'))
   }
+  # Close the connection to the file
+  close(fileIO)
+  
+  # Save the spatially sampled data set
+  save(mera_hourly, file = file.path(outputDir,paste0(output_prefix,'_hourly_',year,'_',m,'.RData')))
+  
+  
+  rm(list=c('mera_hourly'))
+}
+
+
+# Create daily average data -----
+d = vector('list',length=length(months))
+f = paste0(names(mera_hourly)[3],'~',names(mera_hourly)[1],'+',names(mera_hourly)[2],'+',names(mera_hourly)[6],'+ square')
+for (m in 1:length(months)) {
+  load(file.path(outputDir,paste0(output_prefix,'_hourly_',year,'_',months[m],'.RData')))
+
+  # Average over times in each day
+  d[[m]] = aggregate(formula(f), 
+                  data=mera_hourly, 
+                  FUN=mean,
+                  na.rm=TRUE)  
   
 }
-names(mera_subset) = c("Longitude",'Latitude','ValidityDate','DailyMean','SquareID')
 
+mera_daily = data.table::rbindlist(d)
 
-write.csv(mera_subset, 
+write.csv(mera_daily, 
           file=file.path(outputDir,paste0(output_prefix,'_',year,'.csv')),
           row.names=FALSE, quote=FALSE)
-save(mera_subset, file = file.path(outputDir,paste0(output_prefix,'_',year,'.RData')))
+save(mera_daily, file = file.path(outputDir,paste0(output_prefix,'_',year,'.RData')))
 
 
 
