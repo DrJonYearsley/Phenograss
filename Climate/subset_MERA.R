@@ -21,9 +21,9 @@ meraDir = file.path(base,"MERA_Data")
 squareDir = file.path(base,"MODIS_data/Quadrats")
 modisDir = file.path(base, "MODIS_data/MODIS")
 
-meraFilePrefix = "T2m/Temp2m"
+meraFilePrefix = "TPrecip/TotalPrecip"
 outputDir = file.path(base,"MODIS_data/MERA")
-output_prefix = "Temp_subset"
+output_prefix = "TotalPrecip_subset"
 
 # Define padding (in degrees) around square
 pad = 0.05
@@ -31,7 +31,8 @@ pad = 0.05
 
 months = c("01","02","03","04","05","06","07","08","09","10","11","12")
 #months = c("01","02","03","04","05","06","07","08","09","10")
-year=2015
+#months="01"
+year=2014
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -71,15 +72,19 @@ for (m in months) {
   # Import data in chunks
   import=TRUE
   counter = 1
+  now = Sys.time()
   while (import) {
-    now = Sys.time()
+#    print(paste0('Starting to read chunk ',counter))
+    
+#    now = Sys.time()
     file_chunk = read.table(fileIO, 
                             nrows = chunkSize, 
                             header=FALSE,
                             col.names = colNames,
                             colClasses = "numeric")
     
-    counter = counter+1
+ 
+#    print('Chunk read')
     
     # Throw away the line with text. 
     # If end of file there will be an error and discard will be NULL
@@ -115,25 +120,33 @@ for (m in months) {
     }
     rm(list=c('file_chunk'))
 
-    print(paste0('Read chunk ',counter,' in ',signif(difftime(Sys.time(), now),3),' secs.'))
+#    print(paste0('Finished reading chunk ',counter,' in ',signif(difftime(Sys.time(), now),3),' secs.'))
+    
+    counter = counter+1
   }
   # Close the connection to the file
   close(fileIO)
+  print(paste0('Finished reading file in ',signif(difftime(Sys.time(), now),3),' secs.'))
   
   # Save the spatially sampled data set
-  save(mera_hourly, file = file.path(outputDir,paste0(output_prefix,'_hourly_',year,'_',m,'.RData')))
+  save(mera_hourly, file = file.path(outputDir,'HourlyData_subsetted',paste0(output_prefix,'_hourly_',year,'_',m,'.RData')))
   
   
   rm(list=c('mera_hourly'))
 }
 
 
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create daily average data -----
 d = vector('list',length=length(months))
-f = paste0(names(mera_hourly)[3],'~',names(mera_hourly)[1],'+',names(mera_hourly)[2],'+',names(mera_hourly)[6],'+ square')
 for (m in 1:length(months)) {
-  load(file.path(outputDir,paste0(output_prefix,'_hourly_',year,'_',months[m],'.RData')))
+  load(file.path(outputDir,'HourlyData_subsetted',paste0(output_prefix,'_hourly_',year,'_',months[m],'.RData')))
 
+  if (m==1) {
+    f = paste0(names(mera_hourly)[3],'~',names(mera_hourly)[1],'+',names(mera_hourly)[2],'+',names(mera_hourly)[6],'+ square')
+  }
+  
   # Average over times in each day
   d[[m]] = aggregate(formula(f), 
                   data=mera_hourly, 
@@ -145,9 +158,12 @@ for (m in 1:length(months)) {
 mera_daily = data.table::rbindlist(d)
 
 write.csv(mera_daily, 
-          file=file.path(outputDir,paste0(output_prefix,'_',year,'.csv')),
+          file=file.path(outputDir,'DailyData_subsetted',paste0(output_prefix,'_daily_',year,'.csv')),
           row.names=FALSE, quote=FALSE)
-save(mera_daily, file = file.path(outputDir,paste0(output_prefix,'_',year,'.RData')))
+save(mera_daily, file = file.path(outputDir,'DailyData_subsetted',paste0(output_prefix,'_daily_',year,'.RData')))
+
+
+
 
 
 
