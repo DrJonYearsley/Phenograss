@@ -19,7 +19,7 @@
 %   7. Display a histogram of R, G and B channels
 %   8. Repeat steps 1-7 for each file
 %
-% Jon Yearsley (Jon.Yearsley@ucd.ie
+% Jon Yearsley (Jon.Yearsley@ucd.ie)
 % Aug 2021
 % +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -29,7 +29,7 @@ clear all
 display = false;   % If true display graphs and images
 
 %% Find files to import
-files = dir('*.jpg');
+files = dir('*.tiff');
 nFiles = numel(files);
 
 
@@ -88,10 +88,10 @@ for f=1:nFiles
     % Then look for rows and columns with lots of values>0.75 (i.e. the sheet
     % of paper)
     [a,b] = hist(xInd,sz(1));
-    xLims = round([min(b(a>max(a)/2)), max(b(a>max(a)/2))]);
+    xLims = round([min(b(a>max(a)*0.75)), max(b(a>max(a)*0.75))]);
     
     [a,b] = hist(yInd,sz(2));
-    yLims = round([min(b(a>max(a)/2)), max(b(a>max(a)/2))]);
+    yLims = round([min(b(a>max(a)*0.75)), max(b(a>max(a)*0.75))]);
     
     % Extract out the paper part of the image
     RGB_paper = RGB_cc(xLims(1):xLims(2), yLims(1):yLims(2),:);
