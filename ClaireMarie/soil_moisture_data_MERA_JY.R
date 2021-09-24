@@ -27,19 +27,20 @@ library(dplyr)
 
 
 input_file_prefix = 'phenology'
-# soilPath = '~/Stage/Data/Climate/SoilMoisture_quadrats'
-# quadratPath = '~/Stage/Data/Quadrats'
-# 
-# datadir = '~/Stage/Data/MODIS/Phenophase_estimates'
-# outputDir = '~/Stage/Data_created/soil_moisture_data'
+soilPath = '~/Stage/Data/Climate/SoilMoisture_quadrats'
+quadratPath = '~/Stage/Data/Quadrats'
+modisPath = '~/Stage/Data/MODIS'
+
+datadir = '~/Stage/Data/MODIS/Phenophase_estimates'
+outputDir = '~/Stage/Data_created/soil_moisture_data'
 
 
-soilPath = '/Volumes/MODIS_data/MERA/DailyData_subsetted/'
-quadratPath = '/Volumes/MODIS_data/Quadrats/'
-modisPath = '/Volumes/MODIS_data/MODIS/'
+#soilPath = '/Volumes/MODIS_data/MERA/DailyData_subsetted/'
+#quadratPath = '/Volumes/MODIS_data/Quadrats/'
+#modisPath = '/Volumes/MODIS_data/MODIS/'
 
-datadir = '~/Research/Phenograss/Data/PhenologyOutput/'
-outputDir = '~/Research/Phenograss/Data/MERA_processed/'
+#datadir = '~/Research/Phenograss/Data/PhenologyOutput/'
+#outputDir = '~/Research/Phenograss/Data/MERA_processed/'
 
 
 # List of squares to analyse
@@ -96,12 +97,17 @@ for (s in squareList) {
     geom_sf(data=squares[s,]) +
     geom_stars(data=g_idw)
   
+  ggsave(width=11, height=6,
+         filename = paste0(outputDir, '/inverse_distance_', s, '.png'))
+  
   # Method 2:
   # Interpolate using a model variogram (try a linear variogram)
   
   # Look at the empirical variogram
   v_emp = variogram(DailyMean ~ 1, data = subset(mera_square_modis, ValidityDate==20170101))
   plot(v_emp)
+  ggsave(width=11, height=6,
+         filename = paste0(outputDir, '/variogramme_empiric_', s, '.png'))
   
   # Fit variogram model (try linear)  use show.vgm() to display all possible models
   v_mod = fit.variogram(v_emp, model = vgm(NA,"Lin",0))
@@ -115,10 +121,13 @@ for (s in squareList) {
                  model=v_mod,
                  newdata=crop_square)
 
- # Plot the result 
+  # Plot the result 
   ggplot() +
     geom_sf(data=squares[s,]) +
     geom_stars(data=g_mod)
+  
+  ggsave(width=11, height=6,
+         filename = paste0(outputDir, '/krigging_', s, '.png'))
 
   # +++++++++++++++++++++++++++++++++++++++++++++
 }

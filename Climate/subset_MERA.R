@@ -21,9 +21,9 @@ meraDir = file.path(base,"MERA_Data")
 squareDir = file.path(base,"MODIS_data/Quadrats")
 modisDir = file.path(base, "MODIS_data/MODIS")
 
-meraFilePrefix = "TPrecip/TotalPrecip"
+meraFilePrefix = "wg/SoilMoist"
 outputDir = file.path(base,"MODIS_data/MERA")
-output_prefix = "TotalPrecip_subset"
+output_prefix = "SoilMoist_subset"
 
 # Define padding (in degrees) around square
 pad = 0.05

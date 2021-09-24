@@ -21,7 +21,7 @@ plot(squares, add=T, col='black')
 
 squares$ID = c(1:21)
 plot(subset(squares, ID%in%c(10:12)), add=T, col='white')
-#plot(subset(squares, ID%in%c(20)), add=T, col='red')
+plot(subset(squares, ID%in%c(18)), add=T, col='red')
 
 
 
