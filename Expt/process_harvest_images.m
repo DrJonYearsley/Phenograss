@@ -45,8 +45,9 @@ for f=1:nFiles
 
     % Write image as a tiff (with no compression and an RGB colorspace)
     outputFileBase = split(inputFile,".RW2");
-    if (save_tiff) 
-      imwrite(im, outputFileBase{1},'tiff','Compression','none','ColorSpace','rgb')
+    if (save_tiff)
+        outputFile = join([outputFileBase{1} "tiff"],".");
+        imwrite(im, outputFile,'tiff','Compression','none','ColorSpace','rgb')
     end
     % Extract pixels from leaves
     rgb_leaves = select_leaf_pixels(im);
