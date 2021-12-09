@@ -1,6 +1,7 @@
 # Segmentation modelling of phenology
 #
 # Apply segmentation method developed by Gabin
+# Run it in parrallel across the pixels from a square
 #
 # Jon Yearsley Jon.Yearsley@ucd.ie
 # Aug 2020
@@ -15,12 +16,20 @@ outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
 library(mgcv)
 library(segmented)
 library(ggplot2)
+library(foreach)
+library(doParallel)
+
+
+# Register cluster with 2 nodes
+cl<-makeCluster(2)
+registerDoParallel(cl)
 
 
 # Set basic parameters
 square = c(1:9,13:21)
 square = c(10:12)
 square = c(1:21)
+square = 5
 
 year = 2014
 knots = -1
@@ -32,120 +41,6 @@ print_pixel=FALSE
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++ Start of function definitions ++++++++++++++++++++++++++
-
-# *************************************
-# Function to perform segmentation on spring, autumn and summer separately ----
-segmentEVI2 = function(d_sub, 
-                       nBreaks = 2, 
-                       knots=-1,
-                       use_raw = FALSE,
-                       sd_filter_threshold=4) {
-  # This functions fits a segmented linear model to raw data and smoothed data
-  # the smoothed data gives fewer NA's and more consistent results. 
-  
-  # This function differs from segmentEVI by splitting the year into 
-  # two parts: sprint and autumn (e.g. spring is  doy<180,  autumn is doy>150) 
-  # and performing a segmentation on each part separately
-  
-  require(segmented)
-  
-  # +++++++++++++++++++++++++++++++++++++++++++++++++
-  # Smooth time series in order to identify outlier data
-  m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
-                       data=d_sub,
-                       gamma=1),  # Gamma controls over/under fitting
-                   error = function(e) {
-                     NULL
-                   },
-                   warning = function(e) {
-                     NULL
-                   })
-  
-  
-  if (!is.null(m_gam)) {
-    # Remove EVI data points that are more than 6 SE below from the prediction from m_gam
-    tmp = predict(m_gam, se.fit = TRUE, newdata = d_sub)
-    evi_deviation = ((d_sub$evi-tmp$fit)/tmp$se.fit)
-    filter_ind = evi_deviation>-sd_filter_threshold
-  }
-  
-  # Fit a gam and find the time of the maximum  evi
-  m_gam2 = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
-                        data=d_sub[filter_ind, ],
-                        gamma=1),  # Gamma controls over/under fitting
-                    error = function(e) {
-                      NULL
-                    },
-                    warning = function(e) {
-                      NULL
-                    }) 
-  if (!is.null(m_gam2)) {
-    pred_df = data.frame(doy=c(1:365))
-    pred_df$fit = predict(m_gam2, newdata=pred_df)
-    peak_doy = pred_df$doy[pred_df$fit==max(pred_df$fit)]
-  } else {
-    peak_doy = NA
-  }
-  
-  
-  # +++++++++++++++++++++++++++++++++++++++++++++++++
-  # Perform segmentation on raw evi data 
-  if (is.na(peak_doy)) {
-    doy_divider = 180
-  } else {
-    doy_divider = peak_doy
-  }
-  
-  
-  # Estimate start of season
-  m_raw_spring = lm(evi~doy, data=d_sub[filter_ind & d_sub$doy<doy_divider,])   # DOY=150 is 30th May
-  spring_break=nBreaks
-  m_seg_spring = NULL
-  while(spring_break>0 & is.null(m_seg_spring)) {
-    m_seg_spring = tryCatch(segmented(m_raw_spring, 
-                                      seg.Z = ~doy,
-                                      npsi=spring_break,
-                                      control=seg.control(it.max=50, 
-                                                          fix.npsi=TRUE, 
-                                                          n.boot=15, 
-                                                          display=FALSE)),
-                            error = function(e) {
-                              NULL
-                            },
-                            warning = function(e) {
-                              NULL
-                            })
-    spring_break = spring_break-1
-  }
-  
-  
-  # Estimate end of season
-  m_raw_autumn = lm(evi~doy, data=d_sub[filter_ind & d_sub$doy>doy_divider,])   # DOY=150 is 30th May
-  autumn_break=nBreaks
-  m_seg_autumn = NULL
-  while(autumn_break>0 & is.null(m_seg_autumn)) {
-    m_seg_autumn = tryCatch(segmented(m_raw_autumn, 
-                                      seg.Z = ~doy,
-                                      npsi=autumn_break,
-                                      control=seg.control(it.max=50, 
-                                                          fix.npsi=TRUE, 
-                                                          n.boot=15, 
-                                                          display=FALSE)),
-                            error = function(e) {
-                              NULL
-                            },
-                            warning = function(e) {
-                              NULL
-                            })
-    autumn_break = autumn_break - 1
-  }
-  
-  
-  return(list(spring=m_seg_spring, autumn=m_seg_autumn, 
-              peak_doy=peak_doy, filtered=filter_ind, d_sub=d_sub, 
-              m_gam2=m_gam2, pred_df=pred_df)) 
-}
-
 
 
 # *************************************
@@ -160,6 +55,7 @@ segmentEVI = function(d_sub,
   # the smoothed data gives fewer NA's and more consistent results. 
   
   require(segmented)
+  require(mgcv)
   
   
   
@@ -415,6 +311,77 @@ assignPhenophase = function(input_data) {
 
 
 
+
+# Parallel execution function ----------
+segment_within_pixel = function(input_data, pixel_info, output_labels) {
+  
+  # Perform segmentation on the input data
+  segments = segmentEVI(input_data, 
+                        nBreaks = nSegBreaks,
+                        knots=knots, 
+                        use_raw = TRUE,
+                        sd_filter_threshold = 6)
+  
+  # Now put the segmented data into a single line
+  modelStr = c('raw', 'smooth')
+  for (model in c(1,2)) {
+    # Model 1 corresponds to using the raw data, model 2 corresponds to using the smoothed data
+    
+    # Record estimates if they have been made 
+    if (!is.null(segments[[model]])) {
+      # Calculate estimated segment break dates and 95% CI
+      CI = confint(segments[[model]])
+      
+      # calculate slopes
+      slope_est = slope(segments[[model]])$doy[,1]
+      
+      
+      # Record estimates (break point and following slope)
+      tmp = data.frame(pixelID = pixel_info$pixelID,
+                            x_ITM = pixel_info$x_ITM,
+                            y_ITM = pixel_info$y_ITM,
+                            x_MODIS = pixel_info$x_MODIS,
+                            y_MODIS = pixel_info$y_MODIS,
+                            year = pixel_info$year,
+                            square = pixel_info$square,
+                            model=modelStr[model],
+                            phase = c(1:nSegBreaks), 
+                            t=CI[,1],
+                            lowerCI=CI[,2],
+                            upperCI=CI[,3],
+                            slope=slope_est[-1],
+                            slopeprev=slope_est[1:nSegBreaks])
+
+    } else {
+      tmp = data.frame(pixelID = pixel_info$pixelID,
+                       x_ITM = pixel_info$x_ITM,
+                       y_ITM = pixel_info$y_ITM,
+                       x_MODIS = pixel_info$x_MODIS,
+                       y_MODIS = pixel_info$y_MODIS,
+                       year = pixel_info$year,
+                       square = pixel_info$square,
+                       model=modelStr[model],
+                       phase = c(1:nSegBreaks), 
+                       t=NA,
+                       lowerCI=NA,
+                       upperCI=NA,
+                       slope=NA,
+                       slopeprev=NA)
+    }
+    
+    # Attach tmp of the two models together
+    if (model==1) {
+      output = tmp
+    } else {
+      output = rbind(output, tmp)
+    }
+  }
+  
+  return(output)    
+}
+# End of parallel execution loop
+
+
 # +++++++++++++ End of function definitions ++++++++++++++++++++++++++
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -489,6 +456,7 @@ for (s in square) {
   
   
   
+  # Define output labels and pixel data frame
   # Labels for the final data frame variables
   # t_ is the time of the segmentation
   # slope_ is the regression slope after t_
@@ -496,101 +464,44 @@ for (s in square) {
   label = c('t_', 'lowerCI_', 'upperCI_','slope_','slopeprev_')
   modelStr = c('_raw','_smooth')
   
+  output_labels = paste0(rep(paste0(rep(label,times=nSegBreaks),
+                                         rep(c(1:nSegBreaks),each=length(label))), times=2),
+                              rep(modelStr,each=nSegBreaks*length(label)))
+  
+  
   # Create data frame for the output
-  output = pixel_data
-  output$year = year
-  output$square = s
+  pixel_data$year = year
+  pixel_data$square = s
   
-  for (i in 1:nSegBreaks) {
-    # Add in data holder for raw data segmentation
-    d_add = data.frame(t = as.numeric(NA), 
-                       lowerCI=as.numeric(NA), 
-                       upperCI=as.numeric(NA), 
-                       slope=as.numeric(NA), 
-                       slopeprev = as.numeric(NA))
-    names(d_add) = paste0(label,i,modelStr[1])    
-    output = cbind(output, d_add)
-    
-    # Add in data holder for smoothed data segmentation
-    names(d_add) = paste0(label,i,modelStr[2])    
-    output = cbind(output, d_add)
+  
+  # Segment the EVI data for each pixel in a square  
+  segment_output <- foreach (p = icount(nPixel), .packages=c('segmented','mgcv'), .inorder=FALSE, .combine='rbind') %dopar% {
+   segment_within_pixel(d_final[d_final$pixelID==pixel_list[p],], pixel_data[pixel_data$pixelID==pixel_list[p],],label)
   }
-  
-  
-  
-  
-  # Loop around all the pixels
-  for (p in 1:nPixel) {
-    if (print_pixel) {
-      print(paste0('Estimating pixel ',pixel_list[p]))
-    }
 
-    
-    segments = segmentEVI(d_final[d_final$pixelID==pixel_list[p],], 
-                          nBreaks = nSegBreaks,
-                          knots=knots, 
-                          use_raw = TRUE,
-                          sd_filter_threshold = 6)
-    
-    # # Save the smoothed data
-    # d_pixel = d_final[d_final$pixelID==pixel_list[p],]
-    # d_pixel$evi_smooth = segments$d_sub$evi_smooth
-    # 
-    # # Plot the points used in the analysis and filtered points
-    # plot(d_pixel$doy, d_pixel$evi)
-    # points(d_pixel$doy[segments$filtered], d_pixel$evi[segments$filtered], pch=20, col="red")
-
-    
-    
-    for (model in c(1,2)) {
-      # Model 1 corresponds to using the raw data, model 2 corresponds to using th smoothed data
-      
-      # Record estimates if they have been made 
-      if (!is.null(segments[[model]])) {
-        # Calculate estimated segment break dates and 95% CI
-        CI = confint(segments[[model]])
-        
-        # calculate slopes
-        slope_est = slope(segments[[model]])$doy[,1]
-        
-        # Locate pixel in data frame
-        ind = which(output$pixelID==pixel_list[p])
-        
-        # Record estimates (break point and following slope)
-        for (i in 1:nSegBreaks) {
-          varNames = paste0(label,i,modelStr[model])
-          output[ind,varNames] = c(CI[i,], slope_est[i+1], slope_est[i]) 
-        }
-      }
-    }
-  }
+  
+  
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Finished estimating segmentation for all pixels
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   
   
-  
-  
-  
-  
-  
-  
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Reformat dataframe to put
   # all phenophase dates in one column
-  library(tidyr)
-  output_tmp = pivot_longer(output, 
-                            cols = -c(1:6),
-                            names_to = c('t','phase','smooth'),
-                            names_sep = '_',
-                            values_to = 'doy')
-  
-  # This pulls the 95% confidence interval out into their own columns
-  output_long = pivot_wider(output_tmp, 
-                            id_cols=-doy, 
-                            names_from = t,
-                            values_from = doy)
-  
+  # library(tidyr)
+  # output_tmp = pivot_longer(output, 
+  #                           cols = -c(1:6),
+  #                           names_to = c('t','phase','smooth'),
+  #                           names_sep = '_',
+  #                           values_to = 'doy')
+  # 
+  # # This pulls the 95% confidence interval out into their own columns
+  # output_long = pivot_wider(output_tmp, 
+  #                           id_cols=-doy, 
+  #                           names_from = t,
+  #                           values_from = doy)
+  # 
   
   
   # Loop around all pixels and move the phenophases ----
@@ -607,31 +518,22 @@ for (s in square) {
   
   
   
-  output_long$phase = NA            # Remove draft phase information
-  output_long$warning = NA
+  segment_output$phase = NA            # Remove draft phase information
+  segment_output$warning = NA
   
-  for (p in 1:nPixel) {
-    # Estimate phenophases for smoothed data
-    ind = which(output_long$pixelID==pixel_list[p] & output_long$smooth=="smooth")
-    if (all(is.finite(output_long$t[ind]))) {
-      
-      phenophase = assignPhenophase(output_long[ind,])
-      
-      # Put the phenophases into the final data frame
-      output_long$phase[ind] = phenophase$phase
-      output_long$warning[ind] = phenophase$warning
-    }
-    
-    
-    # Estimate phenophases for raw data
-    ind = which(output_long$pixelID==pixel_list[p] & output_long$smooth=="raw")
-    if (all(is.finite(output_long$t[ind]))) {
-      
-      phenophase = assignPhenophase(output_long[ind,])
-      
-      # Put the phenophases into the final data frame
-      output_long$phase[ind] = phenophase$phase
-      output_long$warning[ind] = phenophase$warning
+  for (m in c(1:2)) {  # Loop around the two models (raw and smoothed)
+    for (p in 1:nPixel) {
+      # Estimate phenophases for smoothed data
+      ind = which(segment_output$pixelID==pixel_list[p] & segment_output$model==modelStr[m])
+      if (all(is.finite(segment_output$t[ind]))) {
+        
+        # Call function to assign phenophases
+        phenophase = assignPhenophase(segment_output[ind,])
+        
+        # Put the phenophases into the final data frame
+        segment_output$phase[ind] = phenophase$phase
+        segment_output$warning[ind] = phenophase$warning
+      }
     }
   }
   
@@ -643,7 +545,8 @@ for (s in square) {
 } # Finish looping around all the squares
 
 
- 
+# Disconnect the compute nodes
+stopCluster(cl) 
   
   
   

@@ -1,10 +1,10 @@
 # Analyse MODIS phenology
 #
-#
+# Analyse MODIS phenology and add in environmental correlates
 #
 #
 # Jon Yearsley (jon.yearsley@ucd.ie)
-# Jan 2021
+# Sept 2021
 # ++++++++++++++++++++++++++++++++++++++++++++++
 
 rm(list=ls())
@@ -14,13 +14,19 @@ library(ggplot2)
 library(nlme)
 library(tidyr)
 library(viridisLite)
+library(raster)
+library(sp)
+library(rgdal)
+library(raster)
 
 dataDir = '~/Research/Phenograss/Data/PhenologyOutput'
+envFile = '/Volumes/MODIS_data/Data_created/all_envData.RData'
+pastureFile = "~/Research/Phenograss/Data/CORINE_Ireland/corine2018_pasturecover_All_Ireland.gri"
 
 input_file_preffix = 'phenology'
 
 # Import data --------
-squares = c(1:9,13:21)
+squares = c(1:9, 13:21)
 years = c(2002:2019)
 
 
@@ -66,14 +72,136 @@ tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square+year,
 
 rm(list='phenology')
 
-# # Try an INLA model
-# library(inlabru)
-# library(INLA)
+
+# Load data on pasture landcover
+pasture = raster::raster(pastureFile)
+# Add proportion of pasture for each pixel
+y = SpatialPoints(phenology_wide[,c(3,4)], proj4string = crs(pasture))
+
+tmp = extract(pasture, y)
+phenology_wide$p_pasture = tmp
+
+# Import some environmental data
+load(envFile)
+all_squares_df$pixelID = NA
+for (s in unique(phenology_wide$square)) {
+  sub = phenology_wide[phenology_wide$square==s,c(1:7)]
+  pixelID_List = unique(sub$pixelID)
+  inds = match(pixelID_List, sub$pixelID)
+  for (p in 1:length(pixelID_List)) {
+    ind = abs(all_squares_df$x_MODIS - sub$x_MODIS[inds[p]])<50 & abs(all_squares_df$y_MODIS - sub$y_MODIS[inds[p]])<50 
+    all_squares_df$pixelID[ind] = pixelID_List[p]
+  }
+}
+
+nam = names(all_squares_df)
+nam[7] = "square"
+names(all_squares_df) = nam
+
+d = merge(phenology_wide, all_squares_df)
+
+# Add a categorical aspect variable
+d$aspect_cat = NA
+delta = 10
+d$aspect_cat[d$ASPECT>360-delta | d$ASPECT<delta ] = "N"
+d$aspect_cat[d$ASPECT>45 & d$ASPECT<90+45 ] = "E"
+d$aspect_cat[d$ASPECT>180-delta & d$ASPECT<180+delta ] = "S"
+d$aspect_cat[d$ASPECT>270-delta & d$ASPECT<270+delta ] = "W"
+d$aspect_cat = as.factor(d$aspect_cat)
+
+d$year = as.factor(d$year)
+
+# Calculate the average SOS for each square for each year and then work out an anomaly
+agg = aggregate(t_phase1~year+square, data=d, FUN=median, na.rm=TRUE)
+
+for (s in unique(d$square)) {
+  d$anom[d$square==s] = d$t_phase1[d$square==s] - agg$t_phase1[match(d$year[d$square==s], agg$year[agg$square==s])]
+}
 
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++
+# Explore data with graphs ----------
+
+
+tmp=subset(d, y_MODIS>quantile(d$y_MODIS,probs=0.3) & 
+             y_MODIS<quantile(d$y_MODIS,probs=0.7) & 
+             year%in%c(2002:2009) & 
+             SLOPE_PERCENT>2 & 
+             !is.na(aspect_cat))
+
+ggplot(data=tmp,
+       aes(y=y_MODIS,
+           x=x_MODIS,
+           colour=aspect_cat)) +
+  geom_point() +
+theme_bw()
+
+ggplot(data=tmp,
+       aes(y=anom,
+           x=y_MODIS,
+           colour=aspect_cat)) +
+  geom_point() +
+  geom_smooth(method='lm',
+              se=T)
+
+
+ggplot(data=tmp,
+       aes(y=anom,
+           x=aspect_cat,
+           colour=aspect_cat)) +
+  geom_point() +
+  geom_boxplot()
+
+
+
+m = lm(t_phase1~factor(year)+aspect_cat*SLOPE_PERCENT + ELEVATION + SOIL_TYPE  + square, 
+       data=subset(d,p_pasture>0.99 & year%in%c(2002:2009)))
+
+d$dummy = interaction(d$year, d$square, sep='_')
+gls_phase1 = gls(t_phase1~1+factor(year) + aspect_cat*SLOPE_PERCENT + ELEVATION + SOIL_TYPE + (x_ITM_centre + y_ITM_centre),
+                 correlation = corExp(value = 500,
+                                      form=~x_ITM_centre + y_ITM_centre| dummy, 
+                                      nugget=FALSE,
+                                      fixed=T),
+                 data=subset(d, p_pasture>0.99 & year%in%c(2002:2009)),
+                 na.action=na.exclude)
+
+
+summary(gls_phase1)
+
+aggregate(p_pasture~SOIL_TYPE, data=d, FUN=median)
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++
 # Fit model for phenology dates of phase 1 -----
 
 
+# Look at one square
+
+test = subset(phenology_wide, year==2010 & square==9 & p_pasture>0.99)
+
+# & pixelID%in%sample(unique(phenology_wide$pixelID),size = 5))
+
+test2$pixelID2 = paste0('x',match(test2$x_MODIS,x_values),
+                       'y',match(test2$y_MODIS,y_values))
+
+head(test)
+head(test2)
+
+ggplot(data=test,
+       aes(x=year,
+           y=t_phase1,
+           colour=pixelID)) +
+         geom_point() + 
+  geom_path()
+
+
+m_phase1 = lme(t_phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+               random= ~1 | pixelID,
+               data=test,
+               na.action=na.exclude)
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Mixed model for phase 1
 m_phase1 = lme(t_phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
                random= ~1 | pixelID,
