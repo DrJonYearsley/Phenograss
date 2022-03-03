@@ -11,15 +11,15 @@ library(segmented)
 library(ggplot2)
 library(mgcv)
 
-setwd('~/Research/Phenograss/Data/PhenologyOutput/')
+setwd('~/Research/Phenograss/Data/PhenologyOutput_test/')
 
 dataDir = '.'
 
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 20
-year = 2019
+square = 18
+year = 2014
 
 # starting_breaks = c(50, 100, 200, 300)
 
@@ -28,20 +28,21 @@ year = 2019
 filename = paste0(input_file_prefix,'_square_',square,'_',year,'.RData')
 load(file.path(dataDir,filename))
 
-d_final$evi = d_final$evi / 0.0001^2
+#d_final$evi = d_final$evi / 0.0001^2
 
 pixel_list = unique(d_final$pixelID)
 nPixel = length(pixel_list)
 
 
 # Plot estimate of phenology dates ---
-ggplot(data=subset(output_smoothed, warning==FALSE), 
+ggplot(data=subset(output_long, smooth=="raw" & warning==FALSE & phase%in%c(1,2,3)), 
        aes(x=t,
            fill=factor(phase))) +
   geom_histogram(position='dodge',
                  bins = 50) +
   scale_fill_brewer('Phase',
-                    palette='Dark2') +
+                    palette='Dark2',
+                    labels=c('SOS','POS','EOS')) +
   labs(x='Day of Year',
        y = 'Number of Pixels',
        title=paste('Square',square,'Year=',year)) +
@@ -57,7 +58,7 @@ ggsave(width=11, height=6,
 
 
 # Plot map of phenophase dates ----
-ggplot(data=subset(output_smoothed,phase==0), 
+ggplot(data=subset(output_long,phase==1 & smooth=="smooth"), 
        aes(x=x_MODIS,
            y=y_MODIS,
            fill = t)) +
@@ -245,12 +246,12 @@ ggplot() +
                                ymax=evi_smooth_upr),
               alpha=0.3, fill='blue') +
   geom_line(data=d_pred, aes(x=doy, y=evi_smooth),colour='blue') +
-  geom_ribbon(data=breaks_df,
-              aes(xmin=xmin,
-                  xmax=xmax,
-                  y=y,
-                  group=factor(phase)), alpha=0.3) +
-  geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
+  # geom_ribbon(data=breaks_df,
+  #             aes(xmin=xmin,
+  #                 xmax=xmax,
+  #                 y=y,
+  #                 group=factor(phase)), alpha=0.3) +
+  # geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
   geom_point(data=segments[[3]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
   geom_path(data=d_pred, aes(x=doy, y=evi)) +
   scale_colour_brewer(palette = 'Dark2') +

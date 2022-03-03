@@ -1,0 +1,1601 @@
+Chamber,ID,Variety,Waterlogging,Conditions,Harvest,Month,Tillers,DryMass [mg],Height [cm],H. Corrected [cm],Duration [Mass],Duration [Height],Growth Rate1 [mg d-1],Growth Rate2 [cm d-1]
+Chamber 1,1,Carraig,Not Waterlog,Treatment,1,May,4,45,11,11.5,43,37,1.04651,0.310810811
+Chamber 1,2,Abergain,Not Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 1,3,Dunlance,Not Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 1,4,Abergain,Not Waterlog,Treatment,1,May,1,1,5.8,6.3,43,37,0.02326,0.17027027
+Chamber 1,5,Abergain,Waterlog,Treatment,1,May,0,1,2.5,3,43,37,0.02326,0.081081081
+Chamber 1,6,Aberchoice,Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 1,7,Abergain,Waterlog,Treatment,1,May,1,8,6,6.5,43,37,0.18605,0.175675676
+Chamber 1,8,Abergain,Waterlog,Treatment,1,May,0,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 1,9,Aberchoice,Not Waterlog,Treatment,1,May,4,65,16,16.5,43,37,1.51163,0.445945946
+Chamber 1,10,Carraig,Not Waterlog,Treatment,1,May,1,20,8.5,9,43,37,0.46512,0.243243243
+Chamber 1,11,Dunlance,Waterlog,Treatment,1,May,0,0,5,5.5,43,37,0.00000,0.148648649
+Chamber 1,12,Aberchoice,Not Waterlog,Treatment,1,May,1,10,8.5,9,43,37,0.23256,0.243243243
+Chamber 1,13,Aberchoice,Waterlog,Treatment,1,May,4,72,20,20.5,43,37,1.67442,0.554054054
+Chamber 1,14,Dunlance,Waterlog,Treatment,1,May,0,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 1,15,Abergain,Not Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 1,16,Aberchoice,Waterlog,Treatment,1,May,2,50,12.5,13,43,37,1.16279,0.351351351
+Chamber 1,17,Carraig,Not Waterlog,Treatment,1,May,1,16,9,9.5,43,37,0.37209,0.256756757
+Chamber 1,18,Carraig,Waterlog,Treatment,1,May,2,15,8,8.5,43,37,0.34884,0.22972973
+Chamber 1,19,Dunlance,Not Waterlog,Treatment,1,May,1,26,10,10.5,43,37,0.60465,0.283783784
+Chamber 1,20,Dunlance,Not Waterlog,Treatment,1,May,4,73,13.5,14,43,37,1.69767,0.378378378
+Chamber 1,21,Carraig,Waterlog,Treatment,1,May,6,157,21.5,22,43,37,3.65116,0.594594595
+Chamber 1,22,Carraig,Waterlog,Treatment,1,May,4,105,16,16.5,43,37,2.44186,0.445945946
+Chamber 1,23,Abergain,Waterlog,Treatment,1,May,4,110,14,14.5,43,37,2.55814,0.391891892
+Chamber 1,24,Aberchoice,Not Waterlog,Treatment,1,May,3,76,17.5,18,43,37,1.76744,0.486486486
+Chamber 1,25,Dunlance,Not Waterlog,Treatment,1,May,0,0,3,3.5,43,37,0.00000,0.094594595
+Chamber 1,26,Dunlance,Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 1,27,Carraig,Waterlog,Treatment,1,May,9,244,20,20.5,43,37,5.67442,0.554054054
+Chamber 1,28,Carraig,Waterlog,Treatment,1,May,2,49,16,16.5,43,37,1.13953,0.445945946
+Chamber 1,29,Dunlance,Waterlog,Treatment,1,May,1,13,7.5,8,43,37,0.30233,0.216216216
+Chamber 1,30,Aberchoice,Not Waterlog,Treatment,1,May,2,30,11.5,12,43,37,0.69767,0.324324324
+Chamber 1,31,Abergain,Not Waterlog,Treatment,1,May,2,34,11.5,12,43,37,0.79070,0.324324324
+Chamber 1,32,Aberchoice,Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 1,33,Carraig,Waterlog,Treatment,1,May,1,12,10,10.5,43,37,0.27907,0.283783784
+Chamber 1,34,Aberchoice,Not Waterlog,Treatment,1,May,2,29,11,11.5,43,37,0.67442,0.310810811
+Chamber 1,35,Aberchoice,Not Waterlog,Treatment,1,May,4,101,18,18.5,43,37,2.34884,0.5
+Chamber 1,36,Dunlance,Not Waterlog,Treatment,1,May,0,1,2.5,3,43,37,0.02326,0.081081081
+Chamber 1,37,Aberchoice,Waterlog,Treatment,1,May,2,18,11.5,12,43,37,0.41860,0.324324324
+Chamber 1,38,Abergain,Not Waterlog,Treatment,1,May,2,22,9,9.5,43,37,0.51163,0.256756757
+Chamber 1,39,Dunlance,Waterlog,Treatment,1,May,3,54,6.4,6.9,43,37,1.25581,0.186486486
+Chamber 1,40,Aberchoice,Not Waterlog,Treatment,1,May,2,1,8.5,9,43,37,0.02326,0.243243243
+Chamber 1,41,Carraig,Not Waterlog,Treatment,1,May,2,23,8,8.5,43,37,0.53488,0.22972973
+Chamber 1,42,Aberchoice,Waterlog,Treatment,1,May,2,18,10.5,11,43,37,0.41860,0.297297297
+Chamber 1,43,Abergain,Waterlog,Treatment,1,May,3,54,11.5,12,43,37,1.25581,0.324324324
+Chamber 1,44,Abergain,Not Waterlog,Treatment,1,May,1,21,8.5,9,43,37,0.48837,0.243243243
+Chamber 1,45,Aberchoice,Not Waterlog,Treatment,1,May,1,10,5.5,6,43,37,0.23256,0.162162162
+Chamber 1,46,Carraig,Not Waterlog,Treatment,1,May,2,35,11,11.5,43,37,0.81395,0.310810811
+Chamber 1,47,Abergain,Waterlog,Treatment,1,May,1,21,8,8.5,43,37,0.48837,0.22972973
+Chamber 1,48,Carraig,Not Waterlog,Treatment,1,May,1,9,10,10.5,43,37,0.20930,0.283783784
+Chamber 1,49,Dunlance,Not Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 1,50,Abergain,Not Waterlog,Treatment,1,May,1,1,1.5,2,43,37,0.02326,0.054054054
+Chamber 1,51,Carraig,Waterlog,Treatment,1,May,3,25,11,11.5,43,37,0.58140,0.310810811
+Chamber 1,52,Dunlance,Waterlog,Treatment,1,May,1,11,6,6.5,43,37,0.25581,0.175675676
+Chamber 1,53,Aberchoice,Waterlog,Treatment,1,May,4,79,15,15.5,43,37,1.83721,0.418918919
+Chamber 1,54,Carraig,Waterlog,Treatment,1,May,2,65,13,13.5,43,37,1.51163,0.364864865
+Chamber 1,55,Dunlance,Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 1,56,Aberchoice,Not Waterlog,Treatment,1,May,7,151,20,20.5,43,37,3.51163,0.554054054
+Chamber 1,57,Abergain,Not Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 1,58,Dunlance,Waterlog,Treatment,1,May,3,57,13.5,14,43,37,1.32558,0.378378378
+Chamber 1,59,Abergain,Waterlog,Treatment,1,May,2,14,7,7.5,43,37,0.32558,0.202702703
+Chamber 1,60,Carraig,Waterlog,Treatment,1,May,2,28,11.5,12,43,37,0.65116,0.324324324
+Chamber 1,61,Dunlance,Waterlog,Treatment,1,May,0,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 1,62,Dunlance,Not Waterlog,Treatment,1,May,1,12,8,8.5,43,37,0.27907,0.22972973
+Chamber 1,63,Abergain,Waterlog,Treatment,1,May,3,50,14,14.5,43,37,1.16279,0.391891892
+Chamber 1,64,Carraig,Not Waterlog,Treatment,1,May,3,52,17,17.5,43,37,1.20930,0.472972973
+Chamber 1,65,Aberchoice,Not Waterlog,Treatment,1,May,2,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 1,66,Carraig,Not Waterlog,Treatment,1,May,1,16,8,8.5,43,37,0.37209,0.22972973
+Chamber 1,67,Dunlance,Not Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 1,68,Abergain,Not Waterlog,Treatment,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 1,69,Carraig,Not Waterlog,Treatment,1,May,1,18,9,9.5,43,37,0.41860,0.256756757
+Chamber 1,70,Dunlance,Not Waterlog,Treatment,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 1,71,Aberchoice,Waterlog,Treatment,1,May,4,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 1,72,Aberchoice,Waterlog,Treatment,1,May,0,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 1,73,Abergain,Not Waterlog,Treatment,1,May,2,30,11,11.5,43,37,0.69767,0.310810811
+Chamber 1,74,Abergain,Waterlog,Treatment,1,May,2,11,7,7.5,43,37,0.25581,0.202702703
+Chamber 1,75,Carraig,Waterlog,Treatment,1,May,2,11,7,7.5,43,37,0.25581,0.202702703
+Chamber 1,76,Dunlance,Not Waterlog,Treatment,1,May,0,1,2.5,3,43,37,0.02326,0.081081081
+Chamber 1,77,Dunlance,Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 1,78,Aberchoice,Waterlog,Treatment,1,May,1,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 1,79,Abergain,Waterlog,Treatment,1,May,0,0,1,1.5,43,37,0.00000,0.040540541
+Chamber 1,80,Carraig,Not Waterlog,Treatment,1,May,0,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 2,81,Carraig,Not Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 2,82,Abergain,Not Waterlog,Ambient,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 2,83,Dunlance,Waterlog,Ambient,1,May,0,0,2,2.5,43,37,0.00000,0.067567568
+Chamber 2,84,Carraig,Waterlog,Ambient,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 2,85,Carraig,Not Waterlog,Ambient,1,May,1,18,9,9.5,43,37,0.41860,0.256756757
+Chamber 2,86,Aberchoice,Waterlog,Ambient,1,May,6,170,20,20.5,43,37,3.95349,0.554054054
+Chamber 2,87,Dunlance,Waterlog,Ambient,1,May,1,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 2,88,Dunlance,Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 2,89,Carraig,Waterlog,Ambient,1,May,13,337,22,22.5,43,37,7.83721,0.608108108
+Chamber 2,90,Aberchoice,Waterlog,Ambient,1,May,17,361,29,29.5,43,37,8.39535,0.797297297
+Chamber 2,91,Aberchoice,Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 2,92,Dunlance,Not Waterlog,Ambient,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 2,93,Aberchoice,Not Waterlog,Ambient,1,May,2,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,94,Carraig,Not Waterlog,Ambient,1,May,3,14,17.5,18,43,37,0.32558,0.486486486
+Chamber 2,95,Dunlance,Not Waterlog,Ambient,1,May,2,19,10,10.5,43,37,0.44186,0.283783784
+Chamber 2,96,Carraig,Not Waterlog,Ambient,1,May,1,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 2,97,Abergain,Not Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,98,Abergain,Waterlog,Ambient,1,May,1,1,6.7,7.2,43,37,0.02326,0.194594595
+Chamber 2,99,Dunlance,Not Waterlog,Ambient,1,May,1,7,7,7.5,43,37,0.16279,0.202702703
+Chamber 2,100,Abergain,Not Waterlog,Ambient,1,May,2,34,11,11.5,43,37,0.79070,0.310810811
+Chamber 2,101,Abergain,Not Waterlog,Ambient,1,May,3,25,11,11.5,43,37,0.58140,0.310810811
+Chamber 2,102,Abergain,Not Waterlog,Ambient,1,May,2,39,11,11.5,43,37,0.90698,0.310810811
+Chamber 2,103,Dunlance,Not Waterlog,Ambient,1,May,1,12,12,12.5,43,37,0.27907,0.337837838
+Chamber 2,104,Abergain,Not Waterlog,Ambient,1,May,2,95,20,20.5,43,37,2.20930,0.554054054
+Chamber 2,105,Abergain,Waterlog,Ambient,1,May,0,0,1.3,1.8,43,37,0.00000,0.048648649
+Chamber 2,106,Dunlance,Waterlog,Ambient,1,May,2,67,15,15.5,43,37,1.55814,0.418918919
+Chamber 2,107,Abergain,Waterlog,Ambient,1,May,2,1,10.5,11,43,37,0.02326,0.297297297
+Chamber 2,108,Abergain,Waterlog,Ambient,1,May,0,0,1.5,2,43,37,0.00000,0.054054054
+Chamber 2,109,Abergain,Waterlog,Ambient,1,May,1,25,11,11.5,43,37,0.58140,0.310810811
+Chamber 2,110,Abergain,Not Waterlog,Ambient,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 2,111,Dunlance,Waterlog,Ambient,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 2,112,Carraig,Waterlog,Ambient,1,May,4,71,16.5,17,43,37,1.65116,0.459459459
+Chamber 2,113,Aberchoice,Waterlog,Ambient,1,May,11,281,25.5,26,43,37,6.53488,0.702702703
+Chamber 2,114,Carraig,Waterlog,Ambient,1,May,1,15,8,8.5,43,37,0.34884,0.22972973
+Chamber 2,115,Carraig,Not Waterlog,Ambient,1,May,1,1,10,10.5,43,37,0.02326,0.283783784
+Chamber 2,116,Aberchoice,Not Waterlog,Ambient,1,May,1,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 2,117,Abergain,Waterlog,Ambient,1,May,1,1,9,9.5,43,37,0.02326,0.256756757
+Chamber 2,118,Dunlance,Not Waterlog,Ambient,1,May,1,23,10.5,11,43,37,0.53488,0.297297297
+Chamber 2,119,Carraig,Not Waterlog,Ambient,1,May,3,118,20,20.5,43,37,2.74419,0.554054054
+Chamber 2,120,Abergain,Not Waterlog,Ambient,1,May,1,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 2,121,Carraig,Waterlog,Ambient,1,May,1,14,8,8.5,43,37,0.32558,0.22972973
+Chamber 2,122,Abergain,Waterlog,Ambient,1,May,1,1,12,12.5,43,37,0.02326,0.337837838
+Chamber 2,123,Carraig,Waterlog,Ambient,1,May,4,61,18.5,19,43,37,1.41860,0.513513514
+Chamber 2,124,Carraig,Not Waterlog,Ambient,1,May,9,311,21,21.5,43,37,7.23256,0.581081081
+Chamber 2,125,Aberchoice,Not Waterlog,Ambient,1,May,0,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,126,Dunlance,Waterlog,Ambient,1,May,1,1,6.8,7.3,43,37,0.02326,0.197297297
+Chamber 2,127,Abergain,Not Waterlog,Ambient,1,May,2,43,10,10.5,43,37,1.00000,0.283783784
+Chamber 2,128,Dunlance,Not Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 2,129,Dunlance,Waterlog,Ambient,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 2,130,Abergain,Waterlog,Ambient,1,May,0,1,2.5,3,43,37,0.02326,0.081081081
+Chamber 2,131,Carraig,Not Waterlog,Ambient,1,May,1,10,8,8.5,43,37,0.23256,0.22972973
+Chamber 2,132,Dunlance,Not Waterlog,Ambient,1,May,1,20,9,9.5,43,37,0.46512,0.256756757
+Chamber 2,133,Carraig,Not Waterlog,Ambient,1,May,1,1,9,9.5,43,37,0.02326,0.256756757
+Chamber 2,134,Carraig,Waterlog,Ambient,1,May,2,42,16,16.5,43,37,0.97674,0.445945946
+Chamber 2,135,Aberchoice,Waterlog,Ambient,1,May,2,17,13,13.5,43,37,0.39535,0.364864865
+Chamber 2,136,Aberchoice,Not Waterlog,Ambient,1,May,2,33,16.5,17,43,37,0.76744,0.459459459
+Chamber 2,137,Aberchoice,Not Waterlog,Ambient,1,May,1,8,8.5,9,43,37,0.18605,0.243243243
+Chamber 2,138,Aberchoice,Waterlog,Ambient,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 2,139,Carraig,Waterlog,Ambient,1,May,1,11,11,11.5,43,37,0.25581,0.310810811
+Chamber 2,140,Dunlance,Waterlog,Ambient,1,May,2,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 2,141,Dunlance,Not Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,142,Aberchoice,Not Waterlog,Ambient,1,May,2,1,12.5,13,43,37,0.02326,0.351351351
+Chamber 2,143,Aberchoice,Waterlog,Ambient,1,May,2,20,11,11.5,43,37,0.46512,0.310810811
+Chamber 2,144,Dunlance,Not Waterlog,Ambient,1,May,1,26,14,14.5,43,37,0.60465,0.391891892
+Chamber 2,145,Aberchoice,Waterlog,Ambient,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 2,146,Aberchoice,Not Waterlog,Ambient,1,May,1,6,11,11.5,43,37,0.13953,0.310810811
+Chamber 2,147,Dunlance,Waterlog,Ambient,1,May,0,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 2,148,Abergain,Waterlog,Ambient,1,May,1,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 2,149,Carraig,Waterlog,Ambient,1,May,3,58,21,21.5,43,37,1.34884,0.581081081
+Chamber 2,150,Dunlance,Waterlog,Ambient,1,May,1,7,7.5,8,43,37,0.16279,0.216216216
+Chamber 2,151,Carraig,Waterlog,Ambient,1,May,1,12,12,12.5,43,37,0.27907,0.337837838
+Chamber 2,152,Aberchoice,Not Waterlog,Ambient,1,May,1,6,10,10.5,43,37,0.13953,0.283783784
+Chamber 2,153,Aberchoice,Waterlog,Ambient,1,May,1,6,12,12.5,43,37,0.13953,0.337837838
+Chamber 2,154,Carraig,Not Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,155,Abergain,Not Waterlog,Ambient,1,May,1,13,8,8.5,43,37,0.30233,0.22972973
+Chamber 2,156,Aberchoice,Not Waterlog,Ambient,1,May,2,24,11,11.5,43,37,0.55814,0.310810811
+Chamber 2,157,Dunlance,Not Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 2,158,Aberchoice,Waterlog,Ambient,1,May,2,1,11.5,12,43,37,0.02326,0.324324324
+Chamber 2,159,Abergain,Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 2,160,Aberchoice,Not Waterlog,Ambient,1,May,0,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 4,161,Aberchoice,Not Waterlog,Treatment,1,May,2,35,14,14.5,43,37,0.81395,0.391891892
+Chamber 4,162,Dunlance,Not Waterlog,Treatment,1,May,0,0,2,2.5,43,37,0.00000,0.067567568
+Chamber 4,163,Carraig,Not Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 4,164,Abergain,Waterlog,Treatment,1,May,1,29,8.5,9,43,37,0.67442,0.243243243
+Chamber 4,165,Abergain,Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 4,166,Dunlance,Waterlog,Treatment,1,May,0,1,2,2.5,43,37,0.02326,0.067567568
+Chamber 4,167,Aberchoice,Waterlog,Treatment,1,May,1,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 4,168,Abergain,Waterlog,Treatment,1,May,1,12,8,8.5,43,37,0.27907,0.22972973
+Chamber 4,169,Dunlance,Waterlog,Treatment,1,May,2,34,12,12.5,43,37,0.79070,0.337837838
+Chamber 4,170,Dunlance,Waterlog,Treatment,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 4,171,Dunlance,Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 4,172,Aberchoice,Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 4,173,Dunlance,Waterlog,Treatment,1,May,3,21,9,9.5,43,37,0.48837,0.256756757
+Chamber 4,174,Carraig,Not Waterlog,Treatment,1,May,21,1029,25.5,26,43,37,23.93023,0.702702703
+Chamber 4,175,Abergain,Not Waterlog,Treatment,1,May,0,1,4.4,4.9,43,37,0.02326,0.132432432
+Chamber 4,176,Aberchoice,Waterlog,Treatment,1,May,3,41,10.5,11,43,37,0.95349,0.297297297
+Chamber 4,177,Abergain,Not Waterlog,Treatment,1,May,0,1,1.5,2,43,37,0.02326,0.054054054
+Chamber 4,178,Aberchoice,Waterlog,Treatment,1,May,0,1,6.4,6.9,43,37,0.02326,0.186486486
+Chamber 4,179,Aberchoice,Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 4,180,Dunlance,Waterlog,Treatment,1,May,2,18,9.4,9.9,43,37,0.41860,0.267567568
+Chamber 4,181,Carraig,Waterlog,Treatment,1,May,5,148,15.5,16,43,37,3.44186,0.432432432
+Chamber 4,182,Carraig,Waterlog,Treatment,1,May,3,54,13.4,13.9,43,37,1.25581,0.375675676
+Chamber 4,183,Carraig,Not Waterlog,Treatment,1,May,4,55,14,14.5,43,37,1.27907,0.391891892
+Chamber 4,184,Carraig,Waterlog,Treatment,1,May,2,20,13,13.5,43,37,0.46512,0.364864865
+Chamber 4,185,Carraig,Waterlog,Treatment,1,May,2,40,13,13.5,43,37,0.93023,0.364864865
+Chamber 4,186,Aberchoice,Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 4,187,Abergain,Waterlog,Treatment,1,May,3,28,11.5,12,43,37,0.65116,0.324324324
+Chamber 4,188,Carraig,Not Waterlog,Treatment,1,May,2,14,10,10.5,43,37,0.32558,0.283783784
+Chamber 4,189,Abergain,Waterlog,Treatment,1,May,3,20,9,9.5,43,37,0.46512,0.256756757
+Chamber 4,190,Carraig,Waterlog,Treatment,1,May,3,21,11.5,12,43,37,0.48837,0.324324324
+Chamber 4,191,Carraig,Not Waterlog,Treatment,1,May,6,101,12.5,13,43,37,2.34884,0.351351351
+Chamber 4,192,Abergain,Not Waterlog,Treatment,1,May,1,12,8.5,9,43,37,0.27907,0.243243243
+Chamber 4,193,Carraig,Not Waterlog,Treatment,1,May,2,11,9.5,10,43,37,0.25581,0.27027027
+Chamber 4,194,Abergain,Not Waterlog,Treatment,1,May,2,28,10.5,11,43,37,0.65116,0.297297297
+Chamber 4,195,Dunlance,Not Waterlog,Treatment,1,May,3,98,15,15.5,43,37,2.27907,0.418918919
+Chamber 4,196,Aberchoice,Not Waterlog,Treatment,1,May,1,1,8,8.5,43,37,0.02326,0.22972973
+Chamber 4,197,Carraig,Waterlog,Treatment,1,May,1,13,7,7.5,43,37,0.30233,0.202702703
+Chamber 4,198,Abergain,Not Waterlog,Treatment,1,May,1,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 4,199,Aberchoice,Not Waterlog,Treatment,1,May,1,18,11.5,12,43,37,0.41860,0.324324324
+Chamber 4,200,Dunlance,Not Waterlog,Treatment,1,May,1,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 4,201,Aberchoice,Waterlog,Treatment,1,May,1,9,7.5,8,43,37,0.20930,0.216216216
+Chamber 4,202,Aberchoice,Not Waterlog,Treatment,1,May,1,28,9.5,10,43,37,0.65116,0.27027027
+Chamber 4,203,Dunlance,Waterlog,Treatment,1,May,1,32,10,10.5,43,37,0.74419,0.283783784
+Chamber 4,204,Abergain,Not Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 4,205,Aberchoice,Not Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 4,206,Abergain,Not Waterlog,Treatment,1,May,2,1,7,7.5,43,37,0.02326,0.202702703
+Chamber 4,207,Abergain,Waterlog,Treatment,1,May,2,38,10.5,11,43,37,0.88372,0.297297297
+Chamber 4,208,Carraig,Not Waterlog,Treatment,1,May,2,38,10,10.5,43,37,0.88372,0.283783784
+Chamber 4,209,Dunlance,Not Waterlog,Treatment,1,May,0,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 4,210,Carraig,Waterlog,Treatment,1,May,1,1,5.2,5.7,43,37,0.02326,0.154054054
+Chamber 4,211,Dunlance,Waterlog,Treatment,1,May,2,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 4,212,Aberchoice,Waterlog,Treatment,1,May,2,40,11.5,12,43,37,0.93023,0.324324324
+Chamber 4,213,Carraig,Waterlog,Treatment,1,May,2,10,8.5,9,43,37,0.23256,0.243243243
+Chamber 4,214,Abergain,Not Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 4,215,Aberchoice,Not Waterlog,Treatment,1,May,2,1,8,8.5,43,37,0.02326,0.22972973
+Chamber 4,216,Aberchoice,Waterlog,Treatment,1,May,2,40,11.9,12.4,43,37,0.93023,0.335135135
+Chamber 4,217,Carraig,Waterlog,Treatment,1,May,1,1,14.5,15,43,37,0.02326,0.405405405
+Chamber 4,218,Abergain,Waterlog,Treatment,1,May,1,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 4,219,Aberchoice,Not Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 4,220,Aberchoice,Not Waterlog,Treatment,1,May,2,39,11,11.5,43,37,0.90698,0.310810811
+Chamber 4,221,Dunlance,Not Waterlog,Treatment,1,May,2,14,9.5,10,43,37,0.32558,0.27027027
+Chamber 4,222,Dunlance,Not Waterlog,Treatment,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 4,223,Dunlance,Not Waterlog,Treatment,1,May,2,21,8.3,8.8,43,37,0.48837,0.237837838
+Chamber 4,224,Aberchoice,Waterlog,Treatment,1,May,15,463,21,21.5,43,37,10.76744,0.581081081
+Chamber 4,225,Abergain,Not Waterlog,Treatment,1,May,2,6,6,6.5,43,37,0.13953,0.175675676
+Chamber 4,226,Dunlance,Not Waterlog,Treatment,1,May,1,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 4,227,Carraig,Waterlog,Treatment,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 4,228,Abergain,Waterlog,Treatment,1,May,3,26,9,9.5,43,37,0.60465,0.256756757
+Chamber 4,229,Dunlance,Waterlog,Treatment,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 4,230,Aberchoice,Not Waterlog,Treatment,1,May,1,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 4,231,Abergain,Waterlog,Treatment,1,May,0,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 4,232,Dunlance,Waterlog,Treatment,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 4,233,Abergain,Not Waterlog,Treatment,1,May,1,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 4,234,Carraig,Not Waterlog,Treatment,1,May,4,57,14,14.5,43,37,1.32558,0.391891892
+Chamber 4,235,Carraig,Not Waterlog,Treatment,1,May,3,27,12,12.5,43,37,0.62791,0.337837838
+Chamber 4,236,Aberchoice,Not Waterlog,Treatment,1,May,12,251,18.5,19,43,37,5.83721,0.513513514
+Chamber 4,237,Carraig,Not Waterlog,Treatment,1,May,3,32,14,14.5,43,37,0.74419,0.391891892
+Chamber 4,238,Dunlance,Not Waterlog,Treatment,1,May,1,1,2,2.5,43,37,0.02326,0.067567568
+Chamber 4,239,Abergain,Waterlog,Treatment,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 4,240,Dunlance,Not Waterlog,Treatment,1,May,1,1,4,4.5,43,37,0.02326,0.121621622
+Chamber 5,241,Carraig,Not Waterlog,Ambient,1,May,5,123,19,19.5,43,37,2.86047,0.527027027
+Chamber 5,242,Abergain,Waterlog,Ambient,1,May,0,0,2,2.5,43,37,0.00000,0.067567568
+Chamber 5,243,Carraig,Not Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,244,Dunlance,Not Waterlog,Ambient,1,May,1,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 5,245,Abergain,Not Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 5,246,Aberchoice,Waterlog,Ambient,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 5,247,Dunlance,Not Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,248,Carraig,Not Waterlog,Ambient,1,May,1,1,6.4,6.9,43,37,0.02326,0.186486486
+Chamber 5,249,Dunlance,Not Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 5,250,Abergain,Not Waterlog,Ambient,1,May,1,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 5,251,Carraig,Not Waterlog,Ambient,1,May,1,1,8.3,8.8,43,37,0.02326,0.237837838
+Chamber 5,252,Dunlance,Waterlog,Ambient,1,May,0,1,2.5,3,43,37,0.02326,0.081081081
+Chamber 5,253,Dunlance,Waterlog,Ambient,1,May,1,20,7.6,8.1,43,37,0.46512,0.218918919
+Chamber 5,254,Aberchoice,Not Waterlog,Ambient,1,May,3,16,11.5,12,43,37,0.37209,0.324324324
+Chamber 5,255,Dunlance,Waterlog,Ambient,1,May,1,6,6.5,7,43,37,0.13953,0.189189189
+Chamber 5,256,Dunlance,Not Waterlog,Ambient,1,May,1,17,9.5,10,43,37,0.39535,0.27027027
+Chamber 5,257,Aberchoice,Waterlog,Ambient,1,May,0,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,258,Abergain,Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 5,259,Carraig,Waterlog,Ambient,1,May,2,38,12.6,13.1,43,37,0.88372,0.354054054
+Chamber 5,260,Abergain,Not Waterlog,Ambient,1,May,3,63,12.5,13,43,37,1.46512,0.351351351
+Chamber 5,261,Dunlance,Not Waterlog,Ambient,1,May,2,19,9.7,10.2,43,37,0.44186,0.275675676
+Chamber 5,262,Abergain,Waterlog,Ambient,1,May,1,16,8.4,8.9,43,37,0.37209,0.240540541
+Chamber 5,263,Dunlance,Waterlog,Ambient,1,May,1,49,11.5,12,43,37,1.13953,0.324324324
+Chamber 5,264,Abergain,Waterlog,Ambient,1,May,1,1,5.7,6.2,43,37,0.02326,0.167567568
+Chamber 5,265,Abergain,Waterlog,Ambient,1,May,1,1,8.5,9,43,37,0.02326,0.243243243
+Chamber 5,266,Carraig,Waterlog,Ambient,1,May,2,24,11.5,12,43,37,0.55814,0.324324324
+Chamber 5,267,Dunlance,Not Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 5,268,Aberchoice,Not Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,269,Abergain,Waterlog,Ambient,1,May,1,1,6.3,6.8,43,37,0.02326,0.183783784
+Chamber 5,270,Abergain,Not Waterlog,Ambient,1,May,1,10,6.5,7,43,37,0.23256,0.189189189
+Chamber 5,271,Aberchoice,Waterlog,Ambient,1,May,1,7,8,8.5,43,37,0.16279,0.22972973
+Chamber 5,272,Aberchoice,Not Waterlog,Ambient,1,May,1,1,5.5,6,43,37,0.02326,0.162162162
+Chamber 5,273,Abergain,Waterlog,Ambient,1,May,1,1,8,8.5,43,37,0.02326,0.22972973
+Chamber 5,274,Dunlance,Waterlog,Ambient,1,May,2,24,9,9.5,43,37,0.55814,0.256756757
+Chamber 5,275,Carraig,Not Waterlog,Ambient,1,May,2,29,13,13.5,43,37,0.67442,0.364864865
+Chamber 5,276,Dunlance,Not Waterlog,Ambient,1,May,1,1,3.4,3.9,43,37,0.02326,0.105405405
+Chamber 5,277,Aberchoice,Not Waterlog,Ambient,1,May,1,1,7.8,8.3,43,37,0.02326,0.224324324
+Chamber 5,278,Carraig,Waterlog,Ambient,1,May,1,7,7.7,8.2,43,37,0.16279,0.221621622
+Chamber 5,279,Dunlance,Waterlog,Ambient,1,May,2,9,8.5,9,43,37,0.20930,0.243243243
+Chamber 5,280,Dunlance,Not Waterlog,Ambient,1,May,1,28,9.5,10,43,37,0.65116,0.27027027
+Chamber 5,281,Carraig,Waterlog,Ambient,1,May,2,1,8,8.5,43,37,0.02326,0.22972973
+Chamber 5,282,Carraig,Waterlog,Ambient,1,May,2,20,6.9,7.4,43,37,0.46512,0.2
+Chamber 5,283,Carraig,Not Waterlog,Ambient,1,May,4,64,11.5,12,43,37,1.48837,0.324324324
+Chamber 5,284,Abergain,Waterlog,Ambient,1,May,1,1,6.2,6.7,43,37,0.02326,0.181081081
+Chamber 5,285,Abergain,Not Waterlog,Ambient,1,May,2,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 5,286,Carraig,Waterlog,Ambient,1,May,2,25,11.7,12.2,43,37,0.58140,0.32972973
+Chamber 5,287,Dunlance,Not Waterlog,Ambient,1,May,2,32,11,11.5,43,37,0.74419,0.310810811
+Chamber 5,288,Carraig,Waterlog,Ambient,1,May,2,33,13,13.5,43,37,0.76744,0.364864865
+Chamber 5,289,Aberchoice,Waterlog,Ambient,1,May,0,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 5,290,Abergain,Waterlog,Ambient,1,May,1,1,3.5,4,43,37,0.02326,0.108108108
+Chamber 5,291,Abergain,Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 5,292,Dunlance,Waterlog,Ambient,1,May,1,13,7.5,8,43,37,0.30233,0.216216216
+Chamber 5,293,Aberchoice,Not Waterlog,Ambient,1,May,2,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 5,294,Carraig,Waterlog,Ambient,1,May,1,7,8,8.5,43,37,0.16279,0.22972973
+Chamber 5,295,Carraig,Not Waterlog,Ambient,1,May,2,38,14.7,15.2,43,37,0.88372,0.410810811
+Chamber 5,296,Aberchoice,Not Waterlog,Ambient,1,May,3,46,13.3,13.8,43,37,1.06977,0.372972973
+Chamber 5,297,Aberchoice,Waterlog,Ambient,1,May,1,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 5,298,Carraig,Not Waterlog,Ambient,1,May,2,30,9.5,10,43,37,0.69767,0.27027027
+Chamber 5,299,Dunlance,Waterlog,Ambient,1,May,0,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 5,300,Carraig,Not Waterlog,Ambient,1,May,2,56,12.5,13,43,37,1.30233,0.351351351
+Chamber 5,301,Aberchoice,Not Waterlog,Ambient,1,May,6,64,14,14.5,43,37,1.48837,0.391891892
+Chamber 5,302,Abergain,Not Waterlog,Ambient,1,May,1,17,11.2,11.7,43,37,0.39535,0.316216216
+Chamber 5,303,Carraig,Waterlog,Ambient,1,May,2,65,14.7,15.2,43,37,1.51163,0.410810811
+Chamber 5,304,Dunlance,Waterlog,Ambient,1,May,2,60,14,14.5,43,37,1.39535,0.391891892
+Chamber 5,305,Aberchoice,Waterlog,Ambient,1,May,1,1,6,6.5,43,37,0.02326,0.175675676
+Chamber 5,306,Aberchoice,Waterlog,Ambient,1,May,1,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 5,307,Aberchoice,Not Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,308,Abergain,Not Waterlog,Ambient,1,May,1,1,4.5,5,43,37,0.02326,0.135135135
+Chamber 5,309,Dunlance,Waterlog,Ambient,1,May,1,1,4.7,5.2,43,37,0.02326,0.140540541
+Chamber 5,310,Aberchoice,Not Waterlog,Ambient,1,May,1,10,7,7.5,43,37,0.23256,0.202702703
+Chamber 5,311,Dunlance,Not Waterlog,Ambient,1,May,1,11,8.6,9.1,43,37,0.25581,0.245945946
+Chamber 5,312,Abergain,Not Waterlog,Ambient,1,May,2,23,10,10.5,43,37,0.53488,0.283783784
+Chamber 5,313,Abergain,Not Waterlog,Ambient,1,May,1,1,6.5,7,43,37,0.02326,0.189189189
+Chamber 5,314,Aberchoice,Waterlog,Ambient,1,May,2,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 5,315,Abergain,Not Waterlog,Ambient,1,May,0,0,4.5,5,43,37,0.00000,0.135135135
+Chamber 5,316,Aberchoice,Waterlog,Ambient,1,May,1,1,7.5,8,43,37,0.02326,0.216216216
+Chamber 5,317,Aberchoice,Waterlog,Ambient,1,May,2,13,9.5,10,43,37,0.30233,0.27027027
+Chamber 5,318,Carraig,Waterlog,Ambient,1,May,1,1,5,5.5,43,37,0.02326,0.148648649
+Chamber 5,319,Aberchoice,Not Waterlog,Ambient,1,May,1,1,3,3.5,43,37,0.02326,0.094594595
+Chamber 5,320,Carraig,Not Waterlog,Ambient,1,May,2,27,10.5,11,43,37,0.62791,0.297297297
+Chamber 1,1,Carraig,Not Waterlog,Treatment,2,June,72,5067,33.5,39,28,28,180.96429,1.392857143
+Chamber 1,2,Abergain,Not Waterlog,Treatment,2,June,37,3861,36.8,42.3,28,28,137.89286,1.510714286
+Chamber 1,3,Dunlance,Not Waterlog,Treatment,2,June,21,1841,41.8,47.3,28,28,65.75000,1.689285714
+Chamber 1,4,Abergain,Not Waterlog,Treatment,2,June,41,4110,40.5,46,28,28,146.78571,1.642857143
+Chamber 1,5,Abergain,Waterlog,Treatment,2,June,5,247,19.6,25.1,28,28,8.82143,0.896428571
+Chamber 1,6,Aberchoice,Waterlog,Treatment,2,June,13,597,22.7,28.2,28,28,21.32143,1.007142857
+Chamber 1,7,Abergain,Waterlog,Treatment,2,June,10,711,24.2,29.7,28,28,25.39286,1.060714286
+Chamber 1,8,Abergain,Waterlog,Treatment,2,June,5,207,11.4,16.9,28,28,7.39286,0.603571429
+Chamber 1,9,Aberchoice,Not Waterlog,Treatment,2,June,61,5128,40.2,45.7,28,28,183.14286,1.632142857
+Chamber 1,10,Carraig,Not Waterlog,Treatment,2,June,44,5333,44.1,49.6,28,28,190.46429,1.771428571
+Chamber 1,11,Dunlance,Waterlog,Treatment,2,June,6,294,17.2,22.7,28,28,10.50000,0.810714286
+Chamber 1,12,Aberchoice,Not Waterlog,Treatment,2,June,37,4516,44.9,50.4,28,28,161.28571,1.8
+Chamber 1,13,Aberchoice,Waterlog,Treatment,2,June,24,1474,33.1,38.6,28,28,52.64286,1.378571429
+Chamber 1,14,Dunlance,Waterlog,Treatment,2,June,8,360,22.4,27.9,28,28,12.85714,0.996428571
+Chamber 1,15,Abergain,Not Waterlog,Treatment,2,June,19,1482,26.5,32,28,28,52.92857,1.142857143
+Chamber 1,16,Aberchoice,Waterlog,Treatment,2,June,28,1811,31.2,36.7,28,28,64.67857,1.310714286
+Chamber 1,17,Carraig,Not Waterlog,Treatment,2,June,54,6023,42.1,47.6,28,28,215.10714,1.7
+Chamber 1,18,Carraig,Waterlog,Treatment,2,June,22,1275,22.6,28.1,28,28,45.53571,1.003571429
+Chamber 1,19,Dunlance,Not Waterlog,Treatment,2,June,32,5068,45.4,50.9,28,28,181.00000,1.817857143
+Chamber 1,20,Dunlance,Not Waterlog,Treatment,2,June,42,8046,47.5,53,28,28,287.35714,1.892857143
+Chamber 1,21,Carraig,Waterlog,Treatment,2,June,31,3034,29.7,35.2,28,28,108.35714,1.257142857
+Chamber 1,22,Carraig,Waterlog,Treatment,2,June,36,3323,22.9,28.4,28,28,118.67857,1.014285714
+Chamber 1,23,Abergain,Waterlog,Treatment,2,June,35,2402,26.2,31.7,28,28,85.78571,1.132142857
+Chamber 1,24,Aberchoice,Not Waterlog,Treatment,2,June,46,6408,44.5,50,28,28,228.85714,1.785714286
+Chamber 1,25,Dunlance,Not Waterlog,Treatment,2,June,13,2551,39.2,44.7,28,28,91.10714,1.596428571
+Chamber 1,26,Dunlance,Waterlog,Treatment,2,June,6,426,23.2,28.7,28,28,15.21429,1.025
+Chamber 1,27,Carraig,Waterlog,Treatment,2,June,49,5454,28.6,34.1,28,28,194.78571,1.217857143
+Chamber 1,28,Carraig,Waterlog,Treatment,2,June,12,1582,26.3,31.8,28,28,56.50000,1.135714286
+Chamber 1,29,Dunlance,Waterlog,Treatment,2,June,10,772,19.2,24.7,28,28,27.57143,0.882142857
+Chamber 1,30,Aberchoice,Not Waterlog,Treatment,2,June,38,5425,44.5,50,28,28,193.75000,1.785714286
+Chamber 1,31,Abergain,Not Waterlog,Treatment,2,June,31,4179,44.2,49.7,28,28,149.25000,1.775
+Chamber 1,32,Aberchoice,Waterlog,Treatment,2,June,13,610,21.4,26.9,28,28,21.78571,0.960714286
+Chamber 1,33,Carraig,Waterlog,Treatment,2,June,11,612,19.7,25.2,28,28,21.85714,0.9
+Chamber 1,34,Aberchoice,Not Waterlog,Treatment,2,June,22,839,49.1,54.6,28,28,29.96429,1.95
+Chamber 1,35,Aberchoice,Not Waterlog,Treatment,2,June,49,8139,46.9,52.4,28,28,290.67857,1.871428571
+Chamber 1,36,Dunlance,Not Waterlog,Treatment,2,June,12,1516,30.6,36.1,28,28,54.14286,1.289285714
+Chamber 1,37,Aberchoice,Waterlog,Treatment,2,June,19,644,23.5,29,28,28,23.00000,1.035714286
+Chamber 1,38,Abergain,Not Waterlog,Treatment,2,June,32,6152,36.5,42,28,28,219.71429,1.5
+Chamber 1,39,Dunlance,Waterlog,Treatment,2,June,22,1675,25.1,30.6,28,28,59.82143,1.092857143
+Chamber 1,40,Aberchoice,Not Waterlog,Treatment,2,June,23,2211,38.9,44.4,28,28,78.96429,1.585714286
+Chamber 1,41,Carraig,Not Waterlog,Treatment,2,June,79,8357,50.1,55.6,28,28,298.46429,1.985714286
+Chamber 1,42,Aberchoice,Waterlog,Treatment,2,June,16,652,24.6,30.1,28,28,23.28571,1.075
+Chamber 1,43,Abergain,Waterlog,Treatment,2,June,20,1393,26.1,31.6,28,28,49.75000,1.128571429
+Chamber 1,44,Abergain,Not Waterlog,Treatment,2,June,20,4116,34.2,39.7,28,28,147.00000,1.417857143
+Chamber 1,45,Aberchoice,Not Waterlog,Treatment,2,June,17,1073,29.3,34.8,28,28,38.32143,1.242857143
+Chamber 1,46,Carraig,Not Waterlog,Treatment,2,June,37,7778,41,46.5,28,28,277.78571,1.660714286
+Chamber 1,47,Abergain,Waterlog,Treatment,2,June,16,980,22.7,28.2,28,28,35.00000,1.007142857
+Chamber 1,48,Carraig,Not Waterlog,Treatment,2,June,40,4785,28,33.5,28,28,170.89286,1.196428571
+Chamber 1,49,Dunlance,Not Waterlog,Treatment,2,June,19,2927,36.7,42.2,28,28,104.53571,1.507142857
+Chamber 1,50,Abergain,Not Waterlog,Treatment,2,June,9,1117,38.1,43.6,28,28,39.89286,1.557142857
+Chamber 1,51,Carraig,Waterlog,Treatment,2,June,16,1140,22.6,28.1,28,28,40.71429,1.003571429
+Chamber 1,52,Dunlance,Waterlog,Treatment,2,June,9,877,25.3,30.8,28,28,31.32143,1.1
+Chamber 1,53,Aberchoice,Waterlog,Treatment,2,June,21,1440,31.1,36.6,28,28,51.42857,1.307142857
+Chamber 1,54,Carraig,Waterlog,Treatment,2,June,16,1765,25.4,30.9,28,28,63.03571,1.103571429
+Chamber 1,55,Dunlance,Waterlog,Treatment,2,June,9,360,20,25.5,28,28,12.85714,0.910714286
+Chamber 1,56,Aberchoice,Not Waterlog,Treatment,2,June,53,8905,45.2,50.7,28,28,318.03571,1.810714286
+Chamber 1,57,Abergain,Not Waterlog,Treatment,2,June,20,2208,31.2,36.7,28,28,78.85714,1.310714286
+Chamber 1,58,Dunlance,Waterlog,Treatment,2,June,13,1289,25.1,30.6,28,28,46.03571,1.092857143
+Chamber 1,59,Abergain,Waterlog,Treatment,2,June,12,593,18.9,24.4,28,28,21.17857,0.871428571
+Chamber 1,60,Carraig,Waterlog,Treatment,2,June,14,1365,23.3,28.8,28,28,48.75000,1.028571429
+Chamber 1,61,Dunlance,Waterlog,Treatment,2,June,5,368,21.2,26.7,28,28,13.14286,0.953571429
+Chamber 1,62,Dunlance,Not Waterlog,Treatment,2,June,16,3393,27.9,33.4,28,28,121.17857,1.192857143
+Chamber 1,63,Abergain,Waterlog,Treatment,2,June,30,1389,25.3,30.8,28,28,49.60714,1.1
+Chamber 1,64,Carraig,Not Waterlog,Treatment,2,June,57,8106,35.2,40.7,28,28,289.50000,1.453571429
+Chamber 1,65,Aberchoice,Not Waterlog,Treatment,2,June,21,1891,39.9,45.4,28,28,67.53571,1.621428571
+Chamber 1,66,Carraig,Not Waterlog,Treatment,2,June,41,6563,50.8,56.3,28,28,234.39286,2.010714286
+Chamber 1,67,Dunlance,Not Waterlog,Treatment,2,June,14,2281,37.5,43,28,28,81.46429,1.535714286
+Chamber 1,68,Abergain,Not Waterlog,Treatment,2,June,23,4434,39.6,45.1,28,28,158.35714,1.610714286
+Chamber 1,69,Carraig,Not Waterlog,Treatment,2,June,29,5161,44.7,50.2,28,28,184.32143,1.792857143
+Chamber 1,70,Dunlance,Not Waterlog,Treatment,2,June,18,3229,43.1,48.6,28,28,115.32143,1.735714286
+Chamber 1,71,Aberchoice,Waterlog,Treatment,2,June,10,522,20.9,26.4,28,28,18.64286,0.942857143
+Chamber 1,72,Aberchoice,Waterlog,Treatment,2,June,8,240,17.4,22.9,28,28,8.57143,0.817857143
+Chamber 1,73,Abergain,Not Waterlog,Treatment,2,June,31,5451,48.5,54,28,28,194.67857,1.928571429
+Chamber 1,74,Abergain,Waterlog,Treatment,2,June,13,828,23.3,28.8,28,28,29.57143,1.028571429
+Chamber 1,75,Carraig,Waterlog,Treatment,2,June,13,870,25.6,31.1,28,28,31.07143,1.110714286
+Chamber 1,76,Dunlance,Not Waterlog,Treatment,2,June,16,2105,37.5,43,28,28,75.17857,1.535714286
+Chamber 1,77,Dunlance,Waterlog,Treatment,2,June,5,267,20.4,25.9,28,28,9.53571,0.925
+Chamber 1,78,Aberchoice,Waterlog,Treatment,2,June,6,151,15.9,21.4,28,28,5.39286,0.764285714
+Chamber 1,79,Abergain,Waterlog,Treatment,2,June,6,318,20.7,26.2,28,28,11.35714,0.935714286
+Chamber 1,80,Carraig,Not Waterlog,Treatment,2,June,30,3863,33.1,38.6,28,28,137.96429,1.378571429
+Chamber 2,81,Carraig,Not Waterlog,Ambient,2,June,15,1613,41.2,46.7,28,28,57.60714,1.667857143
+Chamber 2,82,Abergain,Not Waterlog,Ambient,2,June,13,1641,37.7,43.2,28,28,58.60714,1.542857143
+Chamber 2,83,Dunlance,Waterlog,Ambient,2,June,2,96,18.7,24.2,28,28,3.42857,0.864285714
+Chamber 2,84,Carraig,Waterlog,Ambient,2,June,5,152,16.6,22.1,28,28,5.42857,0.789285714
+Chamber 2,85,Carraig,Not Waterlog,Ambient,2,June,17,1975,32.4,37.9,28,28,70.53571,1.353571429
+Chamber 2,86,Aberchoice,Waterlog,Ambient,2,June,26,3012,40.6,46.1,28,28,107.57143,1.646428571
+Chamber 2,87,Dunlance,Waterlog,Ambient,2,June,4,161,18.5,24,28,28,5.75000,0.857142857
+Chamber 2,88,Dunlance,Waterlog,Ambient,2,June,9,965,29.1,34.6,28,28,34.46429,1.235714286
+Chamber 2,89,Carraig,Waterlog,Ambient,2,June,30,4555,37.4,42.9,28,28,162.67857,1.532142857
+Chamber 2,90,Aberchoice,Waterlog,Ambient,2,June,30,4192,45.6,51.1,28,28,149.71429,1.825
+Chamber 2,91,Aberchoice,Waterlog,Ambient,2,June,4,110,15.1,20.6,28,28,3.92857,0.735714286
+Chamber 2,92,Dunlance,Not Waterlog,Ambient,2,June,9,1214,30.1,35.6,28,28,43.35714,1.271428571
+Chamber 2,93,Aberchoice,Not Waterlog,Ambient,2,June,18,1800,41.2,46.7,28,28,64.28571,1.667857143
+Chamber 2,94,Carraig,Not Waterlog,Ambient,2,June,39,2551,36.6,42.1,28,28,91.10714,1.503571429
+Chamber 2,95,Dunlance,Not Waterlog,Ambient,2,June,17,2217,38.7,44.2,28,28,79.17857,1.578571429
+Chamber 2,96,Carraig,Not Waterlog,Ambient,2,June,12,941,26.1,31.6,28,28,33.60714,1.128571429
+Chamber 2,97,Abergain,Not Waterlog,Ambient,2,June,12,1177,32.1,37.6,28,28,42.03571,1.342857143
+Chamber 2,98,Abergain,Waterlog,Ambient,2,June,9,747,28.1,33.6,28,28,26.67857,1.2
+Chamber 2,99,Dunlance,Not Waterlog,Ambient,2,June,14,1484,33,38.5,28,28,53.00000,1.375
+Chamber 2,100,Abergain,Not Waterlog,Ambient,2,June,27,4791,41.3,46.8,28,28,171.10714,1.671428571
+Chamber 2,101,Abergain,Not Waterlog,Ambient,2,June,23,4248,39.9,45.4,28,28,151.71429,1.621428571
+Chamber 2,102,Abergain,Not Waterlog,Ambient,2,June,44,5218,39,44.5,28,28,186.35714,1.589285714
+Chamber 2,103,Dunlance,Not Waterlog,Ambient,2,June,17,2565,42.3,47.8,28,28,91.60714,1.707142857
+Chamber 2,104,Abergain,Not Waterlog,Ambient,2,June,37,4832,41.4,46.9,28,28,172.57143,1.675
+Chamber 2,105,Abergain,Waterlog,Ambient,2,June,6,336,29.6,35.1,28,28,12.00000,1.253571429
+Chamber 2,106,Dunlance,Waterlog,Ambient,2,June,11,1166,28.4,33.9,28,28,41.64286,1.210714286
+Chamber 2,107,Abergain,Waterlog,Ambient,2,June,12,745,21.9,27.4,28,28,26.60714,0.978571429
+Chamber 2,108,Abergain,Waterlog,Ambient,2,June,2,86,12.4,17.9,28,28,3.07143,0.639285714
+Chamber 2,109,Abergain,Waterlog,Ambient,2,June,11,959,29.4,34.9,28,28,34.25000,1.246428571
+Chamber 2,110,Abergain,Not Waterlog,Ambient,2,June,14,2015,34.5,40,28,28,71.96429,1.428571429
+Chamber 2,111,Dunlance,Waterlog,Ambient,2,June,6,616,23,28.5,28,28,22.00000,1.017857143
+Chamber 2,112,Carraig,Waterlog,Ambient,2,June,10,684,24.7,30.2,28,28,24.42857,1.078571429
+Chamber 2,113,Aberchoice,Waterlog,Ambient,2,June,21,2536,39.7,45.2,28,28,90.57143,1.614285714
+Chamber 2,114,Carraig,Waterlog,Ambient,2,June,8,677,26.3,31.8,28,28,24.17857,1.135714286
+Chamber 2,115,Carraig,Not Waterlog,Ambient,2,June,29,3014,28.7,34.2,28,28,107.64286,1.221428571
+Chamber 2,116,Aberchoice,Not Waterlog,Ambient,2,June,12,563,25.1,30.6,28,28,20.10714,1.092857143
+Chamber 2,117,Abergain,Waterlog,Ambient,2,June,9,580,27,32.5,28,28,20.71429,1.160714286
+Chamber 2,118,Dunlance,Not Waterlog,Ambient,2,June,12,2563,36.6,42.1,28,28,91.53571,1.503571429
+Chamber 2,119,Carraig,Not Waterlog,Ambient,2,June,30,4672,38.6,44.1,28,28,166.85714,1.575
+Chamber 2,120,Abergain,Not Waterlog,Ambient,2,June,13,1521,28.1,33.6,28,28,54.32143,1.2
+Chamber 2,121,Carraig,Waterlog,Ambient,2,June,15,1007,30.3,35.8,28,28,35.96429,1.278571429
+Chamber 2,122,Abergain,Waterlog,Ambient,2,June,13,1045,32.3,37.8,28,28,37.32143,1.35
+Chamber 2,123,Carraig,Waterlog,Ambient,2,June,16,1383,28.3,33.8,28,28,49.39286,1.207142857
+Chamber 2,124,Carraig,Not Waterlog,Ambient,2,June,73,11495,39.4,44.9,28,28,410.53571,1.603571429
+Chamber 2,125,Aberchoice,Not Waterlog,Ambient,2,June,11,1002,42.2,47.7,28,28,35.78571,1.703571429
+Chamber 2,126,Dunlance,Waterlog,Ambient,2,June,5,316,25.4,30.9,28,28,11.28571,1.103571429
+Chamber 2,127,Abergain,Not Waterlog,Ambient,2,June,33,4603,36.4,41.9,28,28,164.39286,1.496428571
+Chamber 2,128,Dunlance,Not Waterlog,Ambient,2,June,9,1167,29.6,35.1,28,28,41.67857,1.253571429
+Chamber 2,129,Dunlance,Waterlog,Ambient,2,June,7,306,23.7,29.2,28,28,10.92857,1.042857143
+Chamber 2,130,Abergain,Waterlog,Ambient,2,June,3,188,19.1,24.6,28,28,6.71429,0.878571429
+Chamber 2,131,Carraig,Not Waterlog,Ambient,2,June,28,3830,35.1,40.6,28,28,136.78571,1.45
+Chamber 2,132,Dunlance,Not Waterlog,Ambient,2,June,25,3312,39.3,44.8,28,28,118.28571,1.6
+Chamber 2,133,Carraig,Not Waterlog,Ambient,2,June,35,3897,31.4,36.9,28,28,139.17857,1.317857143
+Chamber 2,134,Carraig,Waterlog,Ambient,2,June,12,872,26.6,32.1,28,28,31.14286,1.146428571
+Chamber 2,135,Aberchoice,Waterlog,Ambient,2,June,14,693,22.9,28.4,28,28,24.75000,1.014285714
+Chamber 2,136,Aberchoice,Not Waterlog,Ambient,2,June,28,2828,35.6,41.1,28,28,101.00000,1.467857143
+Chamber 2,137,Aberchoice,Not Waterlog,Ambient,2,June,24,2360,35.9,41.4,28,28,84.28571,1.478571429
+Chamber 2,138,Aberchoice,Waterlog,Ambient,2,June,8,257,22.3,27.8,28,28,9.17857,0.992857143
+Chamber 2,139,Carraig,Waterlog,Ambient,2,June,12,623,18.4,23.9,28,28,22.25000,0.853571429
+Chamber 2,140,Dunlance,Waterlog,Ambient,2,June,6,504,23.8,29.3,28,28,18.00000,1.046428571
+Chamber 2,141,Dunlance,Not Waterlog,Ambient,2,June,22,2351,33.6,39.1,28,28,83.96429,1.396428571
+Chamber 2,142,Aberchoice,Not Waterlog,Ambient,2,June,37,3202,40,45.5,28,28,114.35714,1.625
+Chamber 2,143,Aberchoice,Waterlog,Ambient,2,June,17,964,25.5,31,28,28,34.42857,1.107142857
+Chamber 2,144,Dunlance,Not Waterlog,Ambient,2,June,17,1766,30.2,35.7,28,28,63.07143,1.275
+Chamber 2,145,Aberchoice,Waterlog,Ambient,2,June,8,550,28.1,33.6,28,28,19.64286,1.2
+Chamber 2,146,Aberchoice,Not Waterlog,Ambient,2,June,26,2442,29.7,35.2,28,28,87.21429,1.257142857
+Chamber 2,147,Dunlance,Waterlog,Ambient,2,June,7,635,26.9,32.4,28,28,22.67857,1.157142857
+Chamber 2,148,Abergain,Waterlog,Ambient,2,June,9,781,22.6,28.1,28,28,27.89286,1.003571429
+Chamber 2,149,Carraig,Waterlog,Ambient,2,June,21,1986,28.6,34.1,28,28,70.92857,1.217857143
+Chamber 2,150,Dunlance,Waterlog,Ambient,2,June,11,1202,31.2,36.7,28,28,42.92857,1.310714286
+Chamber 2,151,Carraig,Waterlog,Ambient,2,June,10,955,29.7,35.2,28,28,34.10714,1.257142857
+Chamber 2,152,Aberchoice,Not Waterlog,Ambient,2,June,28,2665,43.3,48.8,28,28,95.17857,1.742857143
+Chamber 2,153,Aberchoice,Waterlog,Ambient,2,June,9,659,34.2,39.7,28,28,23.53571,1.417857143
+Chamber 2,154,Carraig,Not Waterlog,Ambient,2,June,25,2304,35.7,41.2,28,28,82.28571,1.471428571
+Chamber 2,155,Abergain,Not Waterlog,Ambient,2,June,20,3261,45.4,50.9,28,28,116.46429,1.817857143
+Chamber 2,156,Aberchoice,Not Waterlog,Ambient,2,June,29,2146,39.7,45.2,28,28,76.64286,1.614285714
+Chamber 2,157,Dunlance,Not Waterlog,Ambient,2,June,13,1621,40.2,45.7,28,28,57.89286,1.632142857
+Chamber 2,158,Aberchoice,Waterlog,Ambient,2,June,12,498,29.2,34.7,28,28,17.78571,1.239285714
+Chamber 2,159,Abergain,Waterlog,Ambient,2,June,8,4870,24,29.5,28,28,173.92857,1.053571429
+Chamber 2,160,Aberchoice,Not Waterlog,Ambient,2,June,24,1785,34.6,40.1,28,28,63.75000,1.432142857
+Chamber 4,161,Aberchoice,Not Waterlog,Treatment,2,June,26,3550,50.7,56.2,28,28,126.78571,2.007142857
+Chamber 4,162,Dunlance,Not Waterlog,Treatment,2,June,9,863,29.3,34.8,28,28,30.82143,1.242857143
+Chamber 4,163,Carraig,Not Waterlog,Treatment,2,June,20,2758,30.4,35.9,28,28,98.50000,1.282142857
+Chamber 4,164,Abergain,Waterlog,Treatment,2,June,14,1580,32.1,37.6,28,28,56.42857,1.342857143
+Chamber 4,165,Abergain,Waterlog,Treatment,2,June,9,622,25.1,30.6,28,28,22.21429,1.092857143
+Chamber 4,166,Dunlance,Waterlog,Treatment,2,June,7,631,27.5,33,28,28,22.53571,1.178571429
+Chamber 4,167,Aberchoice,Waterlog,Treatment,2,June,12,564,20.6,26.1,28,28,20.14286,0.932142857
+Chamber 4,168,Abergain,Waterlog,Treatment,2,June,10,1122,30.8,36.3,28,28,40.07143,1.296428571
+Chamber 4,169,Dunlance,Waterlog,Treatment,2,June,10,2296,26.3,31.8,28,28,82.00000,1.135714286
+Chamber 4,170,Dunlance,Waterlog,Treatment,2,June,8,897,25.6,31.1,28,28,32.03571,1.110714286
+Chamber 4,171,Dunlance,Waterlog,Treatment,2,June,8,764,31.9,37.4,28,28,27.28571,1.335714286
+Chamber 4,172,Aberchoice,Waterlog,Treatment,2,June,13,758,27.2,32.7,28,28,27.07143,1.167857143
+Chamber 4,173,Dunlance,Waterlog,Treatment,2,June,12,1514,37.4,42.9,28,28,54.07143,1.532142857
+Chamber 4,174,Carraig,Not Waterlog,Treatment,2,June,111,18893,47.2,52.7,28,28,674.75000,1.882142857
+Chamber 4,175,Abergain,Not Waterlog,Treatment,2,June,21,2925,39,44.5,28,28,104.46429,1.589285714
+Chamber 4,176,Aberchoice,Waterlog,Treatment,2,June,14,955,27.6,33.1,28,28,34.10714,1.182142857
+Chamber 4,177,Abergain,Not Waterlog,Treatment,2,June,11,1358,30.2,35.7,28,28,48.50000,1.275
+Chamber 4,178,Aberchoice,Waterlog,Treatment,2,June,12,465,25.1,30.6,28,28,16.60714,1.092857143
+Chamber 4,179,Aberchoice,Waterlog,Treatment,2,June,13,590,24.3,29.8,28,28,21.07143,1.064285714
+Chamber 4,180,Dunlance,Waterlog,Treatment,2,June,12,1066,28.3,33.8,28,28,38.07143,1.207142857
+Chamber 4,181,Carraig,Waterlog,Treatment,2,June,36,3280,30.4,35.9,28,28,117.14286,1.282142857
+Chamber 4,182,Carraig,Waterlog,Treatment,2,June,29,2288,21.7,27.2,28,28,81.71429,0.971428571
+Chamber 4,183,Carraig,Not Waterlog,Treatment,2,June,51,6083,32,37.5,28,28,217.25000,1.339285714
+Chamber 4,184,Carraig,Waterlog,Treatment,2,June,15,1068,24.2,29.7,28,28,38.14286,1.060714286
+Chamber 4,185,Carraig,Waterlog,Treatment,2,June,18,1975,36.8,42.3,28,28,70.53571,1.510714286
+Chamber 4,186,Aberchoice,Waterlog,Treatment,2,June,15,818,24.2,29.7,28,28,29.21429,1.060714286
+Chamber 4,187,Abergain,Waterlog,Treatment,2,June,23,1739,24,29.5,28,28,62.10714,1.053571429
+Chamber 4,188,Carraig,Not Waterlog,Treatment,2,June,22,3394,32.6,38.1,28,28,121.21429,1.360714286
+Chamber 4,189,Abergain,Waterlog,Treatment,2,June,16,1350,26.6,32.1,28,28,48.21429,1.146428571
+Chamber 4,190,Carraig,Waterlog,Treatment,2,June,12,1024,27.6,33.1,28,28,36.57143,1.182142857
+Chamber 4,191,Carraig,Not Waterlog,Treatment,2,June,60,7485,34,39.5,28,28,267.32143,1.410714286
+Chamber 4,192,Abergain,Not Waterlog,Treatment,2,June,23,3601,38.2,43.7,28,28,128.60714,1.560714286
+Chamber 4,193,Carraig,Not Waterlog,Treatment,2,June,34,4899,41.1,46.6,28,28,174.96429,1.664285714
+Chamber 4,194,Abergain,Not Waterlog,Treatment,2,June,17,4259,42,47.5,28,28,152.10714,1.696428571
+Chamber 4,195,Dunlance,Not Waterlog,Treatment,2,June,27,4106,38.1,43.6,28,28,146.64286,1.557142857
+Chamber 4,196,Aberchoice,Not Waterlog,Treatment,2,June,18,1710,31.5,37,28,28,61.07143,1.321428571
+Chamber 4,197,Carraig,Waterlog,Treatment,2,June,16,1938,31.4,36.9,28,28,69.21429,1.317857143
+Chamber 4,198,Abergain,Not Waterlog,Treatment,2,June,8,290,18.8,24.3,28,28,10.35714,0.867857143
+Chamber 4,199,Aberchoice,Not Waterlog,Treatment,2,June,33,4293,41.9,47.4,28,28,153.32143,1.692857143
+Chamber 4,200,Dunlance,Not Waterlog,Treatment,2,June,12,2128,34.5,40,28,28,76.00000,1.428571429
+Chamber 4,201,Aberchoice,Waterlog,Treatment,2,June,10,1016,35.7,41.2,28,28,36.28571,1.471428571
+Chamber 4,202,Aberchoice,Not Waterlog,Treatment,2,June,24,2555,35.5,41,28,28,91.25000,1.464285714
+Chamber 4,203,Dunlance,Waterlog,Treatment,2,June,7,1016,29.6,35.1,28,28,36.28571,1.253571429
+Chamber 4,204,Abergain,Not Waterlog,Treatment,2,June,17,2414,34.4,39.9,28,28,86.21429,1.425
+Chamber 4,205,Aberchoice,Not Waterlog,Treatment,2,June,16,1496,33.3,38.8,28,28,53.42857,1.385714286
+Chamber 4,206,Abergain,Not Waterlog,Treatment,2,June,26,4376,42.7,48.2,28,28,156.28571,1.721428571
+Chamber 4,207,Abergain,Waterlog,Treatment,2,June,12,1285,22.8,28.3,28,28,45.89286,1.010714286
+Chamber 4,208,Carraig,Not Waterlog,Treatment,2,June,39,5335,39.3,44.8,28,28,190.53571,1.6
+Chamber 4,209,Dunlance,Not Waterlog,Treatment,2,June,14,3009,44.2,49.7,28,28,107.46429,1.775
+Chamber 4,210,Carraig,Waterlog,Treatment,2,June,9,529,20.2,25.7,28,28,18.89286,0.917857143
+Chamber 4,211,Dunlance,Waterlog,Treatment,2,June,6,645,21,26.5,28,28,23.03571,0.946428571
+Chamber 4,212,Aberchoice,Waterlog,Treatment,2,June,13,1439,32.1,37.6,28,28,51.39286,1.342857143
+Chamber 4,213,Carraig,Waterlog,Treatment,2,June,19,1767,28.7,34.2,28,28,63.10714,1.221428571
+Chamber 4,214,Abergain,Not Waterlog,Treatment,2,June,21,3567,34.2,39.7,28,28,127.39286,1.417857143
+Chamber 4,215,Aberchoice,Not Waterlog,Treatment,2,June,22,2329,29.9,35.4,28,28,83.17857,1.264285714
+Chamber 4,216,Aberchoice,Waterlog,Treatment,2,June,14,1012,24.3,29.8,28,28,36.14286,1.064285714
+Chamber 4,217,Carraig,Waterlog,Treatment,2,June,6,365,20.9,26.4,28,28,13.03571,0.942857143
+Chamber 4,218,Abergain,Waterlog,Treatment,2,June,13,1214,30.5,36,28,28,43.35714,1.285714286
+Chamber 4,219,Aberchoice,Not Waterlog,Treatment,2,June,12,1797,43.9,49.4,28,28,64.17857,1.764285714
+Chamber 4,220,Aberchoice,Not Waterlog,Treatment,2,June,37,5518,38.3,43.8,28,28,197.07143,1.564285714
+Chamber 4,221,Dunlance,Not Waterlog,Treatment,2,June,19,4245,39.5,45,28,28,151.60714,1.607142857
+Chamber 4,222,Dunlance,Not Waterlog,Treatment,2,June,12,1422,28.9,34.4,28,28,50.78571,1.228571429
+Chamber 4,223,Dunlance,Not Waterlog,Treatment,2,June,20,2517,42.9,48.4,28,28,89.89286,1.728571429
+Chamber 4,224,Aberchoice,Waterlog,Treatment,2,June,41,5328,39.8,45.3,28,28,190.28571,1.617857143
+Chamber 4,225,Abergain,Not Waterlog,Treatment,2,June,26,4489,47.9,53.4,28,28,160.32143,1.907142857
+Chamber 4,226,Dunlance,Not Waterlog,Treatment,2,June,12,1799,22.9,28.4,28,28,64.25000,1.014285714
+Chamber 4,227,Carraig,Waterlog,Treatment,2,June,13,819,25.3,30.8,28,28,29.25000,1.1
+Chamber 4,228,Abergain,Waterlog,Treatment,2,June,8,1174,22.1,27.6,28,28,41.92857,0.985714286
+Chamber 4,229,Dunlance,Waterlog,Treatment,2,June,8,491,40.2,45.7,28,28,17.53571,1.632142857
+Chamber 4,230,Aberchoice,Not Waterlog,Treatment,2,June,17,2645,23.4,28.9,28,28,94.46429,1.032142857
+Chamber 4,231,Abergain,Waterlog,Treatment,2,June,7,604,28.9,34.4,28,28,21.57143,1.228571429
+Chamber 4,232,Dunlance,Waterlog,Treatment,2,June,8,1102,52,57.5,28,28,39.35714,2.053571429
+Chamber 4,233,Abergain,Not Waterlog,Treatment,2,June,23,5030,52.2,57.7,28,28,179.64286,2.060714286
+Chamber 4,234,Carraig,Not Waterlog,Treatment,2,June,74,10601,42.3,47.8,28,28,378.60714,1.707142857
+Chamber 4,235,Carraig,Not Waterlog,Treatment,2,June,38,6185,41,46.5,28,28,220.89286,1.660714286
+Chamber 4,236,Aberchoice,Not Waterlog,Treatment,2,June,141,13408,41,46.5,28,28,478.85714,1.660714286
+Chamber 4,237,Carraig,Not Waterlog,Treatment,2,June,45,5357,35,40.5,28,28,191.32143,1.446428571
+Chamber 4,238,Dunlance,Not Waterlog,Treatment,2,June,9,1239,36.2,41.7,28,28,44.25000,1.489285714
+Chamber 4,239,Abergain,Waterlog,Treatment,2,June,9,1210,30.8,36.3,28,28,43.21429,1.296428571
+Chamber 4,240,Dunlance,Not Waterlog,Treatment,2,June,11,2330,38.8,44.3,28,28,83.21429,1.582142857
+Chamber 5,241,Carraig,Not Waterlog,Ambient,2,June,61,8920,44.7,50.2,28,28,318.57143,1.792857143
+Chamber 5,242,Abergain,Waterlog,Ambient,2,June,3,140,17.3,22.8,28,28,5.00000,0.814285714
+Chamber 5,243,Carraig,Not Waterlog,Ambient,2,June,23,2460,40.2,45.7,28,28,87.85714,1.632142857
+Chamber 5,244,Dunlance,Not Waterlog,Ambient,2,June,13,1811,34.3,39.8,28,28,64.67857,1.421428571
+Chamber 5,245,Abergain,Not Waterlog,Ambient,2,June,11,1591,37.8,43.3,28,28,56.82143,1.546428571
+Chamber 5,246,Aberchoice,Waterlog,Ambient,2,June,7,169,13.2,18.7,28,28,6.03571,0.667857143
+Chamber 5,247,Dunlance,Not Waterlog,Ambient,2,June,14,1558,41.2,46.7,28,28,55.64286,1.667857143
+Chamber 5,248,Carraig,Not Waterlog,Ambient,2,June,27,2955,36.1,41.6,28,28,105.53571,1.485714286
+Chamber 5,249,Dunlance,Not Waterlog,Ambient,2,June,16,2267,45.3,50.8,28,28,80.96429,1.814285714
+Chamber 5,250,Abergain,Not Waterlog,Ambient,2,June,15,1621,35,40.5,28,28,57.89286,1.446428571
+Chamber 5,251,Carraig,Not Waterlog,Ambient,2,June,30,3030,37.3,42.8,28,28,108.21429,1.528571429
+Chamber 5,252,Dunlance,Waterlog,Ambient,2,June,3,190,16.8,22.3,28,28,6.78571,0.796428571
+Chamber 5,253,Dunlance,Waterlog,Ambient,2,June,7,498,20.4,25.9,28,28,17.78571,0.925
+Chamber 5,254,Aberchoice,Not Waterlog,Ambient,2,June,24,3058,41.6,47.1,28,28,109.21429,1.682142857
+Chamber 5,255,Dunlance,Waterlog,Ambient,2,June,8,398,18,23.5,28,28,14.21429,0.839285714
+Chamber 5,256,Dunlance,Not Waterlog,Ambient,2,June,17,2575,32.4,37.9,28,28,91.96429,1.353571429
+Chamber 5,257,Aberchoice,Waterlog,Ambient,2,June,8,214,19.2,24.7,28,28,7.64286,0.882142857
+Chamber 5,258,Abergain,Waterlog,Ambient,2,June,6,352,22.1,27.6,28,28,12.57143,0.985714286
+Chamber 5,259,Carraig,Waterlog,Ambient,2,June,13,1393,26.1,31.6,28,28,49.75000,1.128571429
+Chamber 5,260,Abergain,Not Waterlog,Ambient,2,June,45,7977,42.7,48.2,28,28,284.89286,1.721428571
+Chamber 5,261,Dunlance,Not Waterlog,Ambient,2,June,29,4164,40.8,46.3,28,28,148.71429,1.653571429
+Chamber 5,262,Abergain,Waterlog,Ambient,2,June,9,686,22.4,27.9,28,28,24.50000,0.996428571
+Chamber 5,263,Dunlance,Waterlog,Ambient,2,June,10,1035,20.4,25.9,28,28,36.96429,0.925
+Chamber 5,264,Abergain,Waterlog,Ambient,2,June,6,339,19.8,25.3,28,28,12.10714,0.903571429
+Chamber 5,265,Abergain,Waterlog,Ambient,2,June,8,444,25.7,31.2,28,28,15.85714,1.114285714
+Chamber 5,266,Carraig,Waterlog,Ambient,2,June,17,1123,21,26.5,28,28,40.10714,0.946428571
+Chamber 5,267,Dunlance,Not Waterlog,Ambient,2,June,16,2083,30.4,35.9,28,28,74.39286,1.282142857
+Chamber 5,268,Aberchoice,Not Waterlog,Ambient,2,June,17,1281,33.7,39.2,28,28,45.75000,1.4
+Chamber 5,269,Abergain,Waterlog,Ambient,2,June,9,390,18.3,23.8,28,28,13.92857,0.85
+Chamber 5,270,Abergain,Not Waterlog,Ambient,2,June,18,2196,31,36.5,28,28,78.42857,1.303571429
+Chamber 5,271,Aberchoice,Waterlog,Ambient,2,June,10,268,13.5,19,28,28,9.57143,0.678571429
+Chamber 5,272,Aberchoice,Not Waterlog,Ambient,2,June,12,953,25.8,31.3,28,28,34.03571,1.117857143
+Chamber 5,273,Abergain,Waterlog,Ambient,2,June,10,414,17.9,23.4,28,28,14.78571,0.835714286
+Chamber 5,274,Dunlance,Waterlog,Ambient,2,June,11,804,21.8,27.3,28,28,28.71429,0.975
+Chamber 5,275,Carraig,Not Waterlog,Ambient,2,June,35,5464,37.6,43.1,28,28,195.14286,1.539285714
+Chamber 5,276,Dunlance,Not Waterlog,Ambient,2,June,12,1368,29.6,35.1,28,28,48.85714,1.253571429
+Chamber 5,277,Aberchoice,Not Waterlog,Ambient,2,June,14,715,39.5,45,28,28,25.53571,1.607142857
+Chamber 5,278,Carraig,Waterlog,Ambient,2,June,6,430,29,34.5,28,28,15.35714,1.232142857
+Chamber 5,279,Dunlance,Waterlog,Ambient,2,June,7,208,14.3,19.8,28,28,7.42857,0.707142857
+Chamber 5,280,Dunlance,Not Waterlog,Ambient,2,June,16,2329,28.1,33.6,28,28,83.17857,1.2
+Chamber 5,281,Carraig,Waterlog,Ambient,2,June,5,363,20.9,26.4,28,28,12.96429,0.942857143
+Chamber 5,282,Carraig,Waterlog,Ambient,2,June,12,885,22.5,28,28,28,31.60714,1
+Chamber 5,283,Carraig,Not Waterlog,Ambient,2,June,34,4927,30.4,35.9,28,28,175.96429,1.282142857
+Chamber 5,284,Abergain,Waterlog,Ambient,2,June,9,525,17.7,23.2,28,28,18.75000,0.828571429
+Chamber 5,285,Abergain,Not Waterlog,Ambient,2,June,21,2850,35.5,41,28,28,101.78571,1.464285714
+Chamber 5,286,Carraig,Waterlog,Ambient,2,June,14,701,17.3,22.8,28,28,25.03571,0.814285714
+Chamber 5,287,Dunlance,Not Waterlog,Ambient,2,June,18,3301,38.1,43.6,28,28,117.89286,1.557142857
+Chamber 5,288,Carraig,Waterlog,Ambient,2,June,10,810,20.1,25.6,28,28,28.92857,0.914285714
+Chamber 5,289,Aberchoice,Waterlog,Ambient,2,June,4,148,20,25.5,28,28,5.28571,0.910714286
+Chamber 5,290,Abergain,Waterlog,Ambient,2,June,5,211,15.4,20.9,28,28,7.53571,0.746428571
+Chamber 5,291,Abergain,Waterlog,Ambient,2,June,7,359,17.6,23.1,28,28,12.82143,0.825
+Chamber 5,292,Dunlance,Waterlog,Ambient,2,June,6,554,20.4,25.9,28,28,19.78571,0.925
+Chamber 5,293,Aberchoice,Not Waterlog,Ambient,2,June,15,1659,26.5,32,28,28,59.25000,1.142857143
+Chamber 5,294,Carraig,Waterlog,Ambient,2,June,9,571,17.1,22.6,28,28,20.39286,0.807142857
+Chamber 5,295,Carraig,Not Waterlog,Ambient,2,June,28,3932,31,36.5,28,28,140.42857,1.303571429
+Chamber 5,296,Aberchoice,Not Waterlog,Ambient,2,June,36,5358,41.6,47.1,28,28,191.35714,1.682142857
+Chamber 5,297,Aberchoice,Waterlog,Ambient,2,June,8,309,20.8,26.3,28,28,11.03571,0.939285714
+Chamber 5,298,Carraig,Not Waterlog,Ambient,2,June,39,5479,34.9,40.4,28,28,195.67857,1.442857143
+Chamber 5,299,Dunlance,Waterlog,Ambient,2,June,5,201,14.2,19.7,28,28,7.17857,0.703571429
+Chamber 5,300,Carraig,Not Waterlog,Ambient,2,June,48,6572,32.8,38.3,28,28,234.71429,1.367857143
+Chamber 5,301,Aberchoice,Not Waterlog,Ambient,2,June,48,7434,38.6,44.1,28,28,265.50000,1.575
+Chamber 5,302,Abergain,Not Waterlog,Ambient,2,June,31,5438,35.4,40.9,28,28,194.21429,1.460714286
+Chamber 5,303,Carraig,Waterlog,Ambient,2,June,19,1556,25.6,31.1,28,28,55.57143,1.110714286
+Chamber 5,304,Dunlance,Waterlog,Ambient,2,June,16,1301,28.2,33.7,28,28,46.46429,1.203571429
+Chamber 5,305,Aberchoice,Waterlog,Ambient,2,June,7,281,13.1,18.6,28,28,10.03571,0.664285714
+Chamber 5,306,Aberchoice,Waterlog,Ambient,2,June,8,210,16.9,22.4,28,28,7.50000,0.8
+Chamber 5,307,Aberchoice,Not Waterlog,Ambient,2,June,13,1600,38.2,43.7,28,28,57.14286,1.560714286
+Chamber 5,308,Abergain,Not Waterlog,Ambient,2,June,21,2969,39.2,44.7,28,28,106.03571,1.596428571
+Chamber 5,309,Dunlance,Waterlog,Ambient,2,June,4,249,21.3,26.8,28,28,8.89286,0.957142857
+Chamber 5,310,Aberchoice,Not Waterlog,Ambient,2,June,22,3417,38.9,44.4,28,28,122.03571,1.585714286
+Chamber 5,311,Dunlance,Not Waterlog,Ambient,2,June,16,3400,42.6,48.1,28,28,121.42857,1.717857143
+Chamber 5,312,Abergain,Not Waterlog,Ambient,2,June,25,3848,42.6,48.1,28,28,137.42857,1.717857143
+Chamber 5,313,Abergain,Not Waterlog,Ambient,2,June,13,1776,32.1,37.6,28,28,63.42857,1.342857143
+Chamber 5,314,Aberchoice,Waterlog,Ambient,2,June,13,761,27.2,32.7,28,28,27.17857,1.167857143
+Chamber 5,315,Abergain,Not Waterlog,Ambient,2,June,4,299,10.8,16.3,28,28,10.67857,0.582142857
+Chamber 5,316,Aberchoice,Waterlog,Ambient,2,June,8,260,19,24.5,28,28,9.28571,0.875
+Chamber 5,317,Aberchoice,Waterlog,Ambient,2,June,14,1307,26.6,32.1,28,28,46.67857,1.146428571
+Chamber 5,318,Carraig,Waterlog,Ambient,2,June,7,455,19.3,24.8,28,28,16.25000,0.885714286
+Chamber 5,319,Aberchoice,Not Waterlog,Ambient,2,June,21,1360,36.2,41.7,28,28,48.57143,1.489285714
+Chamber 5,320,Carraig,Not Waterlog,Ambient,2,June,24,4571,41.5,47,28,28,163.25000,1.678571429
+Chamber 1,1,Carraig,Not Waterlog,Treatment,3,July,72,13943,34,34.5,28,28,497.96429,1.232142857
+Chamber 1,2,Abergain,Not Waterlog,Treatment,3,July,37,22540,61.5,62,28,28,805.00000,2.214285714
+Chamber 1,3,Dunlance,Not Waterlog,Treatment,3,July,21,23351,60,60.5,28,28,833.96429,2.160714286
+Chamber 1,4,Abergain,Not Waterlog,Treatment,3,July,41,23540,57,57.5,28,28,840.71429,2.053571429
+Chamber 1,5,Abergain,Waterlog,Treatment,3,July,5,961,31,31.5,28,28,34.32143,1.125
+Chamber 1,6,Aberchoice,Waterlog,Treatment,3,July,13,1725,28.5,29,28,28,61.60714,1.035714286
+Chamber 1,7,Abergain,Waterlog,Treatment,3,July,10,2081,32.5,33,28,28,74.32143,1.178571429
+Chamber 1,8,Abergain,Waterlog,Treatment,3,July,5,1127,25,25.5,28,28,40.25000,0.910714286
+Chamber 1,9,Aberchoice,Not Waterlog,Treatment,3,July,61,18835,57,57.5,28,28,672.67857,2.053571429
+Chamber 1,10,Carraig,Not Waterlog,Treatment,3,July,44,19507,48,48.5,28,28,696.67857,1.732142857
+Chamber 1,11,Dunlance,Waterlog,Treatment,3,July,6,1237,33.5,34,28,28,44.17857,1.214285714
+Chamber 1,12,Aberchoice,Not Waterlog,Treatment,3,July,37,27540,58,58.5,28,28,983.57143,2.089285714
+Chamber 1,13,Aberchoice,Waterlog,Treatment,3,July,24,2542,37,37.5,28,28,90.78571,1.339285714
+Chamber 1,14,Dunlance,Waterlog,Treatment,3,July,8,1451,32,32.5,28,28,51.82143,1.160714286
+Chamber 1,15,Abergain,Not Waterlog,Treatment,3,July,19,18882,35,35.5,28,28,674.35714,1.267857143
+Chamber 1,16,Aberchoice,Waterlog,Treatment,3,July,28,3741,31.5,32,28,28,133.60714,1.142857143
+Chamber 1,17,Carraig,Not Waterlog,Treatment,3,July,54,18856,50.5,51,28,28,673.42857,1.821428571
+Chamber 1,18,Carraig,Waterlog,Treatment,3,July,22,2083,37,37.5,28,28,74.39286,1.339285714
+Chamber 1,19,Dunlance,Not Waterlog,Treatment,3,July,32,18339,53,53.5,28,28,654.96429,1.910714286
+Chamber 1,20,Dunlance,Not Waterlog,Treatment,3,July,42,21237,57,57.5,28,28,758.46429,2.053571429
+Chamber 1,21,Carraig,Waterlog,Treatment,3,July,31,3548,29,29.5,28,28,126.71429,1.053571429
+Chamber 1,22,Carraig,Waterlog,Treatment,3,July,36,3660,23,23.5,28,28,130.71429,0.839285714
+Chamber 1,23,Abergain,Waterlog,Treatment,3,July,35,1773,33,33.5,28,28,63.32143,1.196428571
+Chamber 1,24,Aberchoice,Not Waterlog,Treatment,3,July,46,21113,59.5,60,28,28,754.03571,2.142857143
+Chamber 1,25,Dunlance,Not Waterlog,Treatment,3,July,13,16487,62,62.5,28,28,588.82143,2.232142857
+Chamber 1,26,Dunlance,Waterlog,Treatment,3,July,6,1260,31,31.5,28,28,45.00000,1.125
+Chamber 1,27,Carraig,Waterlog,Treatment,3,July,49,2765,21,21.5,28,28,98.75000,0.767857143
+Chamber 1,28,Carraig,Waterlog,Treatment,3,July,12,2424,29,29.5,28,28,86.57143,1.053571429
+Chamber 1,29,Dunlance,Waterlog,Treatment,3,July,10,1393,26,26.5,28,28,49.75000,0.946428571
+Chamber 1,30,Aberchoice,Not Waterlog,Treatment,3,July,38,23215,53,53.5,28,28,829.10714,1.910714286
+Chamber 1,31,Abergain,Not Waterlog,Treatment,3,July,31,29752,51,51.5,28,28,1062.57143,1.839285714
+Chamber 1,32,Aberchoice,Waterlog,Treatment,3,July,13,2160,31.5,32,28,28,77.14286,1.142857143
+Chamber 1,33,Carraig,Waterlog,Treatment,3,July,11,1925,35,35.5,28,28,68.75000,1.267857143
+Chamber 1,34,Aberchoice,Not Waterlog,Treatment,3,July,22,23525,61,61.5,28,28,840.17857,2.196428571
+Chamber 1,35,Aberchoice,Not Waterlog,Treatment,3,July,49,26151,52,52.5,28,28,933.96429,1.875
+Chamber 1,36,Dunlance,Not Waterlog,Treatment,3,July,12,13969,50,50.5,28,28,498.89286,1.803571429
+Chamber 1,37,Aberchoice,Waterlog,Treatment,3,July,19,1699,38,38.5,28,28,60.67857,1.375
+Chamber 1,38,Abergain,Not Waterlog,Treatment,3,July,32,18313,54.5,55,28,28,654.03571,1.964285714
+Chamber 1,39,Dunlance,Waterlog,Treatment,3,July,22,2028,33.5,34,28,28,72.42857,1.214285714
+Chamber 1,40,Aberchoice,Not Waterlog,Treatment,3,July,23,23086,52,52.5,28,28,824.50000,1.875
+Chamber 1,41,Carraig,Not Waterlog,Treatment,3,July,79,18581,52,52.5,28,28,663.60714,1.875
+Chamber 1,42,Aberchoice,Waterlog,Treatment,3,July,16,1581,34,34.5,28,28,56.46429,1.232142857
+Chamber 1,43,Abergain,Waterlog,Treatment,3,July,20,2338,30,30.5,28,28,83.50000,1.089285714
+Chamber 1,44,Abergain,Not Waterlog,Treatment,3,July,20,22866,38.5,39,28,28,816.64286,1.392857143
+Chamber 1,45,Aberchoice,Not Waterlog,Treatment,3,July,17,12429,67,67.5,28,28,443.89286,2.410714286
+Chamber 1,46,Carraig,Not Waterlog,Treatment,3,July,37,18342,48,48.5,28,28,655.07143,1.732142857
+Chamber 1,47,Abergain,Waterlog,Treatment,3,July,16,2511,29.5,30,28,28,89.67857,1.071428571
+Chamber 1,48,Carraig,Not Waterlog,Treatment,3,July,40,18483,33,33.5,28,28,660.10714,1.196428571
+Chamber 1,49,Dunlance,Not Waterlog,Treatment,3,July,19,21009,66.5,67,28,28,750.32143,2.392857143
+Chamber 1,50,Abergain,Not Waterlog,Treatment,3,July,9,11786,60,60.5,28,28,420.92857,2.160714286
+Chamber 1,51,Carraig,Waterlog,Treatment,3,July,16,1837,27.5,28,28,28,65.60714,1
+Chamber 1,52,Dunlance,Waterlog,Treatment,3,July,9,1783,25,25.5,28,28,63.67857,0.910714286
+Chamber 1,53,Aberchoice,Waterlog,Treatment,3,July,21,1391,26,26.5,28,28,49.67857,0.946428571
+Chamber 1,54,Carraig,Waterlog,Treatment,3,July,16,1949,33.5,34,28,28,69.60714,1.214285714
+Chamber 1,55,Dunlance,Waterlog,Treatment,3,July,9,1833,31,31.5,28,28,65.46429,1.125
+Chamber 1,56,Aberchoice,Not Waterlog,Treatment,3,July,53,26360,51.5,52,28,28,941.42857,1.857142857
+Chamber 1,57,Abergain,Not Waterlog,Treatment,3,July,20,16081,62.5,63,28,28,574.32143,2.25
+Chamber 1,58,Dunlance,Waterlog,Treatment,3,July,13,1326,30,30.5,28,28,47.35714,1.089285714
+Chamber 1,59,Abergain,Waterlog,Treatment,3,July,12,1504,31,31.5,28,28,53.71429,1.125
+Chamber 1,60,Carraig,Waterlog,Treatment,3,July,14,1448,25,25.5,28,28,51.71429,0.910714286
+Chamber 1,61,Dunlance,Waterlog,Treatment,3,July,5,1341,45,45.5,28,28,47.89286,1.625
+Chamber 1,62,Dunlance,Not Waterlog,Treatment,3,July,16,19693,36,36.5,28,28,703.32143,1.303571429
+Chamber 1,63,Abergain,Waterlog,Treatment,3,July,19,1430,30.5,31,28,28,51.07143,1.107142857
+Chamber 1,64,Carraig,Not Waterlog,Treatment,3,July,57,23173,48,48.5,28,28,827.60714,1.732142857
+Chamber 1,65,Aberchoice,Not Waterlog,Treatment,3,July,21,17124,71,71.5,28,28,611.57143,2.553571429
+Chamber 1,66,Carraig,Not Waterlog,Treatment,3,July,41,16733,46.5,47,28,28,597.60714,1.678571429
+Chamber 1,67,Dunlance,Not Waterlog,Treatment,3,July,14,21598,46,46.5,28,28,771.35714,1.660714286
+Chamber 1,68,Abergain,Not Waterlog,Treatment,3,July,23,25991,54,54.5,28,28,928.25000,1.946428571
+Chamber 1,69,Carraig,Not Waterlog,Treatment,3,July,29,18478,44.5,45,28,28,659.92857,1.607142857
+Chamber 1,70,Dunlance,Not Waterlog,Treatment,3,July,18,24089,53,53.5,28,28,860.32143,1.910714286
+Chamber 1,71,Aberchoice,Waterlog,Treatment,3,July,10,1743,29.5,30,28,28,62.25000,1.071428571
+Chamber 1,72,Aberchoice,Waterlog,Treatment,3,July,8,1043,31,31.5,28,28,37.25000,1.125
+Chamber 1,73,Abergain,Not Waterlog,Treatment,3,July,31,18460,60,60.5,28,28,659.28571,2.160714286
+Chamber 1,74,Abergain,Waterlog,Treatment,3,July,13,2075,38,38.5,28,28,74.10714,1.375
+Chamber 1,75,Carraig,Waterlog,Treatment,3,July,13,2068,32,32.5,28,28,73.85714,1.160714286
+Chamber 1,76,Dunlance,Not Waterlog,Treatment,3,July,16,15526,59,59.5,28,28,554.50000,2.125
+Chamber 1,77,Dunlance,Waterlog,Treatment,3,July,5,1633,42.5,43,28,28,58.32143,1.535714286
+Chamber 1,78,Aberchoice,Waterlog,Treatment,3,July,6,818,31,31.5,28,28,29.21429,1.125
+Chamber 1,79,Abergain,Waterlog,Treatment,3,July,6,2033,40.5,41,28,28,72.60714,1.464285714
+Chamber 1,80,Carraig,Not Waterlog,Treatment,3,July,30,24467,46,46.5,28,28,873.82143,1.660714286
+Chamber 2,81,Carraig,Not Waterlog,Ambient,3,July,15,10998,51,51.5,28,28,392.78571,1.839285714
+Chamber 2,82,Abergain,Not Waterlog,Ambient,3,July,13,13452,56,56.5,28,28,480.42857,2.017857143
+Chamber 2,83,Dunlance,Waterlog,Ambient,3,July,2,671,35,35.5,28,28,23.96429,1.267857143
+Chamber 2,84,Carraig,Waterlog,Ambient,3,July,5,608,42,42.5,28,28,21.71429,1.517857143
+Chamber 2,85,Carraig,Not Waterlog,Ambient,3,July,17,15897,24.5,25,28,28,567.75000,0.892857143
+Chamber 2,86,Aberchoice,Waterlog,Ambient,3,July,26,1379,30.5,31,28,28,49.25000,1.107142857
+Chamber 2,87,Dunlance,Waterlog,Ambient,3,July,4,577,30,30.5,28,28,20.60714,1.089285714
+Chamber 2,88,Dunlance,Waterlog,Ambient,3,July,9,4943,40,40.5,28,28,176.53571,1.446428571
+Chamber 2,89,Carraig,Waterlog,Ambient,3,July,30,4106,40.5,41,28,28,146.64286,1.464285714
+Chamber 2,90,Aberchoice,Waterlog,Ambient,3,July,30,1915,34,34.5,28,28,68.39286,1.232142857
+Chamber 2,91,Aberchoice,Waterlog,Ambient,3,July,4,418,28,28.5,28,28,14.92857,1.017857143
+Chamber 2,92,Dunlance,Not Waterlog,Ambient,3,July,9,8893,46,46.5,28,28,317.60714,1.660714286
+Chamber 2,93,Aberchoice,Not Waterlog,Ambient,3,July,18,13310,59,59.5,28,28,475.35714,2.125
+Chamber 2,94,Carraig,Not Waterlog,Ambient,3,July,39,26963,58.5,59,28,28,962.96429,2.107142857
+Chamber 2,95,Dunlance,Not Waterlog,Ambient,3,July,17,15345,55,55.5,28,28,548.03571,1.982142857
+Chamber 2,96,Carraig,Not Waterlog,Ambient,3,July,12,7168,41,41.5,28,28,256.00000,1.482142857
+Chamber 2,97,Abergain,Not Waterlog,Ambient,3,July,12,17164,56.5,57,28,28,613.00000,2.035714286
+Chamber 2,98,Abergain,Waterlog,Ambient,3,July,9,2602,30.5,31,28,28,92.92857,1.107142857
+Chamber 2,99,Dunlance,Not Waterlog,Ambient,3,July,14,12800,49,49.5,28,28,457.14286,1.767857143
+Chamber 2,100,Abergain,Not Waterlog,Ambient,3,July,27,21886,50.5,51,28,28,781.64286,1.821428571
+Chamber 2,101,Abergain,Not Waterlog,Ambient,3,July,23,22063,57,57.5,28,28,787.96429,2.053571429
+Chamber 2,102,Abergain,Not Waterlog,Ambient,3,July,44,22358,58.5,59,28,28,798.50000,2.107142857
+Chamber 2,103,Dunlance,Not Waterlog,Ambient,3,July,17,16613,61,61.5,28,28,593.32143,2.196428571
+Chamber 2,104,Abergain,Not Waterlog,Ambient,3,July,37,27806,56,56.5,28,28,993.07143,2.017857143
+Chamber 2,105,Abergain,Waterlog,Ambient,3,July,6,2861,46.5,47,28,28,102.17857,1.678571429
+Chamber 2,106,Dunlance,Waterlog,Ambient,3,July,11,2213,27,27.5,28,28,79.03571,0.982142857
+Chamber 2,107,Abergain,Waterlog,Ambient,3,July,12,1286,30,30.5,28,28,45.92857,1.089285714
+Chamber 2,108,Abergain,Waterlog,Ambient,3,July,2,354,28.5,29,28,28,12.64286,1.035714286
+Chamber 2,109,Abergain,Waterlog,Ambient,3,July,11,1314,35,35.5,28,28,46.92857,1.267857143
+Chamber 2,110,Abergain,Not Waterlog,Ambient,3,July,14,16015,42,42.5,28,28,571.96429,1.517857143
+Chamber 2,111,Dunlance,Waterlog,Ambient,3,July,6,2804,29.5,30,28,28,100.14286,1.071428571
+Chamber 2,112,Carraig,Waterlog,Ambient,3,July,10,970,29,29.5,28,28,34.64286,1.053571429
+Chamber 2,113,Aberchoice,Waterlog,Ambient,3,July,21,3306,48,48.5,28,28,118.07143,1.732142857
+Chamber 2,114,Carraig,Waterlog,Ambient,3,July,8,2001,34,34.5,28,28,71.46429,1.232142857
+Chamber 2,115,Carraig,Not Waterlog,Ambient,3,July,29,20523,48,48.5,28,28,732.96429,1.732142857
+Chamber 2,116,Aberchoice,Not Waterlog,Ambient,3,July,12,7566,54.5,55,28,28,270.21429,1.964285714
+Chamber 2,117,Abergain,Waterlog,Ambient,3,July,9,1891,36,36.5,28,28,67.53571,1.303571429
+Chamber 2,118,Dunlance,Not Waterlog,Ambient,3,July,12,14077,59,59.5,28,28,502.75000,2.125
+Chamber 2,119,Carraig,Not Waterlog,Ambient,3,July,30,29414,48,48.5,28,28,1050.50000,1.732142857
+Chamber 2,120,Abergain,Not Waterlog,Ambient,3,July,13,10483,43.5,44,28,28,374.39286,1.571428571
+Chamber 2,121,Carraig,Waterlog,Ambient,3,July,15,3443,35.5,36,28,28,122.96429,1.285714286
+Chamber 2,122,Abergain,Waterlog,Ambient,3,July,13,2350,33,33.5,28,28,83.92857,1.196428571
+Chamber 2,123,Carraig,Waterlog,Ambient,3,July,16,709,29.5,30,28,28,25.32143,1.071428571
+Chamber 2,124,Carraig,Not Waterlog,Ambient,3,July,73,13895,42,42.5,28,28,496.25000,1.517857143
+Chamber 2,125,Aberchoice,Not Waterlog,Ambient,3,July,11,15698,63,63.5,28,28,560.64286,2.267857143
+Chamber 2,126,Dunlance,Waterlog,Ambient,3,July,5,2706,35,35.5,28,28,96.64286,1.267857143
+Chamber 2,127,Abergain,Not Waterlog,Ambient,3,July,33,22782,46.5,47,28,28,813.64286,1.678571429
+Chamber 2,128,Dunlance,Not Waterlog,Ambient,3,July,9,8326,51,51.5,28,28,297.35714,1.839285714
+Chamber 2,129,Dunlance,Waterlog,Ambient,3,July,7,1980,36.5,37,28,28,70.71429,1.321428571
+Chamber 2,130,Abergain,Waterlog,Ambient,3,July,3,1426,30,30.5,28,28,50.92857,1.089285714
+Chamber 2,131,Carraig,Not Waterlog,Ambient,3,July,28,24538,46,46.5,28,28,876.35714,1.660714286
+Chamber 2,132,Dunlance,Not Waterlog,Ambient,3,July,25,20239,61,61.5,28,28,722.82143,2.196428571
+Chamber 2,133,Carraig,Not Waterlog,Ambient,3,July,35,16049,47,47.5,28,28,573.17857,1.696428571
+Chamber 2,134,Carraig,Waterlog,Ambient,3,July,12,913,27,27.5,28,28,32.60714,0.982142857
+Chamber 2,135,Aberchoice,Waterlog,Ambient,3,July,14,1224,28,28.5,28,28,43.71429,1.017857143
+Chamber 2,136,Aberchoice,Not Waterlog,Ambient,3,July,28,18311,53.5,54,28,28,653.96429,1.928571429
+Chamber 2,137,Aberchoice,Not Waterlog,Ambient,3,July,24,25163,52,52.5,28,28,898.67857,1.875
+Chamber 2,138,Aberchoice,Waterlog,Ambient,3,July,8,887,33,33.5,28,28,31.67857,1.196428571
+Chamber 2,139,Carraig,Waterlog,Ambient,3,July,12,1142,22,22.5,28,28,40.78571,0.803571429
+Chamber 2,140,Dunlance,Waterlog,Ambient,3,July,6,2546,36,36.5,28,28,90.92857,1.303571429
+Chamber 2,141,Dunlance,Not Waterlog,Ambient,3,July,22,14890,49.5,50,28,28,531.78571,1.785714286
+Chamber 2,142,Aberchoice,Not Waterlog,Ambient,3,July,37,20899,53.5,54,28,28,746.39286,1.928571429
+Chamber 2,143,Aberchoice,Waterlog,Ambient,3,July,17,1478,28.5,29,28,28,52.78571,1.035714286
+Chamber 2,144,Dunlance,Not Waterlog,Ambient,3,July,17,14063,35,35.5,28,28,502.25000,1.267857143
+Chamber 2,145,Aberchoice,Waterlog,Ambient,3,July,8,900,37,37.5,28,28,32.14286,1.339285714
+Chamber 2,146,Aberchoice,Not Waterlog,Ambient,3,July,26,16116,46,46.5,28,28,575.57143,1.660714286
+Chamber 2,147,Dunlance,Waterlog,Ambient,3,July,7,372,26,26.5,28,28,13.28571,0.946428571
+Chamber 2,148,Abergain,Waterlog,Ambient,3,July,9,1030,29,29.5,28,28,36.78571,1.053571429
+Chamber 2,149,Carraig,Waterlog,Ambient,3,July,21,2501,36,36.5,28,28,89.32143,1.303571429
+Chamber 2,150,Dunlance,Waterlog,Ambient,3,July,11,3966,34,34.5,28,28,141.64286,1.232142857
+Chamber 2,151,Carraig,Waterlog,Ambient,3,July,10,2782,33.5,34,28,28,99.35714,1.214285714
+Chamber 2,152,Aberchoice,Not Waterlog,Ambient,3,July,28,18265,66.5,67,28,28,652.32143,2.392857143
+Chamber 2,153,Aberchoice,Waterlog,Ambient,3,July,9,848,36,36.5,28,28,30.28571,1.303571429
+Chamber 2,154,Carraig,Not Waterlog,Ambient,3,July,25,16409,55,55.5,28,28,586.03571,1.982142857
+Chamber 2,155,Abergain,Not Waterlog,Ambient,3,July,20,19811,62,62.5,28,28,707.53571,2.232142857
+Chamber 2,156,Aberchoice,Not Waterlog,Ambient,3,July,29,22610,61,61.5,28,28,807.50000,2.196428571
+Chamber 2,157,Dunlance,Not Waterlog,Ambient,3,July,13,12835,76,76.5,28,28,458.39286,2.732142857
+Chamber 2,158,Aberchoice,Waterlog,Ambient,3,July,12,1445,41,41.5,28,28,51.60714,1.482142857
+Chamber 2,159,Abergain,Waterlog,Ambient,3,July,8,1377,34,34.5,28,28,49.17857,1.232142857
+Chamber 2,160,Aberchoice,Not Waterlog,Ambient,3,July,24,18578,59,59.5,28,28,663.50000,2.125
+Chamber 4,161,Aberchoice,Not Waterlog,Treatment,3,July,26,19477,74,74.5,28,28,695.60714,2.660714286
+Chamber 4,162,Dunlance,Not Waterlog,Treatment,3,July,9,7154,58,58.5,28,28,255.50000,2.089285714
+Chamber 4,163,Carraig,Not Waterlog,Treatment,3,July,20,16452,55,55.5,28,28,587.57143,1.982142857
+Chamber 4,164,Abergain,Waterlog,Treatment,3,July,14,3372,43,43.5,28,28,120.42857,1.553571429
+Chamber 4,165,Abergain,Waterlog,Treatment,3,July,9,2072,38,38.5,28,28,74.00000,1.375
+Chamber 4,166,Dunlance,Waterlog,Treatment,3,July,7,3994,42.5,43,28,28,142.64286,1.535714286
+Chamber 4,167,Aberchoice,Waterlog,Treatment,3,July,12,1909,34,34.5,28,28,68.17857,1.232142857
+Chamber 4,168,Abergain,Waterlog,Treatment,3,July,10,3102,47,47.5,28,28,110.78571,1.696428571
+Chamber 4,169,Dunlance,Waterlog,Treatment,3,July,10,4785,51,51.5,28,28,170.89286,1.839285714
+Chamber 4,170,Dunlance,Waterlog,Treatment,3,July,8,3615,42.5,43,28,28,129.10714,1.535714286
+Chamber 4,171,Dunlance,Waterlog,Treatment,3,July,8,3558,45.5,46,28,28,127.07143,1.642857143
+Chamber 4,172,Aberchoice,Waterlog,Treatment,3,July,13,1346,34.5,35,28,28,48.07143,1.25
+Chamber 4,173,Dunlance,Waterlog,Treatment,3,July,12,3447,40.5,41,28,28,123.10714,1.464285714
+Chamber 4,174,Carraig,Not Waterlog,Treatment,3,July,111,34257,43,43.5,28,28,1223.46429,1.553571429
+Chamber 4,175,Abergain,Not Waterlog,Treatment,3,July,21,24367,56,56.5,28,28,870.25000,2.017857143
+Chamber 4,176,Aberchoice,Waterlog,Treatment,3,July,14,1511,27,27.5,28,28,53.96429,0.982142857
+Chamber 4,177,Abergain,Not Waterlog,Treatment,3,July,11,3030,46.5,47,28,28,108.21429,1.678571429
+Chamber 4,178,Aberchoice,Waterlog,Treatment,3,July,12,932,30,30.5,28,28,33.28571,1.089285714
+Chamber 4,179,Aberchoice,Waterlog,Treatment,3,July,13,1566,34,34.5,28,28,55.92857,1.232142857
+Chamber 4,180,Dunlance,Waterlog,Treatment,3,July,12,3879,33,33.5,28,28,138.53571,1.196428571
+Chamber 4,181,Carraig,Waterlog,Treatment,3,July,36,2027,25,25.5,28,28,72.39286,0.910714286
+Chamber 4,182,Carraig,Waterlog,Treatment,3,July,29,1887,23,23.5,28,28,67.39286,0.839285714
+Chamber 4,183,Carraig,Not Waterlog,Treatment,3,July,51,41329,45.5,46,28,28,1476.03571,1.642857143
+Chamber 4,184,Carraig,Waterlog,Treatment,3,July,15,1745,33,33.5,28,28,62.32143,1.196428571
+Chamber 4,185,Carraig,Waterlog,Treatment,3,July,18,5368,47,47.5,28,28,191.71429,1.696428571
+Chamber 4,186,Aberchoice,Waterlog,Treatment,3,July,15,2511,33,33.5,28,28,89.67857,1.196428571
+Chamber 4,187,Abergain,Waterlog,Treatment,3,July,23,2017,29.5,30,28,28,72.03571,1.071428571
+Chamber 4,188,Carraig,Not Waterlog,Treatment,3,July,22,19252,48,48.5,28,28,687.57143,1.732142857
+Chamber 4,189,Abergain,Waterlog,Treatment,3,July,16,1708,28,28.5,28,28,61.00000,1.017857143
+Chamber 4,190,Carraig,Waterlog,Treatment,3,July,12,1063,31,31.5,28,28,37.96429,1.125
+Chamber 4,191,Carraig,Not Waterlog,Treatment,3,July,60,26603,38,38.5,28,28,950.10714,1.375
+Chamber 4,192,Abergain,Not Waterlog,Treatment,3,July,23,24089,61,61.5,28,28,860.32143,2.196428571
+Chamber 4,193,Carraig,Not Waterlog,Treatment,3,July,34,23614,63,63.5,28,28,843.35714,2.267857143
+Chamber 4,194,Abergain,Not Waterlog,Treatment,3,July,17,22309,71,71.5,28,28,796.75000,2.553571429
+Chamber 4,195,Dunlance,Not Waterlog,Treatment,3,July,27,19717,60,60.5,28,28,704.17857,2.160714286
+Chamber 4,196,Aberchoice,Not Waterlog,Treatment,3,July,18,10350,53,53.5,28,28,369.64286,1.910714286
+Chamber 4,197,Carraig,Waterlog,Treatment,3,July,16,3296,42,42.5,28,28,117.71429,1.517857143
+Chamber 4,198,Abergain,Not Waterlog,Treatment,3,July,8,2134,39,39.5,28,28,76.21429,1.410714286
+Chamber 4,199,Aberchoice,Not Waterlog,Treatment,3,July,33,28859,66,66.5,28,28,1030.67857,2.375
+Chamber 4,200,Dunlance,Not Waterlog,Treatment,3,July,12,13676,63,63.5,28,28,488.42857,2.267857143
+Chamber 4,201,Aberchoice,Waterlog,Treatment,3,July,10,1811,46,46.5,28,28,64.67857,1.660714286
+Chamber 4,202,Aberchoice,Not Waterlog,Treatment,3,July,24,19635,59.5,60,28,28,701.25000,2.142857143
+Chamber 4,203,Dunlance,Waterlog,Treatment,3,July,7,1529,38,38.5,28,28,54.60714,1.375
+Chamber 4,204,Abergain,Not Waterlog,Treatment,3,July,17,13908,54.5,55,28,28,496.71429,1.964285714
+Chamber 4,205,Aberchoice,Not Waterlog,Treatment,3,July,16,18517,67,67.5,28,28,661.32143,2.410714286
+Chamber 4,206,Abergain,Not Waterlog,Treatment,3,July,26,28699,57,57.5,28,28,1024.96429,2.053571429
+Chamber 4,207,Abergain,Waterlog,Treatment,3,July,12,828,21,21.5,28,28,29.57143,0.767857143
+Chamber 4,208,Carraig,Not Waterlog,Treatment,3,July,39,26432,48.5,49,28,28,944.00000,1.75
+Chamber 4,209,Dunlance,Not Waterlog,Treatment,3,July,14,21898,53,53.5,28,28,782.07143,1.910714286
+Chamber 4,210,Carraig,Waterlog,Treatment,3,July,9,929,25,25.5,28,28,33.17857,0.910714286
+Chamber 4,211,Dunlance,Waterlog,Treatment,3,July,6,608,24,24.5,28,28,21.71429,0.875
+Chamber 4,212,Aberchoice,Waterlog,Treatment,3,July,13,1061,41,41.5,28,28,37.89286,1.482142857
+Chamber 4,213,Carraig,Waterlog,Treatment,3,July,19,5599,39,39.5,28,28,199.96429,1.410714286
+Chamber 4,214,Abergain,Not Waterlog,Treatment,3,July,21,22657,57,57.5,28,28,809.17857,2.053571429
+Chamber 4,215,Aberchoice,Not Waterlog,Treatment,3,July,22,20022,56,56.5,28,28,715.07143,2.017857143
+Chamber 4,216,Aberchoice,Waterlog,Treatment,3,July,14,1481,28.5,29,28,28,52.89286,1.035714286
+Chamber 4,217,Carraig,Waterlog,Treatment,3,July,6,1539,49,49.5,28,28,54.96429,1.767857143
+Chamber 4,218,Abergain,Waterlog,Treatment,3,July,13,3626,42,42.5,28,28,129.50000,1.517857143
+Chamber 4,219,Aberchoice,Not Waterlog,Treatment,3,July,12,17678,62,62.5,28,28,631.35714,2.232142857
+Chamber 4,220,Aberchoice,Not Waterlog,Treatment,3,July,37,28903,64,64.5,28,28,1032.25000,2.303571429
+Chamber 4,221,Dunlance,Not Waterlog,Treatment,3,July,19,25223,76,76.5,28,28,900.82143,2.732142857
+Chamber 4,222,Dunlance,Not Waterlog,Treatment,3,July,12,15697,58.5,59,28,28,560.60714,2.107142857
+Chamber 4,223,Dunlance,Not Waterlog,Treatment,3,July,20,29278,61.5,62,28,28,1045.64286,2.214285714
+Chamber 4,224,Aberchoice,Waterlog,Treatment,3,July,41,3258,36,36.5,28,28,116.35714,1.303571429
+Chamber 4,225,Abergain,Not Waterlog,Treatment,3,July,26,27063,75,75.5,28,28,966.53571,2.696428571
+Chamber 4,226,Dunlance,Not Waterlog,Treatment,3,July,12,7977,77,77.5,28,28,284.89286,2.767857143
+Chamber 4,227,Carraig,Waterlog,Treatment,3,July,13,1839,37.5,38,28,28,65.67857,1.357142857
+Chamber 4,228,Abergain,Waterlog,Treatment,3,July,8,1513,36,36.5,28,28,54.03571,1.303571429
+Chamber 4,229,Dunlance,Waterlog,Treatment,3,July,8,885,38.5,39,28,28,31.60714,1.392857143
+Chamber 4,230,Aberchoice,Not Waterlog,Treatment,3,July,17,26125,71,71.5,28,28,933.03571,2.553571429
+Chamber 4,231,Abergain,Waterlog,Treatment,3,July,7,2805,41,41.5,28,28,100.17857,1.482142857
+Chamber 4,232,Dunlance,Waterlog,Treatment,3,July,8,4221,48,48.5,28,28,150.75000,1.732142857
+Chamber 4,233,Abergain,Not Waterlog,Treatment,3,July,23,25242,76,76.5,28,28,901.50000,2.732142857
+Chamber 4,234,Carraig,Not Waterlog,Treatment,3,July,74,26474,76,76.5,28,28,945.50000,2.732142857
+Chamber 4,235,Carraig,Not Waterlog,Treatment,3,July,38,27594,77.5,78,28,28,985.50000,2.785714286
+Chamber 4,236,Aberchoice,Not Waterlog,Treatment,3,July,141,33648,55.5,56,28,28,1201.71429,2
+Chamber 4,237,Carraig,Not Waterlog,Treatment,3,July,45,19587,62,62.5,28,28,699.53571,2.232142857
+Chamber 4,238,Dunlance,Not Waterlog,Treatment,3,July,9,10522,39,39.5,28,28,375.78571,1.410714286
+Chamber 4,239,Abergain,Waterlog,Treatment,3,July,9,2996,44.5,45,28,28,107.00000,1.607142857
+Chamber 4,240,Dunlance,Not Waterlog,Treatment,3,July,11,22568,59,59.5,28,28,806.00000,2.125
+Chamber 5,241,Carraig,Not Waterlog,Ambient,3,July,61,13405,52,52.5,28,28,478.75000,1.875
+Chamber 5,242,Abergain,Waterlog,Ambient,3,July,3,701,33,33.5,28,28,25.03571,1.196428571
+Chamber 5,243,Carraig,Not Waterlog,Ambient,3,July,23,18638,59,59.5,28,28,665.64286,2.125
+Chamber 5,244,Dunlance,Not Waterlog,Ambient,3,July,13,11896,60.5,61,28,28,424.85714,2.178571429
+Chamber 5,245,Abergain,Not Waterlog,Ambient,3,July,11,13193,54,54.5,28,28,471.17857,1.946428571
+Chamber 5,246,Aberchoice,Waterlog,Ambient,3,July,7,527,20.5,21,28,28,18.82143,0.75
+Chamber 5,247,Dunlance,Not Waterlog,Ambient,3,July,14,15625,64,64.5,28,28,558.03571,2.303571429
+Chamber 5,248,Carraig,Not Waterlog,Ambient,3,July,27,19098,52.5,53,28,28,682.07143,1.892857143
+Chamber 5,249,Dunlance,Not Waterlog,Ambient,3,July,16,19076,72,72.5,28,28,681.28571,2.589285714
+Chamber 5,250,Abergain,Not Waterlog,Ambient,3,July,15,16433,57.5,58,28,28,586.89286,2.071428571
+Chamber 5,251,Carraig,Not Waterlog,Ambient,3,July,30,17216,50,50.5,28,28,614.85714,1.803571429
+Chamber 5,252,Dunlance,Waterlog,Ambient,3,July,3,792,32,32.5,28,28,28.28571,1.160714286
+Chamber 5,253,Dunlance,Waterlog,Ambient,3,July,7,114,29.5,30,28,28,4.07143,1.071428571
+Chamber 5,254,Aberchoice,Not Waterlog,Ambient,3,July,24,18773,52,52.5,28,28,670.46429,1.875
+Chamber 5,255,Dunlance,Waterlog,Ambient,3,July,8,1672,23.5,24,28,28,59.71429,0.857142857
+Chamber 5,256,Dunlance,Not Waterlog,Ambient,3,July,17,16411,43,43.5,28,28,586.10714,1.553571429
+Chamber 5,257,Aberchoice,Waterlog,Ambient,3,July,8,729,29,29.5,28,28,26.03571,1.053571429
+Chamber 5,258,Abergain,Waterlog,Ambient,3,July,6,1039,28,28.5,28,28,37.10714,1.017857143
+Chamber 5,259,Carraig,Waterlog,Ambient,3,July,13,1130,21.5,22,28,28,40.35714,0.785714286
+Chamber 5,260,Abergain,Not Waterlog,Ambient,3,July,45,21729,54,54.5,28,28,776.03571,1.946428571
+Chamber 5,261,Dunlance,Not Waterlog,Ambient,3,July,29,16813,55,55.5,28,28,600.46429,1.982142857
+Chamber 5,262,Abergain,Waterlog,Ambient,3,July,9,1053,24,24.5,28,28,37.60714,0.875
+Chamber 5,263,Dunlance,Waterlog,Ambient,3,July,10,1204,21,21.5,28,28,43.00000,0.767857143
+Chamber 5,264,Abergain,Waterlog,Ambient,3,July,6,1084,30,30.5,28,28,38.71429,1.089285714
+Chamber 5,265,Abergain,Waterlog,Ambient,3,July,8,700,31,31.5,28,28,25.00000,1.125
+Chamber 5,266,Carraig,Waterlog,Ambient,3,July,17,1731,25,25.5,28,28,61.82143,0.910714286
+Chamber 5,267,Dunlance,Not Waterlog,Ambient,3,July,16,11148,46,46.5,28,28,398.14286,1.660714286
+Chamber 5,268,Aberchoice,Not Waterlog,Ambient,3,July,17,11173,56,56.5,28,28,399.03571,2.017857143
+Chamber 5,269,Abergain,Waterlog,Ambient,3,July,9,1305,27,27.5,28,28,46.60714,0.982142857
+Chamber 5,270,Abergain,Not Waterlog,Ambient,3,July,18,15239,38,38.5,28,28,544.25000,1.375
+Chamber 5,271,Aberchoice,Waterlog,Ambient,3,July,10,816,21,21.5,28,28,29.14286,0.767857143
+Chamber 5,272,Aberchoice,Not Waterlog,Ambient,3,July,12,12691,50.5,51,28,28,453.25000,1.821428571
+Chamber 5,273,Abergain,Waterlog,Ambient,3,July,10,1494,33,33.5,28,28,53.35714,1.196428571
+Chamber 5,274,Dunlance,Waterlog,Ambient,3,July,11,1970,31,31.5,28,28,70.35714,1.125
+Chamber 5,275,Carraig,Not Waterlog,Ambient,3,July,35,22277,43,43.5,28,28,795.60714,1.553571429
+Chamber 5,276,Dunlance,Not Waterlog,Ambient,3,July,12,11819,53,53.5,28,28,422.10714,1.910714286
+Chamber 5,277,Aberchoice,Not Waterlog,Ambient,3,July,14,14151,58.5,59,28,28,505.39286,2.107142857
+Chamber 5,278,Carraig,Waterlog,Ambient,3,July,6,1131,29,29.5,28,28,40.39286,1.053571429
+Chamber 5,279,Dunlance,Waterlog,Ambient,3,July,7,935,31,31.5,28,28,33.39286,1.125
+Chamber 5,280,Dunlance,Not Waterlog,Ambient,3,July,16,13438,43.5,44,28,28,479.92857,1.571428571
+Chamber 5,281,Carraig,Waterlog,Ambient,3,July,5,1140,34,34.5,28,28,40.71429,1.232142857
+Chamber 5,282,Carraig,Waterlog,Ambient,3,July,12,1375,27.5,28,28,28,49.10714,1
+Chamber 5,283,Carraig,Not Waterlog,Ambient,3,July,34,16223,38.5,39,28,28,579.39286,1.392857143
+Chamber 5,284,Abergain,Waterlog,Ambient,3,July,9,1540,26.5,27,28,28,55.00000,0.964285714
+Chamber 5,285,Abergain,Not Waterlog,Ambient,3,July,21,2076,56,56.5,28,28,74.14286,2.017857143
+Chamber 5,286,Carraig,Waterlog,Ambient,3,July,14,1715,21,21.5,28,28,61.25000,0.767857143
+Chamber 5,287,Dunlance,Not Waterlog,Ambient,3,July,18,16574,53.5,54,28,28,591.92857,1.928571429
+Chamber 5,288,Carraig,Waterlog,Ambient,3,July,10,1214,22,22.5,28,28,43.35714,0.803571429
+Chamber 5,289,Aberchoice,Waterlog,Ambient,3,July,4,515,25,25.5,28,28,18.39286,0.910714286
+Chamber 5,290,Abergain,Waterlog,Ambient,3,July,5,1447,29.5,30,28,28,51.67857,1.071428571
+Chamber 5,291,Abergain,Waterlog,Ambient,3,July,7,1301,28.5,29,28,28,46.46429,1.035714286
+Chamber 5,292,Dunlance,Waterlog,Ambient,3,July,6,884,22,22.5,28,28,31.57143,0.803571429
+Chamber 5,293,Aberchoice,Not Waterlog,Ambient,3,July,15,11276,54,54.5,28,28,402.71429,1.946428571
+Chamber 5,294,Carraig,Waterlog,Ambient,3,July,9,1113,26.5,27,28,28,39.75000,0.964285714
+Chamber 5,295,Carraig,Not Waterlog,Ambient,3,July,28,14465,35,35.5,28,28,516.60714,1.267857143
+Chamber 5,296,Aberchoice,Not Waterlog,Ambient,3,July,36,22369,54.5,55,28,28,798.89286,1.964285714
+Chamber 5,297,Aberchoice,Waterlog,Ambient,3,July,8,1308,35,35.5,28,28,46.71429,1.267857143
+Chamber 5,298,Carraig,Not Waterlog,Ambient,3,July,39,25459,38,38.5,28,28,909.25000,1.375
+Chamber 5,299,Dunlance,Waterlog,Ambient,3,July,5,739,27,27.5,28,28,26.39286,0.982142857
+Chamber 5,300,Carraig,Not Waterlog,Ambient,3,July,48,20560,39.5,40,28,28,734.28571,1.428571429
+Chamber 5,301,Aberchoice,Not Waterlog,Ambient,3,July,48,22669,56,56.5,28,28,809.60714,2.017857143
+Chamber 5,302,Abergain,Not Waterlog,Ambient,3,July,31,22841,48.5,49,28,28,815.75000,1.75
+Chamber 5,303,Carraig,Waterlog,Ambient,3,July,19,1717,31,31.5,28,28,61.32143,1.125
+Chamber 5,304,Dunlance,Waterlog,Ambient,3,July,16,920,32.5,33,28,28,32.85714,1.178571429
+Chamber 5,305,Aberchoice,Waterlog,Ambient,3,July,7,1096,27,27.5,28,28,39.14286,0.982142857
+Chamber 5,306,Aberchoice,Waterlog,Ambient,3,July,8,910,32,32.5,28,28,32.50000,1.160714286
+Chamber 5,307,Aberchoice,Not Waterlog,Ambient,3,July,13,19845,58.5,59,28,28,708.75000,2.107142857
+Chamber 5,308,Abergain,Not Waterlog,Ambient,3,July,21,22639,53,53.5,28,28,808.53571,1.910714286
+Chamber 5,309,Dunlance,Waterlog,Ambient,3,July,4,573,35,35.5,28,28,20.46429,1.267857143
+Chamber 5,310,Aberchoice,Not Waterlog,Ambient,3,July,22,17336,60.5,61,28,28,619.14286,2.178571429
+Chamber 5,311,Dunlance,Not Waterlog,Ambient,3,July,16,12436,55.5,56,28,28,444.14286,2
+Chamber 5,312,Abergain,Not Waterlog,Ambient,3,July,25,28562,62,62.5,28,28,1020.07143,2.232142857
+Chamber 5,313,Abergain,Not Waterlog,Ambient,3,July,13,18260,54,54.5,28,28,652.14286,1.946428571
+Chamber 5,314,Aberchoice,Waterlog,Ambient,3,July,13,1584,33,33.5,28,28,56.57143,1.196428571
+Chamber 5,315,Abergain,Not Waterlog,Ambient,3,July,4,3572,32,32.5,28,28,127.57143,1.160714286
+Chamber 5,316,Aberchoice,Waterlog,Ambient,3,July,8,1222,37.5,38,28,28,43.64286,1.357142857
+Chamber 5,317,Aberchoice,Waterlog,Ambient,3,July,14,2856,34,34.5,28,28,102.00000,1.232142857
+Chamber 5,318,Carraig,Waterlog,Ambient,3,July,7,1213,24,24.5,28,28,43.32143,0.875
+Chamber 5,319,Aberchoice,Not Waterlog,Ambient,3,July,21,7223,63,63.5,28,28,257.96429,2.267857143
+Chamber 5,320,Carraig,Not Waterlog,Ambient,3,July,24,25976,68,68.5,28,28,927.71429,2.446428571
+Chamber 1,1,Carraig,Not Waterlog,Treatment,4,August,90,7431,28.5,29,27,21,275.22222,1.380952381
+Chamber 1,2,Abergain,Not Waterlog,Treatment,4,August,129,14670,41,41.5,27,21,543.33333,1.976190476
+Chamber 1,3,Dunlance,Not Waterlog,Treatment,4,August,133,16986,44,44.5,27,21,629.11111,2.119047619
+Chamber 1,4,Abergain,Not Waterlog,Treatment,4,August,148,13984,32,32.5,27,21,517.92593,1.547619048
+Chamber 1,5,Abergain,Waterlog,Treatment,4,August,16,1094,34,34.5,27,21,40.51852,1.642857143
+Chamber 1,6,Aberchoice,Waterlog,Treatment,4,August,33,1941,25.5,26,27,21,71.88889,1.238095238
+Chamber 1,7,Abergain,Waterlog,Treatment,4,August,39,3159,36.5,37,27,21,117.00000,1.761904762
+Chamber 1,8,Abergain,Waterlog,Treatment,4,August,20,1536,29.5,30,27,21,56.88889,1.428571429
+Chamber 1,9,Aberchoice,Not Waterlog,Treatment,4,August,174,11138,36,36.5,27,21,412.51852,1.738095238
+Chamber 1,10,Carraig,Not Waterlog,Treatment,4,August,187,18283,42.5,43,27,21,677.14815,2.047619048
+Chamber 1,11,Dunlance,Waterlog,Treatment,4,August,17,2211,26.5,27,27,21,81.88889,1.285714286
+Chamber 1,12,Aberchoice,Not Waterlog,Treatment,4,August,203,13172,28,28.5,27,21,487.85185,1.357142857
+Chamber 1,13,Aberchoice,Waterlog,Treatment,4,August,44,2350,27,27.5,27,21,87.03704,1.30952381
+Chamber 1,14,Dunlance,Waterlog,Treatment,4,August,26,2473,34.5,35,27,21,91.59259,1.666666667
+Chamber 1,15,Abergain,Not Waterlog,Treatment,4,August,267,21631,34,34.5,27,21,801.14815,1.642857143
+Chamber 1,16,Aberchoice,Waterlog,Treatment,4,August,95,5624,33,33.5,27,21,208.29630,1.595238095
+Chamber 1,17,Carraig,Not Waterlog,Treatment,4,August,177,17667,38,38.5,27,21,654.33333,1.833333333
+Chamber 1,18,Carraig,Waterlog,Treatment,4,August,32,3053,27,27.5,27,21,113.07407,1.30952381
+Chamber 1,19,Dunlance,Not Waterlog,Treatment,4,August,177,16083,32,32.5,27,21,595.66667,1.547619048
+Chamber 1,20,Dunlance,Not Waterlog,Treatment,4,August,178,17648,40,40.5,27,21,653.62963,1.928571429
+Chamber 1,21,Carraig,Waterlog,Treatment,4,August,41,3812,27.5,28,27,21,141.18519,1.333333333
+Chamber 1,22,Carraig,Waterlog,Treatment,4,August,53,3613,24.5,25,27,21,133.81481,1.19047619
+Chamber 1,23,Abergain,Waterlog,Treatment,4,August,28,1405,26.5,27,27,21,52.03704,1.285714286
+Chamber 1,24,Aberchoice,Not Waterlog,Treatment,4,August,151,11457,32,32.5,27,21,424.33333,1.547619048
+Chamber 1,25,Dunlance,Not Waterlog,Treatment,4,August,139,15922,47.5,48,27,21,589.70370,2.285714286
+Chamber 1,26,Dunlance,Waterlog,Treatment,4,August,21,1820,27.5,28,27,21,67.40741,1.333333333
+Chamber 1,27,Carraig,Waterlog,Treatment,4,August,66,3495,23.5,24,27,21,129.44444,1.142857143
+Chamber 1,28,Carraig,Waterlog,Treatment,4,August,23,3036,26.5,27,27,21,112.44444,1.285714286
+Chamber 1,29,Dunlance,Waterlog,Treatment,4,August,17,1870,28.5,29,27,21,69.25926,1.380952381
+Chamber 1,30,Aberchoice,Not Waterlog,Treatment,4,August,221,15749,32,32.5,27,21,583.29630,1.547619048
+Chamber 1,31,Abergain,Not Waterlog,Treatment,4,August,230,19056,39.5,40,27,21,705.77778,1.904761905
+Chamber 1,32,Aberchoice,Waterlog,Treatment,4,August,45,2933,35,35.5,27,21,108.62963,1.69047619
+Chamber 1,33,Carraig,Waterlog,Treatment,4,August,26,1990,29,29.5,27,21,73.70370,1.404761905
+Chamber 1,34,Aberchoice,Not Waterlog,Treatment,4,August,127,9332,33.5,34,27,21,345.62963,1.619047619
+Chamber 1,35,Aberchoice,Not Waterlog,Treatment,4,August,159,10370,28.5,29,27,21,384.07407,1.380952381
+Chamber 1,36,Dunlance,Not Waterlog,Treatment,4,August,154,26947,50.5,51,27,21,998.03704,2.428571429
+Chamber 1,37,Aberchoice,Waterlog,Treatment,4,August,29,1802,31,31.5,27,21,66.74074,1.5
+Chamber 1,38,Abergain,Not Waterlog,Treatment,4,August,118,15176,34,34.5,27,21,562.07407,1.642857143
+Chamber 1,39,Dunlance,Waterlog,Treatment,4,August,45,1763,28,28.5,27,21,65.29630,1.357142857
+Chamber 1,40,Aberchoice,Not Waterlog,Treatment,4,August,251,25078,43.5,44,27,21,928.81481,2.095238095
+Chamber 1,41,Carraig,Not Waterlog,Treatment,4,August,214,20268,41,41.5,27,21,750.66667,1.976190476
+Chamber 1,42,Aberchoice,Waterlog,Treatment,4,August,21,1331,32,32.5,27,21,49.29630,1.547619048
+Chamber 1,43,Abergain,Waterlog,Treatment,4,August,36,1981,29.5,30,27,21,73.37037,1.428571429
+Chamber 1,44,Abergain,Not Waterlog,Treatment,4,August,88,8477,30,30.5,27,21,313.96296,1.452380952
+Chamber 1,45,Aberchoice,Not Waterlog,Treatment,4,August,153,19041,63,63.5,27,21,705.22222,3.023809524
+Chamber 1,46,Carraig,Not Waterlog,Treatment,4,August,97,10481,28.5,29,27,21,388.18519,1.380952381
+Chamber 1,47,Abergain,Waterlog,Treatment,4,August,54,3675,29.5,30,27,21,136.11111,1.428571429
+Chamber 1,48,Carraig,Not Waterlog,Treatment,4,August,113,15129,32,32.5,27,21,560.33333,1.547619048
+Chamber 1,49,Dunlance,Not Waterlog,Treatment,4,August,158,23053,46.5,47,27,21,853.81481,2.238095238
+Chamber 1,50,Abergain,Not Waterlog,Treatment,4,August,85,18925,50,50.5,27,21,700.92593,2.404761905
+Chamber 1,51,Carraig,Waterlog,Treatment,4,August,43,3516,32,32.5,27,21,130.22222,1.547619048
+Chamber 1,52,Dunlance,Waterlog,Treatment,4,August,29,2241,28,28.5,27,21,83.00000,1.357142857
+Chamber 1,53,Aberchoice,Waterlog,Treatment,4,August,41,1964,35.5,36,27,21,72.74074,1.714285714
+Chamber 1,54,Carraig,Waterlog,Treatment,4,August,68,4074,33,33.5,27,21,150.88889,1.595238095
+Chamber 1,55,Dunlance,Waterlog,Treatment,4,August,23,2323,25.5,26,27,21,86.03704,1.238095238
+Chamber 1,56,Aberchoice,Not Waterlog,Treatment,4,August,212,10908,29,29.5,27,21,404.00000,1.404761905
+Chamber 1,57,Abergain,Not Waterlog,Treatment,4,August,167,12838,38.5,39,27,21,475.48148,1.857142857
+Chamber 1,58,Dunlance,Waterlog,Treatment,4,August,24,1806,30.5,31,27,21,66.88889,1.476190476
+Chamber 1,59,Abergain,Waterlog,Treatment,4,August,23,1744,29,29.5,27,21,64.59259,1.404761905
+Chamber 1,60,Carraig,Waterlog,Treatment,4,August,31,2208,26,26.5,27,21,81.77778,1.261904762
+Chamber 1,61,Dunlance,Waterlog,Treatment,4,August,23,2542,32,32.5,27,21,94.14815,1.547619048
+Chamber 1,62,Dunlance,Not Waterlog,Treatment,4,August,191,21720,34,34.5,27,21,804.44444,1.642857143
+Chamber 1,63,Abergain,Waterlog,Treatment,4,August,24,1723,21.5,22,27,21,63.81481,1.047619048
+Chamber 1,64,Carraig,Not Waterlog,Treatment,4,August,245,27830,41.5,42,27,21,1030.74074,2
+Chamber 1,65,Aberchoice,Not Waterlog,Treatment,4,August,261,21510,51.5,52,27,21,796.66667,2.476190476
+Chamber 1,66,Carraig,Not Waterlog,Treatment,4,August,155,16394,37,37.5,27,21,607.18519,1.785714286
+Chamber 1,67,Dunlance,Not Waterlog,Treatment,4,August,129,21345,43,43.5,27,21,790.55556,2.071428571
+Chamber 1,68,Abergain,Not Waterlog,Treatment,4,August,144,20032,40.5,41,27,21,741.92593,1.952380952
+Chamber 1,69,Carraig,Not Waterlog,Treatment,4,August,186,20574,32,32.5,27,21,762.00000,1.547619048
+Chamber 1,70,Dunlance,Not Waterlog,Treatment,4,August,182,23907,36,36.5,27,21,885.44444,1.738095238
+Chamber 1,71,Aberchoice,Waterlog,Treatment,4,August,29,2209,33.5,34,27,21,81.81481,1.619047619
+Chamber 1,72,Aberchoice,Waterlog,Treatment,4,August,47,1918,32.5,33,27,21,71.03704,1.571428571
+Chamber 1,73,Abergain,Not Waterlog,Treatment,4,August,166,10725,38.5,39,27,21,397.22222,1.857142857
+Chamber 1,74,Abergain,Waterlog,Treatment,4,August,27,2882,35,35.5,27,21,106.74074,1.69047619
+Chamber 1,75,Carraig,Waterlog,Treatment,4,August,41,3225,30,30.5,27,21,119.44444,1.452380952
+Chamber 1,76,Dunlance,Not Waterlog,Treatment,4,August,107,29294,60.5,61,27,21,1084.96296,2.904761905
+Chamber 1,77,Dunlance,Waterlog,Treatment,4,August,14,2138,46,46.5,27,21,79.18519,2.214285714
+Chamber 1,78,Aberchoice,Waterlog,Treatment,4,August,12,747,22.5,23,27,21,27.66667,1.095238095
+Chamber 1,79,Abergain,Waterlog,Treatment,4,August,23,2282,28.5,29,27,21,84.51852,1.380952381
+Chamber 1,80,Carraig,Not Waterlog,Treatment,4,August,221,27576,45.5,46,27,21,1021.33333,2.19047619
+Chamber 2,81,Carraig,Not Waterlog,Ambient,4,August,215,29842,59.5,60,27,21,1105.25926,2.857142857
+Chamber 2,82,Abergain,Not Waterlog,Ambient,4,August,193,33178,64,64.5,27,21,1228.81481,3.071428571
+Chamber 2,83,Dunlance,Waterlog,Ambient,4,August,10,1758,44,44.5,27,21,65.11111,2.119047619
+Chamber 2,84,Carraig,Waterlog,Ambient,4,August,29,1102,27.5,28,27,21,40.81481,1.333333333
+Chamber 2,85,Carraig,Not Waterlog,Ambient,4,August,338,41101,52,52.5,27,21,1522.25926,2.5
+Chamber 2,86,Aberchoice,Waterlog,Ambient,4,August,29,963,40.5,41,27,21,35.66667,1.952380952
+Chamber 2,87,Dunlance,Waterlog,Ambient,4,August,19,857,30,30.5,27,21,31.74074,1.452380952
+Chamber 2,88,Dunlance,Waterlog,Ambient,4,August,95,14264,46.5,47,27,21,528.29630,2.238095238
+Chamber 2,89,Carraig,Waterlog,Ambient,4,August,53,9162,63.5,64,27,21,339.33333,3.047619048
+Chamber 2,90,Aberchoice,Waterlog,Ambient,4,August,42,2773,40,40.5,27,21,102.70370,1.928571429
+Chamber 2,91,Aberchoice,Waterlog,Ambient,4,August,17,1225,38.5,39,27,21,45.37037,1.857142857
+Chamber 2,92,Dunlance,Not Waterlog,Ambient,4,August,184,25052,56,56.5,27,21,927.85185,2.69047619
+Chamber 2,93,Aberchoice,Not Waterlog,Ambient,4,August,239,21932,59.5,60,27,21,812.29630,2.857142857
+Chamber 2,94,Carraig,Not Waterlog,Ambient,4,August,334,29172,49,49.5,27,21,1080.44444,2.357142857
+Chamber 2,95,Dunlance,Not Waterlog,Ambient,4,August,175,28314,61.5,62,27,21,1048.66667,2.952380952
+Chamber 2,96,Carraig,Not Waterlog,Ambient,4,August,228,19894,55.5,56,27,21,736.81481,2.666666667
+Chamber 2,97,Abergain,Not Waterlog,Ambient,4,August,208,35211,67,67.5,27,21,1304.11111,3.214285714
+Chamber 2,98,Abergain,Waterlog,Ambient,4,August,66,4214,40.5,41,27,21,156.07407,1.952380952
+Chamber 2,99,Dunlance,Not Waterlog,Ambient,4,August,189,18959,43.5,44,27,21,702.18519,2.095238095
+Chamber 2,100,Abergain,Not Waterlog,Ambient,4,August,272,23317,50.5,51,27,21,863.59259,2.428571429
+Chamber 2,101,Abergain,Not Waterlog,Ambient,4,August,191,18904,48.5,49,27,21,700.14815,2.333333333
+Chamber 2,102,Abergain,Not Waterlog,Ambient,4,August,237,20719,49.5,50,27,21,767.37037,2.380952381
+Chamber 2,103,Dunlance,Not Waterlog,Ambient,4,August,147,20115,55,55.5,27,21,745.00000,2.642857143
+Chamber 2,104,Abergain,Not Waterlog,Ambient,4,August,234,24241,49,49.5,27,21,897.81481,2.357142857
+Chamber 2,105,Abergain,Waterlog,Ambient,4,August,62,5116,50.5,51,27,21,189.48148,2.428571429
+Chamber 2,106,Dunlance,Waterlog,Ambient,4,August,69,4070,33,33.5,27,21,150.74074,1.595238095
+Chamber 2,107,Abergain,Waterlog,Ambient,4,August,40,2312,40.5,41,27,21,85.62963,1.952380952
+Chamber 2,108,Abergain,Waterlog,Ambient,4,August,10,588,34.5,35,27,21,21.77778,1.666666667
+Chamber 2,109,Abergain,Waterlog,Ambient,4,August,29,2589,37,37.5,27,21,95.88889,1.785714286
+Chamber 2,110,Abergain,Not Waterlog,Ambient,4,August,282,31361,49.5,50,27,21,1161.51852,2.380952381
+Chamber 2,111,Dunlance,Waterlog,Ambient,4,August,54,4204,42,42.5,27,21,155.70370,2.023809524
+Chamber 2,112,Carraig,Waterlog,Ambient,4,August,40,2472,36.5,37,27,21,91.55556,1.761904762
+Chamber 2,113,Aberchoice,Waterlog,Ambient,4,August,72,6881,51,51.5,27,21,254.85185,2.452380952
+Chamber 2,114,Carraig,Waterlog,Ambient,4,August,48,3547,35,35.5,27,21,131.37037,1.69047619
+Chamber 2,115,Carraig,Not Waterlog,Ambient,4,August,229,31870,46,46.5,27,21,1180.37037,2.214285714
+Chamber 2,116,Aberchoice,Not Waterlog,Ambient,4,August,236,21857,49.5,50,27,21,809.51852,2.380952381
+Chamber 2,117,Abergain,Waterlog,Ambient,4,August,42,2693,43,43.5,27,21,99.74074,2.071428571
+Chamber 2,118,Dunlance,Not Waterlog,Ambient,4,August,186,28715,48,48.5,27,21,1063.51852,2.30952381
+Chamber 2,119,Carraig,Not Waterlog,Ambient,4,August,212,32829,48.5,49,27,21,1215.88889,2.333333333
+Chamber 2,120,Abergain,Not Waterlog,Ambient,4,August,180,19580,52,52.5,27,21,725.18519,2.5
+Chamber 2,121,Carraig,Waterlog,Ambient,4,August,72,6255,50.5,51,27,21,231.66667,2.428571429
+Chamber 2,122,Abergain,Waterlog,Ambient,4,August,63,4974,40.5,41,27,21,184.22222,1.952380952
+Chamber 2,123,Carraig,Waterlog,Ambient,4,August,23,722,32,32.5,27,21,26.74074,1.547619048
+Chamber 2,124,Carraig,Not Waterlog,Ambient,4,August,270,17287,33,33.5,27,21,640.25926,1.595238095
+Chamber 2,125,Aberchoice,Not Waterlog,Ambient,4,August,269,50873,71,71.5,27,21,1884.18519,3.404761905
+Chamber 2,126,Dunlance,Waterlog,Ambient,4,August,56,4378,43,43.5,27,21,162.14815,2.071428571
+Chamber 2,127,Abergain,Not Waterlog,Ambient,4,August,182,22996,38.5,39,27,21,851.70370,1.857142857
+Chamber 2,128,Dunlance,Not Waterlog,Ambient,4,August,191,30828,58,58.5,27,21,1141.77778,2.785714286
+Chamber 2,129,Dunlance,Waterlog,Ambient,4,August,27,3545,53,53.5,27,21,131.29630,2.547619048
+Chamber 2,130,Abergain,Waterlog,Ambient,4,August,43,3643,42,42.5,27,21,134.92593,2.023809524
+Chamber 2,131,Carraig,Not Waterlog,Ambient,4,August,195,28105,43,43.5,27,21,1040.92593,2.071428571
+Chamber 2,132,Dunlance,Not Waterlog,Ambient,4,August,186,26998,52,52.5,27,21,999.92593,2.5
+Chamber 2,133,Carraig,Not Waterlog,Ambient,4,August,259,29787,39,39.5,27,21,1103.22222,1.880952381
+Chamber 2,134,Carraig,Waterlog,Ambient,4,August,25,945,30.5,31,27,21,35.00000,1.476190476
+Chamber 2,135,Aberchoice,Waterlog,Ambient,4,August,54,2945,37,37.5,27,21,109.07407,1.785714286
+Chamber 2,136,Aberchoice,Not Waterlog,Ambient,4,August,351,21625,43,43.5,27,21,800.92593,2.071428571
+Chamber 2,137,Aberchoice,Not Waterlog,Ambient,4,August,246,39954,50.5,51,27,21,1479.77778,2.428571429
+Chamber 2,138,Aberchoice,Waterlog,Ambient,4,August,26,912,36,36.5,27,21,33.77778,1.738095238
+Chamber 2,139,Carraig,Waterlog,Ambient,4,August,57,1837,24,24.5,27,21,68.03704,1.166666667
+Chamber 2,140,Dunlance,Waterlog,Ambient,4,August,68,4248,38.5,39,27,21,157.33333,1.857142857
+Chamber 2,141,Dunlance,Not Waterlog,Ambient,4,August,178,22884,55,55.5,27,21,847.55556,2.642857143
+Chamber 2,142,Aberchoice,Not Waterlog,Ambient,4,August,338,30097,56,56.5,27,21,1114.70370,2.69047619
+Chamber 2,143,Aberchoice,Waterlog,Ambient,4,August,64,1796,26,26.5,27,21,66.51852,1.261904762
+Chamber 2,144,Dunlance,Not Waterlog,Ambient,4,August,151,23817,47.5,48,27,21,882.11111,2.285714286
+Chamber 2,145,Aberchoice,Waterlog,Ambient,4,August,23,1960,43,43.5,27,21,72.59259,2.071428571
+Chamber 2,146,Aberchoice,Not Waterlog,Ambient,4,August,318,26192,45.5,46,27,21,970.07407,2.19047619
+Chamber 2,147,Dunlance,Waterlog,Ambient,4,August,13,872,41,41.5,27,21,32.29630,1.976190476
+Chamber 2,148,Abergain,Waterlog,Ambient,4,August,25,1325,28,28.5,27,21,49.07407,1.357142857
+Chamber 2,149,Carraig,Waterlog,Ambient,4,August,43,3335,40.5,41,27,21,123.51852,1.952380952
+Chamber 2,150,Dunlance,Waterlog,Ambient,4,August,51,4432,42,42.5,27,21,164.14815,2.023809524
+Chamber 2,151,Carraig,Waterlog,Ambient,4,August,99,4731,45.5,46,27,21,175.22222,2.19047619
+Chamber 2,152,Aberchoice,Not Waterlog,Ambient,4,August,245,26393,55,55.5,27,21,977.51852,2.642857143
+Chamber 2,153,Aberchoice,Waterlog,Ambient,4,August,19,1655,38.5,39,27,21,61.29630,1.857142857
+Chamber 2,154,Carraig,Not Waterlog,Ambient,4,August,246,40148,58,58.5,27,21,1486.96296,2.785714286
+Chamber 2,155,Abergain,Not Waterlog,Ambient,4,August,207,27085,61.5,62,27,21,1003.14815,2.952380952
+Chamber 2,156,Aberchoice,Not Waterlog,Ambient,4,August,209,31254,58.5,59,27,21,1157.55556,2.80952381
+Chamber 2,157,Dunlance,Not Waterlog,Ambient,4,August,166,34132,74.5,75,27,21,1264.14815,3.571428571
+Chamber 2,158,Aberchoice,Waterlog,Ambient,4,August,19,668,28.5,29,27,21,24.74074,1.380952381
+Chamber 2,159,Abergain,Waterlog,Ambient,4,August,44,2898,40,40.5,27,21,107.33333,1.928571429
+Chamber 2,160,Aberchoice,Not Waterlog,Ambient,4,August,526,37208,57.5,58,27,21,1378.07407,2.761904762
+Chamber 4,161,Aberchoice,Not Waterlog,Treatment,4,August,193,25023,69.5,70,27,21,926.77778,3.333333333
+Chamber 4,162,Dunlance,Not Waterlog,Treatment,4,August,86,12239,57.5,58,27,21,453.29630,2.761904762
+Chamber 4,163,Carraig,Not Waterlog,Treatment,4,August,190,36659,59.5,60,27,21,1357.74074,2.857142857
+Chamber 4,164,Abergain,Waterlog,Treatment,4,August,45,6738,36.5,37,27,21,249.55556,1.761904762
+Chamber 4,165,Abergain,Waterlog,Treatment,4,August,96,7224,53,53.5,27,21,267.55556,2.547619048
+Chamber 4,166,Dunlance,Waterlog,Treatment,4,August,45,10281,46,46.5,27,21,380.77778,2.214285714
+Chamber 4,167,Aberchoice,Waterlog,Treatment,4,August,86,3692,31,31.5,27,21,136.74074,1.5
+Chamber 4,168,Abergain,Waterlog,Treatment,4,August,48,8621,60.5,61,27,21,319.29630,2.904761905
+Chamber 4,169,Dunlance,Waterlog,Treatment,4,August,23,3011,34.5,35,27,21,111.51852,1.666666667
+Chamber 4,170,Dunlance,Waterlog,Treatment,4,August,43,6018,51,51.5,27,21,222.88889,2.452380952
+Chamber 4,171,Dunlance,Waterlog,Treatment,4,August,44,4902,39.5,40,27,21,181.55556,1.904761905
+Chamber 4,172,Aberchoice,Waterlog,Treatment,4,August,49,3827,38,38.5,27,21,141.74074,1.833333333
+Chamber 4,173,Dunlance,Waterlog,Treatment,4,August,72,6224,42,42.5,27,21,230.51852,2.023809524
+Chamber 4,174,Carraig,Not Waterlog,Treatment,4,August,274,35209,45.5,46,27,21,1304.03704,2.19047619
+Chamber 4,175,Abergain,Not Waterlog,Treatment,4,August,183,56450,61,61.5,27,21,2090.74074,2.928571429
+Chamber 4,176,Aberchoice,Waterlog,Treatment,4,August,30,1598,29.5,30,27,21,59.18519,1.428571429
+Chamber 4,177,Abergain,Not Waterlog,Treatment,4,August,96,18042,58,58.5,27,21,668.22222,2.785714286
+Chamber 4,178,Aberchoice,Waterlog,Treatment,4,August,29,1981,35,35.5,27,21,73.37037,1.69047619
+Chamber 4,179,Aberchoice,Waterlog,Treatment,4,August,44,2269,29,29.5,27,21,84.03704,1.404761905
+Chamber 4,180,Dunlance,Waterlog,Treatment,4,August,55,5423,36,36.5,27,21,200.85185,1.738095238
+Chamber 4,181,Carraig,Waterlog,Treatment,4,August,60,3765,29,29.5,27,21,139.44444,1.404761905
+Chamber 4,182,Carraig,Waterlog,Treatment,4,August,66,2849,24,24.5,27,21,105.51852,1.166666667
+Chamber 4,183,Carraig,Not Waterlog,Treatment,4,August,264,41123,57,57.5,27,21,1523.07407,2.738095238
+Chamber 4,184,Carraig,Waterlog,Treatment,4,August,44,2351,31.5,32,27,21,87.07407,1.523809524
+Chamber 4,185,Carraig,Waterlog,Treatment,4,August,53,6239,46,46.5,27,21,231.07407,2.214285714
+Chamber 4,186,Aberchoice,Waterlog,Treatment,4,August,63,3125,39,39.5,27,21,115.74074,1.880952381
+Chamber 4,187,Abergain,Waterlog,Treatment,4,August,51,2897,34.5,35,27,21,107.29630,1.666666667
+Chamber 4,188,Carraig,Not Waterlog,Treatment,4,August,185,23175,44.5,45,27,21,858.33333,2.142857143
+Chamber 4,189,Abergain,Waterlog,Treatment,4,August,29,3131,29,29.5,27,21,115.96296,1.404761905
+Chamber 4,190,Carraig,Waterlog,Treatment,4,August,43,3345,28.5,29,27,21,123.88889,1.380952381
+Chamber 4,191,Carraig,Not Waterlog,Treatment,4,August,239,42488,36,36.5,27,21,1573.62963,1.738095238
+Chamber 4,192,Abergain,Not Waterlog,Treatment,4,August,265,50156,59,59.5,27,21,1857.62963,2.833333333
+Chamber 4,193,Carraig,Not Waterlog,Treatment,4,August,259,38451,57.5,58,27,21,1424.11111,2.761904762
+Chamber 4,194,Abergain,Not Waterlog,Treatment,4,August,153,28638,62,62.5,27,21,1060.66667,2.976190476
+Chamber 4,195,Dunlance,Not Waterlog,Treatment,4,August,166,26490,56,56.5,27,21,981.11111,2.69047619
+Chamber 4,196,Aberchoice,Not Waterlog,Treatment,4,August,209,17284,52.5,53,27,21,640.14815,2.523809524
+Chamber 4,197,Carraig,Waterlog,Treatment,4,August,48,5382,41.5,42,27,21,199.33333,2
+Chamber 4,198,Abergain,Not Waterlog,Treatment,4,August,78,4215,43.5,44,27,21,156.11111,2.095238095
+Chamber 4,199,Aberchoice,Not Waterlog,Treatment,4,August,281,21604,49.5,50,27,21,800.14815,2.380952381
+Chamber 4,200,Dunlance,Not Waterlog,Treatment,4,August,237,34151,55,55.5,27,21,1264.85185,2.642857143
+Chamber 4,201,Aberchoice,Waterlog,Treatment,4,August,34,2210,47.5,48,27,21,81.85185,2.285714286
+Chamber 4,202,Aberchoice,Not Waterlog,Treatment,4,August,285,30642,51.5,52,27,21,1134.88889,2.476190476
+Chamber 4,203,Dunlance,Waterlog,Treatment,4,August,18,2315,40.5,41,27,21,85.74074,1.952380952
+Chamber 4,204,Abergain,Not Waterlog,Treatment,4,August,221,19395,52,52.5,27,21,718.33333,2.5
+Chamber 4,205,Aberchoice,Not Waterlog,Treatment,4,August,312,47460,73,73.5,27,21,1757.77778,3.5
+Chamber 4,206,Abergain,Not Waterlog,Treatment,4,August,261,27918,42.5,43,27,21,1034.00000,2.047619048
+Chamber 4,207,Abergain,Waterlog,Treatment,4,August,19,1611,25,25.5,27,21,59.66667,1.214285714
+Chamber 4,208,Carraig,Not Waterlog,Treatment,4,August,425,25236,43,43.5,27,21,934.66667,2.071428571
+Chamber 4,209,Dunlance,Not Waterlog,Treatment,4,August,246,25716,48.5,49,27,21,952.44444,2.333333333
+Chamber 4,210,Carraig,Waterlog,Treatment,4,August,44,2103,27.5,28,27,21,77.88889,1.333333333
+Chamber 4,211,Dunlance,Waterlog,Treatment,4,August,14,726,24.5,25,27,21,26.88889,1.19047619
+Chamber 4,212,Aberchoice,Waterlog,Treatment,4,August,26,1466,41.5,42,27,21,54.29630,2
+Chamber 4,213,Carraig,Waterlog,Treatment,4,August,85,9352,58,58.5,27,21,346.37037,2.785714286
+Chamber 4,214,Abergain,Not Waterlog,Treatment,4,August,226,29255,51,51.5,27,21,1083.51852,2.452380952
+Chamber 4,215,Aberchoice,Not Waterlog,Treatment,4,August,266,36811,54,54.5,27,21,1363.37037,2.595238095
+Chamber 4,216,Aberchoice,Waterlog,Treatment,4,August,70,2853,30.5,31,27,21,105.66667,1.476190476
+Chamber 4,217,Carraig,Waterlog,Treatment,4,August,34,3818,44.5,45,27,21,141.40741,2.142857143
+Chamber 4,218,Abergain,Waterlog,Treatment,4,August,52,3795,38,38.5,27,21,140.55556,1.833333333
+Chamber 4,219,Aberchoice,Not Waterlog,Treatment,4,August,236,38449,52.5,53,27,21,1424.03704,2.523809524
+Chamber 4,220,Aberchoice,Not Waterlog,Treatment,4,August,167,35059,51,51.5,27,21,1298.48148,2.452380952
+Chamber 4,221,Dunlance,Not Waterlog,Treatment,4,August,168,22148,59,59.5,27,21,820.29630,2.833333333
+Chamber 4,222,Dunlance,Not Waterlog,Treatment,4,August,176,25151,53,53.5,27,21,931.51852,2.547619048
+Chamber 4,223,Dunlance,Not Waterlog,Treatment,4,August,177,33240,61.5,62,27,21,1231.11111,2.952380952
+Chamber 4,224,Aberchoice,Waterlog,Treatment,4,August,85,3832,34.5,35,27,21,141.92593,1.666666667
+Chamber 4,225,Abergain,Not Waterlog,Treatment,4,August,128,25604,59.5,60,27,21,948.29630,2.857142857
+Chamber 4,226,Dunlance,Not Waterlog,Treatment,4,August,61,6659,50,50.5,27,21,246.62963,2.404761905
+Chamber 4,227,Carraig,Waterlog,Treatment,4,August,61,3690,39.5,40,27,21,136.66667,1.904761905
+Chamber 4,228,Abergain,Waterlog,Treatment,4,August,19,1161,41.5,42,27,21,43.00000,2
+Chamber 4,229,Dunlance,Waterlog,Treatment,4,August,25,2038,38,38.5,27,21,75.48148,1.833333333
+Chamber 4,230,Aberchoice,Not Waterlog,Treatment,4,August,106,25414,49,49.5,27,21,941.25926,2.357142857
+Chamber 4,231,Abergain,Waterlog,Treatment,4,August,27,3401,38.5,39,27,21,125.96296,1.857142857
+Chamber 4,232,Dunlance,Waterlog,Treatment,4,August,51,5731,30,30.5,27,21,212.25926,1.452380952
+Chamber 4,233,Abergain,Not Waterlog,Treatment,4,August,205,43515,59.5,60,27,21,1611.66667,2.857142857
+Chamber 4,234,Carraig,Not Waterlog,Treatment,4,August,130,23818,65,65.5,27,21,882.14815,3.119047619
+Chamber 4,235,Carraig,Not Waterlog,Treatment,4,August,153,39364,78,78.5,27,21,1457.92593,3.738095238
+Chamber 4,236,Aberchoice,Not Waterlog,Treatment,4,August,355,18706,56.5,57,27,21,692.81481,2.714285714
+Chamber 4,237,Carraig,Not Waterlog,Treatment,4,August,216,30761,69.5,70,27,21,1139.29630,3.333333333
+Chamber 4,238,Dunlance,Not Waterlog,Treatment,4,August,183,32198,70,70.5,27,21,1192.51852,3.357142857
+Chamber 4,239,Abergain,Waterlog,Treatment,4,August,43,5290,49.5,50,27,21,195.92593,2.380952381
+Chamber 4,240,Dunlance,Not Waterlog,Treatment,4,August,251,43858,73.5,74,27,21,1624.37037,3.523809524
+Chamber 5,241,Carraig,Not Waterlog,Ambient,4,August,186,16142,44,44.5,27,21,597.85185,2.119047619
+Chamber 5,242,Abergain,Waterlog,Ambient,4,August,12,1326,34.5,35,27,21,49.11111,1.666666667
+Chamber 5,243,Carraig,Not Waterlog,Ambient,4,August,116,13325,37.5,38,27,21,493.51852,1.80952381
+Chamber 5,244,Dunlance,Not Waterlog,Ambient,4,August,139,18018,46.5,47,27,21,667.33333,2.238095238
+Chamber 5,245,Abergain,Not Waterlog,Ambient,4,August,92,19678,46,46.5,27,21,728.81481,2.214285714
+Chamber 5,246,Aberchoice,Waterlog,Ambient,4,August,21,1090,23,23.5,27,21,40.37037,1.119047619
+Chamber 5,247,Dunlance,Not Waterlog,Ambient,4,August,132,14879,38,38.5,27,21,551.07407,1.833333333
+Chamber 5,248,Carraig,Not Waterlog,Ambient,4,August,162,15543,43.5,44,27,21,575.66667,2.095238095
+Chamber 5,249,Dunlance,Not Waterlog,Ambient,4,August,141,17355,45.5,46,27,21,642.77778,2.19047619
+Chamber 5,250,Abergain,Not Waterlog,Ambient,4,August,127,14109,37.5,38,27,21,522.55556,1.80952381
+Chamber 5,251,Carraig,Not Waterlog,Ambient,4,August,175,15364,33,33.5,27,21,569.03704,1.595238095
+Chamber 5,252,Dunlance,Waterlog,Ambient,4,August,18,1577,30.5,31,27,21,58.40741,1.476190476
+Chamber 5,253,Dunlance,Waterlog,Ambient,4,August,24,1570,25,25.5,27,21,58.14815,1.214285714
+Chamber 5,254,Aberchoice,Not Waterlog,Ambient,4,August,139,13584,38,38.5,27,21,503.11111,1.833333333
+Chamber 5,255,Dunlance,Waterlog,Ambient,4,August,27,2470,26.5,27,27,21,91.48148,1.285714286
+Chamber 5,256,Dunlance,Not Waterlog,Ambient,4,August,92,13803,32,32.5,27,21,511.22222,1.547619048
+Chamber 5,257,Aberchoice,Waterlog,Ambient,4,August,25,1538,29,29.5,27,21,56.96296,1.404761905
+Chamber 5,258,Abergain,Waterlog,Ambient,4,August,25,1950,30,30.5,27,21,72.22222,1.452380952
+Chamber 5,259,Carraig,Waterlog,Ambient,4,August,24,1547,22.5,23,27,21,57.29630,1.095238095
+Chamber 5,260,Abergain,Not Waterlog,Ambient,4,August,149,12680,25,25.5,27,21,469.62963,1.214285714
+Chamber 5,261,Dunlance,Not Waterlog,Ambient,4,August,163,10724,31,31.5,27,21,397.18519,1.5
+Chamber 5,262,Abergain,Waterlog,Ambient,4,August,15,1688,20,20.5,27,21,62.51852,0.976190476
+Chamber 5,263,Dunlance,Waterlog,Ambient,4,August,21,1384,18.5,19,27,21,51.25926,0.904761905
+Chamber 5,264,Abergain,Waterlog,Ambient,4,August,17,1363,28,28.5,27,21,50.48148,1.357142857
+Chamber 5,265,Abergain,Waterlog,Ambient,4,August,36,2554,36,36.5,27,21,94.59259,1.738095238
+Chamber 5,266,Carraig,Waterlog,Ambient,4,August,39,2743,26.5,27,27,21,101.59259,1.285714286
+Chamber 5,267,Dunlance,Not Waterlog,Ambient,4,August,72,6740,37,37.5,27,21,249.62963,1.785714286
+Chamber 5,268,Aberchoice,Not Waterlog,Ambient,4,August,166,19697,40.5,41,27,21,729.51852,1.952380952
+Chamber 5,269,Abergain,Waterlog,Ambient,4,August,31,2428,28.5,29,27,21,89.92593,1.380952381
+Chamber 5,270,Abergain,Not Waterlog,Ambient,4,August,150,12175,25.5,26,27,21,450.92593,1.238095238
+Chamber 5,271,Aberchoice,Waterlog,Ambient,4,August,52,1849,19,19.5,27,21,68.48148,0.928571429
+Chamber 5,272,Aberchoice,Not Waterlog,Ambient,4,August,221,22336,45.5,46,27,21,827.25926,2.19047619
+Chamber 5,273,Abergain,Waterlog,Ambient,4,August,29,2256,36,36.5,27,21,83.55556,1.738095238
+Chamber 5,274,Dunlance,Waterlog,Ambient,4,August,43,3162,26,26.5,27,21,117.11111,1.261904762
+Chamber 5,275,Carraig,Not Waterlog,Ambient,4,August,174,14397,27.5,28,27,21,533.22222,1.333333333
+Chamber 5,276,Dunlance,Not Waterlog,Ambient,4,August,122,19498,48.5,49,27,21,722.14815,2.333333333
+Chamber 5,277,Aberchoice,Not Waterlog,Ambient,4,August,186,21107,46.5,47,27,21,781.74074,2.238095238
+Chamber 5,278,Carraig,Waterlog,Ambient,4,August,40,1908,24,24.5,27,21,70.66667,1.166666667
+Chamber 5,279,Dunlance,Waterlog,Ambient,4,August,24,1545,26.5,27,27,21,57.22222,1.285714286
+Chamber 5,280,Dunlance,Not Waterlog,Ambient,4,August,142,11122,26.5,27,27,21,411.92593,1.285714286
+Chamber 5,281,Carraig,Waterlog,Ambient,4,August,31,2339,28,28.5,27,21,86.62963,1.357142857
+Chamber 5,282,Carraig,Waterlog,Ambient,4,August,51,3595,31,31.5,27,21,133.14815,1.5
+Chamber 5,283,Carraig,Not Waterlog,Ambient,4,August,120,13334,27.5,28,27,21,493.85185,1.333333333
+Chamber 5,284,Abergain,Waterlog,Ambient,4,August,40,3051,30.5,31,27,21,113.00000,1.476190476
+Chamber 5,285,Abergain,Not Waterlog,Ambient,4,August,198,23516,45,45.5,27,21,870.96296,2.166666667
+Chamber 5,286,Carraig,Waterlog,Ambient,4,August,54,3155,23,23.5,27,21,116.85185,1.119047619
+Chamber 5,287,Dunlance,Not Waterlog,Ambient,4,August,203,22449,36.5,37,27,21,831.44444,1.761904762
+Chamber 5,288,Carraig,Waterlog,Ambient,4,August,36,2450,24.5,25,27,21,90.74074,1.19047619
+Chamber 5,289,Aberchoice,Waterlog,Ambient,4,August,25,1097,25,25.5,27,21,40.62963,1.214285714
+Chamber 5,290,Abergain,Waterlog,Ambient,4,August,34,2084,29.5,30,27,21,77.18519,1.428571429
+Chamber 5,291,Abergain,Waterlog,Ambient,4,August,33,2317,30,30.5,27,21,85.81481,1.452380952
+Chamber 5,292,Dunlance,Waterlog,Ambient,4,August,20,1859,22.5,23,27,21,68.85185,1.095238095
+Chamber 5,293,Aberchoice,Not Waterlog,Ambient,4,August,181,17652,26,26.5,27,21,653.77778,1.261904762
+Chamber 5,294,Carraig,Waterlog,Ambient,4,August,30,2066,17.5,18,27,21,76.51852,0.857142857
+Chamber 5,295,Carraig,Not Waterlog,Ambient,4,August,172,15806,30.5,31,27,21,585.40741,1.476190476
+Chamber 5,296,Aberchoice,Not Waterlog,Ambient,4,August,353,18059,35.5,36,27,21,668.85185,1.714285714
+Chamber 5,297,Aberchoice,Waterlog,Ambient,4,August,64,6227,41,41.5,27,21,230.62963,1.976190476
+Chamber 5,298,Carraig,Not Waterlog,Ambient,4,August,183,13846,32,32.5,27,21,512.81481,1.547619048
+Chamber 5,299,Dunlance,Waterlog,Ambient,4,August,26,1014,22.5,23,27,21,37.55556,1.095238095
+Chamber 5,300,Carraig,Not Waterlog,Ambient,4,August,234,11465,26,26.5,27,21,424.62963,1.261904762
+Chamber 5,301,Aberchoice,Not Waterlog,Ambient,4,August,233,10049,32,32.5,27,21,372.18519,1.547619048
+Chamber 5,302,Abergain,Not Waterlog,Ambient,4,August,194,11680,38,38.5,27,21,432.59259,1.833333333
+Chamber 5,303,Carraig,Waterlog,Ambient,4,August,50,1826,29,29.5,27,21,67.62963,1.404761905
+Chamber 5,304,Dunlance,Waterlog,Ambient,4,August,23,859,31,31.5,27,21,31.81481,1.5
+Chamber 5,305,Aberchoice,Waterlog,Ambient,4,August,33,1353,26.5,27,27,21,50.11111,1.285714286
+Chamber 5,306,Aberchoice,Waterlog,Ambient,4,August,36,1609,30,30.5,27,21,59.59259,1.452380952
+Chamber 5,307,Aberchoice,Not Waterlog,Ambient,4,August,292,45038,57.5,58,27,21,1668.07407,2.761904762
+Chamber 5,308,Abergain,Not Waterlog,Ambient,4,August,271,45197,56,56.5,27,21,1673.96296,2.69047619
+Chamber 5,309,Dunlance,Waterlog,Ambient,4,August,16,607,31.5,32,27,21,22.48148,1.523809524
+Chamber 5,310,Aberchoice,Not Waterlog,Ambient,4,August,269,30422,58,58.5,27,21,1126.74074,2.785714286
+Chamber 5,311,Dunlance,Not Waterlog,Ambient,4,August,157,25164,55.5,56,27,21,932.00000,2.666666667
+Chamber 5,312,Abergain,Not Waterlog,Ambient,4,August,212,33450,61.5,62,27,21,1238.88889,2.952380952
+Chamber 5,313,Abergain,Not Waterlog,Ambient,4,August,218,46689,58.5,59,27,21,1729.22222,2.80952381
+Chamber 5,314,Aberchoice,Waterlog,Ambient,4,August,49,2275,30,30.5,27,21,84.25926,1.452380952
+Chamber 5,315,Abergain,Not Waterlog,Ambient,4,August,102,11220,38,38.5,27,21,415.55556,1.833333333
+Chamber 5,316,Aberchoice,Waterlog,Ambient,4,August,41,2108,36,36.5,27,21,78.07407,1.738095238
+Chamber 5,317,Aberchoice,Waterlog,Ambient,4,August,74,4273,36.5,37,27,21,158.25926,1.761904762
+Chamber 5,318,Carraig,Waterlog,Ambient,4,August,32,1938,34.5,35,27,21,71.77778,1.666666667
+Chamber 5,319,Aberchoice,Not Waterlog,Ambient,4,August,209,14362,57,57.5,27,21,531.92593,2.738095238
+Chamber 5,320,Carraig,Not Waterlog,Ambient,4,August,173,46927,78.5,79,27,21,1738.03704,3.761904762
+Chamber 1,1,Carraig,Not Waterlog,Treatment,5,September,116,6407,28.5,29,28,22,228.82143,1.318181818
+Chamber 1,2,Abergain,Not Waterlog,Treatment,5,September,102,9471,36.5,37,28,22,338.25000,1.681818182
+Chamber 1,3,Dunlance,Not Waterlog,Treatment,5,September,62,9022,41,41.5,28,22,322.21429,1.886363636
+Chamber 1,4,Abergain,Not Waterlog,Treatment,5,September,115,9027,31,31.5,28,22,322.39286,1.431818182
+Chamber 1,5,Abergain,Waterlog,Treatment,5,September,28,3234,39.5,40,28,22,115.50000,1.818181818
+Chamber 1,6,Aberchoice,Waterlog,Treatment,5,September,95,11519,46,46.5,28,22,411.39286,2.113636364
+Chamber 1,7,Abergain,Waterlog,Treatment,5,September,133,20661,52,52.5,28,22,737.89286,2.386363636
+Chamber 1,8,Abergain,Waterlog,Treatment,5,September,47,4004,35.5,36,28,22,143.00000,1.636363636
+Chamber 1,9,Aberchoice,Not Waterlog,Treatment,5,September,186,8087,37,37.5,28,22,288.82143,1.704545455
+Chamber 1,10,Carraig,Not Waterlog,Treatment,5,September,100,9501,37.5,38,28,22,339.32143,1.727272727
+Chamber 1,11,Dunlance,Waterlog,Treatment,5,September,45,4634,34,34.5,28,22,165.50000,1.568181818
+Chamber 1,12,Aberchoice,Not Waterlog,Treatment,5,September,185,6320,25.5,26,28,22,225.71429,1.181818182
+Chamber 1,13,Aberchoice,Waterlog,Treatment,5,September,65,3851,38.5,39,28,22,137.53571,1.772727273
+Chamber 1,14,Dunlance,Waterlog,Treatment,5,September,95,13460,54.5,55,28,22,480.71429,2.5
+Chamber 1,15,Abergain,Not Waterlog,Treatment,5,September,349,12387,26,26.5,28,22,442.39286,1.204545455
+Chamber 1,16,Aberchoice,Waterlog,Treatment,5,September,231,24045,55,55.5,28,22,858.75000,2.522727273
+Chamber 1,17,Carraig,Not Waterlog,Treatment,5,September,114,8753,46.5,47,28,22,312.60714,2.136363636
+Chamber 1,18,Carraig,Waterlog,Treatment,5,September,82,7908,43.5,44,28,22,282.42857,2
+Chamber 1,19,Dunlance,Not Waterlog,Treatment,5,September,112,7040,22,22.5,28,22,251.42857,1.022727273
+Chamber 1,20,Dunlance,Not Waterlog,Treatment,5,September,127,10088,35,35.5,28,22,360.28571,1.613636364
+Chamber 1,21,Carraig,Waterlog,Treatment,5,September,127,18030,49.5,50,28,22,643.92857,2.272727273
+Chamber 1,22,Carraig,Waterlog,Treatment,5,September,163,13427,41,41.5,28,22,479.53571,1.886363636
+Chamber 1,23,Abergain,Waterlog,Treatment,5,September,31,3718,46.5,47,28,22,132.78571,2.136363636
+Chamber 1,24,Aberchoice,Not Waterlog,Treatment,5,September,175,9176,31.5,32,28,22,327.71429,1.454545455
+Chamber 1,25,Dunlance,Not Waterlog,Treatment,5,September,97,8128,32,32.5,28,22,290.28571,1.477272727
+Chamber 1,26,Dunlance,Waterlog,Treatment,5,September,79,6167,39.5,40,28,22,220.25000,1.818181818
+Chamber 1,27,Carraig,Waterlog,Treatment,5,September,116,9831,38,38.5,28,22,351.10714,1.75
+Chamber 1,28,Carraig,Waterlog,Treatment,5,September,92,10738,39,39.5,28,22,383.50000,1.795454545
+Chamber 1,29,Dunlance,Waterlog,Treatment,5,September,115,12421,48.5,49,28,22,443.60714,2.227272727
+Chamber 1,30,Aberchoice,Not Waterlog,Treatment,5,September,143,8276,33,33.5,28,22,295.57143,1.522727273
+Chamber 1,31,Abergain,Not Waterlog,Treatment,5,September,195,14017,34.5,35,28,22,500.60714,1.590909091
+Chamber 1,32,Aberchoice,Waterlog,Treatment,5,September,148,18009,54,54.5,28,22,643.17857,2.477272727
+Chamber 1,33,Carraig,Waterlog,Treatment,5,September,113,4528,38,38.5,28,22,161.71429,1.75
+Chamber 1,34,Aberchoice,Not Waterlog,Treatment,5,September,128,7559,38.5,39,28,22,269.96429,1.772727273
+Chamber 1,35,Aberchoice,Not Waterlog,Treatment,5,September,117,9143,38,38.5,28,22,326.53571,1.75
+Chamber 1,36,Dunlance,Not Waterlog,Treatment,5,September,66,10882,44.5,45,28,22,388.64286,2.045454545
+Chamber 1,37,Aberchoice,Waterlog,Treatment,5,September,46,3881,41.5,42,28,22,138.60714,1.909090909
+Chamber 1,38,Abergain,Not Waterlog,Treatment,5,September,96,9831,42,42.5,28,22,351.10714,1.931818182
+Chamber 1,39,Dunlance,Waterlog,Treatment,5,September,37,3314,42.5,43,28,22,118.35714,1.954545455
+Chamber 1,40,Aberchoice,Not Waterlog,Treatment,5,September,237,12486,36,36.5,28,22,445.92857,1.659090909
+Chamber 1,41,Carraig,Not Waterlog,Treatment,5,September,119,10828,40,40.5,28,22,386.71429,1.840909091
+Chamber 1,42,Aberchoice,Waterlog,Treatment,5,September,43,3910,45,45.5,28,22,139.64286,2.068181818
+Chamber 1,43,Abergain,Waterlog,Treatment,5,September,70,6984,47.5,48,28,22,249.42857,2.181818182
+Chamber 1,44,Abergain,Not Waterlog,Treatment,5,September,111,7789,34,34.5,28,22,278.17857,1.568181818
+Chamber 1,45,Aberchoice,Not Waterlog,Treatment,5,September,168,9852,37.5,38,28,22,351.85714,1.727272727
+Chamber 1,46,Carraig,Not Waterlog,Treatment,5,September,101,7639,19,19.5,28,22,272.82143,0.886363636
+Chamber 1,47,Abergain,Waterlog,Treatment,5,September,137,18131,59.5,60,28,22,647.53571,2.727272727
+Chamber 1,48,Carraig,Not Waterlog,Treatment,5,September,111,15427,42.5,43,28,22,550.96429,1.954545455
+Chamber 1,49,Dunlance,Not Waterlog,Treatment,5,September,105,9928,38.5,39,28,22,354.57143,1.772727273
+Chamber 1,50,Abergain,Not Waterlog,Treatment,5,September,73,10896,40,40.5,28,22,389.14286,1.840909091
+Chamber 1,51,Carraig,Waterlog,Treatment,5,September,133,13294,50.5,51,28,22,474.78571,2.318181818
+Chamber 1,52,Dunlance,Waterlog,Treatment,5,September,65,6767,44.5,45,28,22,241.67857,2.045454545
+Chamber 1,53,Aberchoice,Waterlog,Treatment,5,September,124,9501,51,51.5,28,22,339.32143,2.340909091
+Chamber 1,54,Carraig,Waterlog,Treatment,5,September,125,18123,65.5,66,28,22,647.25000,3
+Chamber 1,55,Dunlance,Waterlog,Treatment,5,September,89,13497,42.5,43,28,22,482.03571,1.954545455
+Chamber 1,56,Aberchoice,Not Waterlog,Treatment,5,September,236,10058,31,31.5,28,22,359.21429,1.431818182
+Chamber 1,57,Abergain,Not Waterlog,Treatment,5,September,127,6701,41,41.5,28,22,239.32143,1.886363636
+Chamber 1,58,Dunlance,Waterlog,Treatment,5,September,41,4237,42.5,43,28,22,151.32143,1.954545455
+Chamber 1,59,Abergain,Waterlog,Treatment,5,September,90,10735,47.5,48,28,22,383.39286,2.181818182
+Chamber 1,60,Carraig,Waterlog,Treatment,5,September,73,4930,37,37.5,28,22,176.07143,1.704545455
+Chamber 1,61,Dunlance,Waterlog,Treatment,5,September,98,8641,47.5,48,28,22,308.60714,2.181818182
+Chamber 1,62,Dunlance,Not Waterlog,Treatment,5,September,136,9945,28,28.5,28,22,355.17857,1.295454545
+Chamber 1,63,Abergain,Waterlog,Treatment,5,September,33,5492,43,43.5,28,22,196.14286,1.977272727
+Chamber 1,64,Carraig,Not Waterlog,Treatment,5,September,83,9397,41.5,42,28,22,335.60714,1.909090909
+Chamber 1,65,Aberchoice,Not Waterlog,Treatment,5,September,216,12510,37.5,38,28,22,446.78571,1.727272727
+Chamber 1,66,Carraig,Not Waterlog,Treatment,5,September,66,8992,47,47.5,28,22,321.14286,2.159090909
+Chamber 1,67,Dunlance,Not Waterlog,Treatment,5,September,66,9315,40.5,41,28,22,332.67857,1.863636364
+Chamber 1,68,Abergain,Not Waterlog,Treatment,5,September,126,11137,31,31.5,28,22,397.75000,1.431818182
+Chamber 1,69,Carraig,Not Waterlog,Treatment,5,September,124,10013,34,34.5,28,22,357.60714,1.568181818
+Chamber 1,70,Dunlance,Not Waterlog,Treatment,5,September,170,12360,28.5,29,28,22,441.42857,1.318181818
+Chamber 1,71,Aberchoice,Waterlog,Treatment,5,September,62,6828,46.5,47,28,22,243.85714,2.136363636
+Chamber 1,72,Aberchoice,Waterlog,Treatment,5,September,77,5617,37.5,38,28,22,200.60714,1.727272727
+Chamber 1,73,Abergain,Not Waterlog,Treatment,5,September,124,8986,35,35.5,28,22,320.92857,1.613636364
+Chamber 1,74,Abergain,Waterlog,Treatment,5,September,64,7966,53,53.5,28,22,284.50000,2.431818182
+Chamber 1,75,Carraig,Waterlog,Treatment,5,September,65,9213,43.5,44,28,22,329.03571,2
+Chamber 1,76,Dunlance,Not Waterlog,Treatment,5,September,58,9343,39.5,40,28,22,333.67857,1.818181818
+Chamber 1,77,Dunlance,Waterlog,Treatment,5,September,36,6315,61,61.5,28,22,225.53571,2.795454545
+Chamber 1,78,Aberchoice,Waterlog,Treatment,5,September,28,2544,38.5,39,28,22,90.85714,1.772727273
+Chamber 1,79,Abergain,Waterlog,Treatment,5,September,63,9059,45.5,46,28,22,323.53571,2.090909091
+Chamber 1,80,Carraig,Not Waterlog,Treatment,5,September,83,10780,49,49.5,28,22,385.00000,2.25
+Chamber 2,81,Carraig,Not Waterlog,Ambient,5,September,232,19998,45.5,46,28,22,714.21429,2.090909091
+Chamber 2,82,Abergain,Not Waterlog,Ambient,5,September,167,15515,42.5,43,28,22,554.10714,1.954545455
+Chamber 2,83,Dunlance,Waterlog,Ambient,5,September,26,4760,55.5,56,28,22,170.00000,2.545454545
+Chamber 2,84,Carraig,Waterlog,Ambient,5,September,55,4632,42.5,43,28,22,165.42857,1.954545455
+Chamber 2,85,Carraig,Not Waterlog,Ambient,5,September,378,21758,42.5,43,28,22,777.07143,1.954545455
+Chamber 2,86,Aberchoice,Waterlog,Ambient,5,September,41,2545,48,48.5,28,22,90.89286,2.204545455
+Chamber 2,87,Dunlance,Waterlog,Ambient,5,September,39,2731,42.5,43,28,22,97.53571,1.954545455
+Chamber 2,88,Dunlance,Waterlog,Ambient,5,September,175,19263,53,53.5,28,22,687.96429,2.431818182
+Chamber 2,89,Carraig,Waterlog,Ambient,5,September,73,22263,82,82.5,28,22,795.10714,3.75
+Chamber 2,90,Aberchoice,Waterlog,Ambient,5,September,53,4578,48.5,49,28,22,163.50000,2.227272727
+Chamber 2,91,Aberchoice,Waterlog,Ambient,5,September,31,3173,49,49.5,28,22,113.32143,2.25
+Chamber 2,92,Dunlance,Not Waterlog,Ambient,5,September,225,17466,39.5,40,28,22,623.78571,1.818181818
+Chamber 2,93,Aberchoice,Not Waterlog,Ambient,5,September,166,13889,40,40.5,28,22,496.03571,1.840909091
+Chamber 2,94,Carraig,Not Waterlog,Ambient,5,September,346,17857,37,37.5,28,22,637.75000,1.704545455
+Chamber 2,95,Dunlance,Not Waterlog,Ambient,5,September,129,15330,56,56.5,28,22,547.50000,2.568181818
+Chamber 2,96,Carraig,Not Waterlog,Ambient,5,September,228,12195,40.5,41,28,22,435.53571,1.863636364
+Chamber 2,97,Abergain,Not Waterlog,Ambient,5,September,160,14313,48,48.5,28,22,511.17857,2.204545455
+Chamber 2,98,Abergain,Waterlog,Ambient,5,September,167,6012,66.5,67,28,22,214.71429,3.045454545
+Chamber 2,99,Dunlance,Not Waterlog,Ambient,5,September,255,12371,39.5,40,28,22,441.82143,1.818181818
+Chamber 2,100,Abergain,Not Waterlog,Ambient,5,September,207,9349,36.5,37,28,22,333.89286,1.681818182
+Chamber 2,101,Abergain,Not Waterlog,Ambient,5,September,163,8417,30,30.5,28,22,300.60714,1.386363636
+Chamber 2,102,Abergain,Not Waterlog,Ambient,5,September,223,11572,29.5,30,28,22,413.28571,1.363636364
+Chamber 2,103,Dunlance,Not Waterlog,Ambient,5,September,164,12597,45.5,46,28,22,449.89286,2.090909091
+Chamber 2,104,Abergain,Not Waterlog,Ambient,5,September,168,10442,31,31.5,28,22,372.92857,1.431818182
+Chamber 2,105,Abergain,Waterlog,Ambient,5,September,131,16748,63.5,64,28,22,598.14286,2.909090909
+Chamber 2,106,Dunlance,Waterlog,Ambient,5,September,94,8624,60,60.5,28,22,308.00000,2.75
+Chamber 2,107,Abergain,Waterlog,Ambient,5,September,80,5630,54,54.5,28,22,201.07143,2.477272727
+Chamber 2,108,Abergain,Waterlog,Ambient,5,September,33,2145,33.5,34,28,22,76.60714,1.545454545
+Chamber 2,109,Abergain,Waterlog,Ambient,5,September,98,8707,49.5,50,28,22,310.96429,2.272727273
+Chamber 2,110,Abergain,Not Waterlog,Ambient,5,September,195,14280,30,30.5,28,22,510.00000,1.386363636
+Chamber 2,111,Dunlance,Waterlog,Ambient,5,September,116,15685,54.5,55,28,22,560.17857,2.5
+Chamber 2,112,Carraig,Waterlog,Ambient,5,September,79,7433,51,51.5,28,22,265.46429,2.340909091
+Chamber 2,113,Aberchoice,Waterlog,Ambient,5,September,130,15207,70.5,71,28,22,543.10714,3.227272727
+Chamber 2,114,Carraig,Waterlog,Ambient,5,September,81,5298,62.5,63,28,22,189.21429,2.863636364
+Chamber 2,115,Carraig,Not Waterlog,Ambient,5,September,101,8862,39.5,40,28,22,316.50000,1.818181818
+Chamber 2,116,Aberchoice,Not Waterlog,Ambient,5,September,293,12777,37,37.5,28,22,456.32143,1.704545455
+Chamber 2,117,Abergain,Waterlog,Ambient,5,September,75,8134,54.5,55,28,22,290.50000,2.5
+Chamber 2,118,Dunlance,Not Waterlog,Ambient,5,September,207,16207,37.5,38,28,22,578.82143,1.727272727
+Chamber 2,119,Carraig,Not Waterlog,Ambient,5,September,117,12489,47,47.5,28,22,446.03571,2.159090909
+Chamber 2,120,Abergain,Not Waterlog,Ambient,5,September,165,11275,36,36.5,28,22,402.67857,1.659090909
+Chamber 2,121,Carraig,Waterlog,Ambient,5,September,124,18176,67.5,68,28,22,649.14286,3.090909091
+Chamber 2,122,Abergain,Waterlog,Ambient,5,September,136,18058,69.5,70,28,22,644.92857,3.181818182
+Chamber 2,123,Carraig,Waterlog,Ambient,5,September,24,1822,50,50.5,28,22,65.07143,2.295454545
+Chamber 2,124,Carraig,Not Waterlog,Ambient,5,September,172,11219,36.5,37,28,22,400.67857,1.681818182
+Chamber 2,125,Aberchoice,Not Waterlog,Ambient,5,September,296,17857,43,43.5,28,22,637.75000,1.977272727
+Chamber 2,126,Dunlance,Waterlog,Ambient,5,September,143,14856,58,58.5,28,22,530.57143,2.659090909
+Chamber 2,127,Abergain,Not Waterlog,Ambient,5,September,198,9568,29.5,30,28,22,341.71429,1.363636364
+Chamber 2,128,Dunlance,Not Waterlog,Ambient,5,September,163,24399,48.5,49,28,22,871.39286,2.227272727
+Chamber 2,129,Dunlance,Waterlog,Ambient,5,September,101,13226,73.5,74,28,22,472.35714,3.363636364
+Chamber 2,130,Abergain,Waterlog,Ambient,5,September,165,16468,56.5,57,28,22,588.14286,2.590909091
+Chamber 2,131,Carraig,Not Waterlog,Ambient,5,September,160,8280,35,35.5,28,22,295.71429,1.613636364
+Chamber 2,132,Dunlance,Not Waterlog,Ambient,5,September,140,14265,41,41.5,28,22,509.46429,1.886363636
+Chamber 2,133,Carraig,Not Waterlog,Ambient,5,September,169,15159,40.5,41,28,22,541.39286,1.863636364
+Chamber 2,134,Carraig,Waterlog,Ambient,5,September,45,3618,42.5,43,28,22,129.21429,1.954545455
+Chamber 2,135,Aberchoice,Waterlog,Ambient,5,September,96,10396,50,50.5,28,22,371.28571,2.295454545
+Chamber 2,136,Aberchoice,Not Waterlog,Ambient,5,September,267,12182,30.5,31,28,22,435.07143,1.409090909
+Chamber 2,137,Aberchoice,Not Waterlog,Ambient,5,September,276,15667,28,28.5,28,22,559.53571,1.295454545
+Chamber 2,138,Aberchoice,Waterlog,Ambient,5,September,55,4299,44,44.5,28,22,153.53571,2.022727273
+Chamber 2,139,Carraig,Waterlog,Ambient,5,September,83,6047,33.5,34,28,22,215.96429,1.545454545
+Chamber 2,140,Dunlance,Waterlog,Ambient,5,September,191,19465,56,56.5,28,22,695.17857,2.568181818
+Chamber 2,141,Dunlance,Not Waterlog,Ambient,5,September,166,12550,32.5,33,28,22,448.21429,1.5
+Chamber 2,142,Aberchoice,Not Waterlog,Ambient,5,September,366,14854,36,36.5,28,22,530.50000,1.659090909
+Chamber 2,143,Aberchoice,Waterlog,Ambient,5,September,104,6554,40.5,41,28,22,234.07143,1.863636364
+Chamber 2,144,Dunlance,Not Waterlog,Ambient,5,September,115,9416,30,30.5,28,22,336.28571,1.386363636
+Chamber 2,145,Aberchoice,Waterlog,Ambient,5,September,62,6233,56.5,57,28,22,222.60714,2.590909091
+Chamber 2,146,Aberchoice,Not Waterlog,Ambient,5,September,325,15882,31,31.5,28,22,567.21429,1.431818182
+Chamber 2,147,Dunlance,Waterlog,Ambient,5,September,38,2994,44.5,45,28,22,106.92857,2.045454545
+Chamber 2,148,Abergain,Waterlog,Ambient,5,September,26,4941,48.5,49,28,22,176.46429,2.227272727
+Chamber 2,149,Carraig,Waterlog,Ambient,5,September,65,6660,48,48.5,28,22,237.85714,2.204545455
+Chamber 2,150,Dunlance,Waterlog,Ambient,5,September,115,20574,61,61.5,28,22,734.78571,2.795454545
+Chamber 2,151,Carraig,Waterlog,Ambient,5,September,97,11230,50,50.5,28,22,401.07143,2.295454545
+Chamber 2,152,Aberchoice,Not Waterlog,Ambient,5,September,241,18282,34.5,35,28,22,652.92857,1.590909091
+Chamber 2,153,Aberchoice,Waterlog,Ambient,5,September,27,4258,38.5,39,28,22,152.07143,1.772727273
+Chamber 2,154,Carraig,Not Waterlog,Ambient,5,September,117,14780,41,41.5,28,22,527.85714,1.886363636
+Chamber 2,155,Abergain,Not Waterlog,Ambient,5,September,184,8863,35.5,36,28,22,316.53571,1.636363636
+Chamber 2,156,Aberchoice,Not Waterlog,Ambient,5,September,133,13668,43.5,44,28,22,488.14286,2
+Chamber 2,157,Dunlance,Not Waterlog,Ambient,5,September,182,1828,48.5,49,28,22,65.28571,2.227272727
+Chamber 2,158,Aberchoice,Waterlog,Ambient,5,September,27,1991,49,49.5,28,22,71.10714,2.25
+Chamber 2,159,Abergain,Waterlog,Ambient,5,September,95,10068,53,53.5,28,22,359.57143,2.431818182
+Chamber 2,160,Aberchoice,Not Waterlog,Ambient,5,September,494,17291,31.5,32,28,22,617.53571,1.454545455
+Chamber 4,161,Aberchoice,Not Waterlog,Treatment,5,September,194,14691,51.5,52,28,22,524.67857,2.363636364
+Chamber 4,162,Dunlance,Not Waterlog,Treatment,5,September,64,7498,49,49.5,28,22,267.78571,2.25
+Chamber 4,163,Carraig,Not Waterlog,Treatment,5,September,58,8853,47.5,48,28,22,316.17857,2.181818182
+Chamber 4,164,Abergain,Waterlog,Treatment,5,September,96,17292,74.5,75,28,22,617.57143,3.409090909
+Chamber 4,165,Abergain,Waterlog,Treatment,5,September,230,27566,67.5,68,28,22,984.50000,3.090909091
+Chamber 4,166,Dunlance,Waterlog,Treatment,5,September,165,31407,59.5,60,28,22,1121.67857,2.727272727
+Chamber 4,167,Aberchoice,Waterlog,Treatment,5,September,161,13256,51,51.5,28,22,473.42857,2.340909091
+Chamber 4,168,Abergain,Waterlog,Treatment,5,September,118,30673,78.5,79,28,22,1095.46429,3.590909091
+Chamber 4,169,Dunlance,Waterlog,Treatment,5,September,17,3132,55,55.5,28,22,111.85714,2.522727273
+Chamber 4,170,Dunlance,Waterlog,Treatment,5,September,146,27711,71,71.5,28,22,989.67857,3.25
+Chamber 4,171,Dunlance,Waterlog,Treatment,5,September,109,19482,67,67.5,28,22,695.78571,3.068181818
+Chamber 4,172,Aberchoice,Waterlog,Treatment,5,September,82,6679,61.5,62,28,22,238.53571,2.818181818
+Chamber 4,173,Dunlance,Waterlog,Treatment,5,September,158,25060,64,64.5,28,22,895.00000,2.931818182
+Chamber 4,174,Carraig,Not Waterlog,Treatment,5,September,176,8277,35.5,36,28,22,295.60714,1.636363636
+Chamber 4,175,Abergain,Not Waterlog,Treatment,5,September,179,18080,56,56.5,28,22,645.71429,2.568181818
+Chamber 4,176,Aberchoice,Waterlog,Treatment,5,September,31,2607,38,38.5,28,22,93.10714,1.75
+Chamber 4,177,Abergain,Not Waterlog,Treatment,5,September,145,14539,57,57.5,28,22,519.25000,2.613636364
+Chamber 4,178,Aberchoice,Waterlog,Treatment,5,September,35,2582,52.5,53,28,22,92.21429,2.409090909
+Chamber 4,179,Aberchoice,Waterlog,Treatment,5,September,48,3137,54,54.5,28,22,112.03571,2.477272727
+Chamber 4,180,Dunlance,Waterlog,Treatment,5,September,120,13809,60,60.5,28,22,493.17857,2.75
+Chamber 4,181,Carraig,Waterlog,Treatment,5,September,104,7452,58.5,59,28,22,266.14286,2.681818182
+Chamber 4,182,Carraig,Waterlog,Treatment,5,September,167,9003,38.5,39,28,22,321.53571,1.772727273
+Chamber 4,183,Carraig,Not Waterlog,Treatment,5,September,114,8958,29.5,30,28,22,319.92857,1.363636364
+Chamber 4,184,Carraig,Waterlog,Treatment,5,September,64,4301,36.5,37,28,22,153.60714,1.681818182
+Chamber 4,185,Carraig,Waterlog,Treatment,5,September,114,16164,70.5,71,28,22,577.28571,3.227272727
+Chamber 4,186,Aberchoice,Waterlog,Treatment,5,September,116,5511,49.5,50,28,22,196.82143,2.272727273
+Chamber 4,187,Abergain,Waterlog,Treatment,5,September,88,5013,48,48.5,28,22,179.03571,2.204545455
+Chamber 4,188,Carraig,Not Waterlog,Treatment,5,September,146,12802,31,31.5,28,22,457.21429,1.431818182
+Chamber 4,189,Abergain,Waterlog,Treatment,5,September,98,12484,53,53.5,28,22,445.85714,2.431818182
+Chamber 4,190,Carraig,Waterlog,Treatment,5,September,108,11013,47.5,48,28,22,393.32143,2.181818182
+Chamber 4,191,Carraig,Not Waterlog,Treatment,5,September,135,12903,33.5,34,28,22,460.82143,1.545454545
+Chamber 4,192,Abergain,Not Waterlog,Treatment,5,September,266,24353,44.5,45,28,22,869.75000,2.045454545
+Chamber 4,193,Carraig,Not Waterlog,Treatment,5,September,212,14031,48,48.5,28,22,501.10714,2.204545455
+Chamber 4,194,Abergain,Not Waterlog,Treatment,5,September,96,9125,42.5,43,28,22,325.89286,1.954545455
+Chamber 4,195,Dunlance,Not Waterlog,Treatment,5,September,98,6941,36.5,37,28,22,247.89286,1.681818182
+Chamber 4,196,Aberchoice,Not Waterlog,Treatment,5,September,171,7656,43,43.5,28,22,273.42857,1.977272727
+Chamber 4,197,Carraig,Waterlog,Treatment,5,September,143,20886,65,65.5,28,22,745.92857,2.977272727
+Chamber 4,198,Abergain,Not Waterlog,Treatment,5,September,80,3587,39.5,40,28,22,128.10714,1.818181818
+Chamber 4,199,Aberchoice,Not Waterlog,Treatment,5,September,353,11995,31,31.5,28,22,428.39286,1.431818182
+Chamber 4,200,Dunlance,Not Waterlog,Treatment,5,September,204,22446,41,41.5,28,22,801.64286,1.886363636
+Chamber 4,201,Aberchoice,Waterlog,Treatment,5,September,57,8090,63.5,64,28,22,288.92857,2.909090909
+Chamber 4,202,Aberchoice,Not Waterlog,Treatment,5,September,243,13831,39,39.5,28,22,493.96429,1.795454545
+Chamber 4,203,Dunlance,Waterlog,Treatment,5,September,50,8962,52,52.5,28,22,320.07143,2.386363636
+Chamber 4,204,Abergain,Not Waterlog,Treatment,5,September,168,13112,31.5,32,28,22,468.28571,1.454545455
+Chamber 4,205,Aberchoice,Not Waterlog,Treatment,5,September,297,17344,40.5,41,28,22,619.42857,1.863636364
+Chamber 4,206,Abergain,Not Waterlog,Treatment,5,September,158,12098,29.5,30,28,22,432.07143,1.363636364
+Chamber 4,207,Abergain,Waterlog,Treatment,5,September,45,4007,33.5,34,28,22,143.10714,1.545454545
+Chamber 4,208,Carraig,Not Waterlog,Treatment,5,September,225,15060,29.5,30,28,22,537.85714,1.363636364
+Chamber 4,209,Dunlance,Not Waterlog,Treatment,5,September,195,14498,43,43.5,28,22,517.78571,1.977272727
+Chamber 4,210,Carraig,Waterlog,Treatment,5,September,60,6300,47.5,48,28,22,225.00000,2.181818182
+Chamber 4,211,Dunlance,Waterlog,Treatment,5,September,39,3067,45,45.5,28,22,109.53571,2.068181818
+Chamber 4,212,Aberchoice,Waterlog,Treatment,5,September,56,4438,49.5,50,28,22,158.50000,2.272727273
+Chamber 4,213,Carraig,Waterlog,Treatment,5,September,222,22053,65.5,66,28,22,787.60714,3
+Chamber 4,214,Abergain,Not Waterlog,Treatment,5,September,201,21403,38,38.5,28,22,764.39286,1.75
+Chamber 4,215,Aberchoice,Not Waterlog,Treatment,5,September,433,15834,34.5,35,28,22,565.50000,1.590909091
+Chamber 4,216,Aberchoice,Waterlog,Treatment,5,September,137,9003,56,56.5,28,22,321.53571,2.568181818
+Chamber 4,217,Carraig,Waterlog,Treatment,5,September,76,6096,57.5,58,28,22,217.71429,2.636363636
+Chamber 4,218,Abergain,Waterlog,Treatment,5,September,135,18162,62,62.5,28,22,648.64286,2.840909091
+Chamber 4,219,Aberchoice,Not Waterlog,Treatment,5,September,338,31959,39.5,40,28,22,1141.39286,1.818181818
+Chamber 4,220,Aberchoice,Not Waterlog,Treatment,5,September,226,11763,36.5,37,28,22,420.10714,1.681818182
+Chamber 4,221,Dunlance,Not Waterlog,Treatment,5,September,155,10091,39,39.5,28,22,360.39286,1.795454545
+Chamber 4,222,Dunlance,Not Waterlog,Treatment,5,September,252,12330,35,35.5,28,22,440.35714,1.613636364
+Chamber 4,223,Dunlance,Not Waterlog,Treatment,5,September,137,12942,48.5,49,28,22,462.21429,2.227272727
+Chamber 4,224,Aberchoice,Waterlog,Treatment,5,September,166,9821,54,54.5,28,22,350.75000,2.477272727
+Chamber 4,225,Abergain,Not Waterlog,Treatment,5,September,152,10102,42,42.5,28,22,360.78571,1.931818182
+Chamber 4,226,Dunlance,Not Waterlog,Treatment,5,September,54,5268,45,45.5,28,22,188.14286,2.068181818
+Chamber 4,227,Carraig,Waterlog,Treatment,5,September,137,12089,47.5,48,28,22,431.75000,2.181818182
+Chamber 4,228,Abergain,Waterlog,Treatment,5,September,36,3787,43.5,44,28,22,135.25000,2
+Chamber 4,229,Dunlance,Waterlog,Treatment,5,September,63,5700,51,51.5,28,22,203.57143,2.340909091
+Chamber 4,230,Aberchoice,Not Waterlog,Treatment,5,September,85,7200,42.5,43,28,22,257.14286,1.954545455
+Chamber 4,231,Abergain,Waterlog,Treatment,5,September,78,12620,58,58.5,28,22,450.71429,2.659090909
+Chamber 4,232,Dunlance,Waterlog,Treatment,5,September,121,18548,67.5,68,28,22,662.42857,3.090909091
+Chamber 4,233,Abergain,Not Waterlog,Treatment,5,September,129,14161,42,42.5,28,22,505.75000,1.931818182
+Chamber 4,234,Carraig,Not Waterlog,Treatment,5,September,131,11825,50.5,51,28,22,422.32143,2.318181818
+Chamber 4,235,Carraig,Not Waterlog,Treatment,5,September,123,12314,67.5,68,28,22,439.78571,3.090909091
+Chamber 4,236,Aberchoice,Not Waterlog,Treatment,5,September,290,6555,44.5,45,28,22,234.10714,2.045454545
+Chamber 4,237,Carraig,Not Waterlog,Treatment,5,September,167,11391,47,47.5,28,22,406.82143,2.159090909
+Chamber 4,238,Dunlance,Not Waterlog,Treatment,5,September,227,35264,66,66.5,28,22,1259.42857,3.022727273
+Chamber 4,239,Abergain,Waterlog,Treatment,5,September,104,23915,68.5,69,28,22,854.10714,3.136363636
+Chamber 4,240,Dunlance,Not Waterlog,Treatment,5,September,114,11467,48,48.5,28,22,409.53571,2.204545455
+Chamber 5,241,Carraig,Not Waterlog,Ambient,5,September,148,8304,35,35.5,28,22,296.57143,1.613636364
+Chamber 5,242,Abergain,Waterlog,Ambient,5,September,28,3185,42,42.5,28,22,113.75000,1.931818182
+Chamber 5,243,Carraig,Not Waterlog,Ambient,5,September,115,9215,42,42.5,28,22,329.10714,1.931818182
+Chamber 5,244,Dunlance,Not Waterlog,Ambient,5,September,136,9985,24,24.5,28,22,356.60714,1.113636364
+Chamber 5,245,Abergain,Not Waterlog,Ambient,5,September,84,10380,30.5,31,28,22,370.71429,1.409090909
+Chamber 5,246,Aberchoice,Waterlog,Ambient,5,September,32,2487,27,27.5,28,22,88.82143,1.25
+Chamber 5,247,Dunlance,Not Waterlog,Ambient,5,September,78,5958,21,21.5,28,22,212.78571,0.977272727
+Chamber 5,248,Carraig,Not Waterlog,Ambient,5,September,101,9062,28.5,29,28,22,323.64286,1.318181818
+Chamber 5,249,Dunlance,Not Waterlog,Ambient,5,September,94,7500,36.5,37,28,22,267.85714,1.681818182
+Chamber 5,250,Abergain,Not Waterlog,Ambient,5,September,123,9867,27.5,28,28,22,352.39286,1.272727273
+Chamber 5,251,Carraig,Not Waterlog,Ambient,5,September,185,12592,28,28.5,28,22,449.71429,1.295454545
+Chamber 5,252,Dunlance,Waterlog,Ambient,5,September,44,4999,32.5,33,28,22,178.53571,1.5
+Chamber 5,253,Dunlance,Waterlog,Ambient,5,September,56,4893,38,38.5,28,22,174.75000,1.75
+Chamber 5,254,Aberchoice,Not Waterlog,Ambient,5,September,168,8674,25.5,26,28,22,309.78571,1.181818182
+Chamber 5,255,Dunlance,Waterlog,Ambient,5,September,35,3691,29.5,30,28,22,131.82143,1.363636364
+Chamber 5,256,Dunlance,Not Waterlog,Ambient,5,September,40,5324,30,30.5,28,22,190.14286,1.386363636
+Chamber 5,257,Aberchoice,Waterlog,Ambient,5,September,62,3898,35,35.5,28,22,139.21429,1.613636364
+Chamber 5,258,Abergain,Waterlog,Ambient,5,September,40,5706,40.5,41,28,22,203.78571,1.863636364
+Chamber 5,259,Carraig,Waterlog,Ambient,5,September,42,4305,40,40.5,28,22,153.75000,1.840909091
+Chamber 5,260,Abergain,Not Waterlog,Ambient,5,September,182,9205,23,23.5,28,22,328.75000,1.068181818
+Chamber 5,261,Dunlance,Not Waterlog,Ambient,5,September,117,9874,22.5,23,28,22,352.64286,1.045454545
+Chamber 5,262,Abergain,Waterlog,Ambient,5,September,41,4710,31,31.5,28,22,168.21429,1.431818182
+Chamber 5,263,Dunlance,Waterlog,Ambient,5,September,47,4527,27,27.5,28,22,161.67857,1.25
+Chamber 5,264,Abergain,Waterlog,Ambient,5,September,18,3449,32.5,33,28,22,123.17857,1.5
+Chamber 5,265,Abergain,Waterlog,Ambient,5,September,115,7851,52.5,53,28,22,280.39286,2.409090909
+Chamber 5,266,Carraig,Waterlog,Ambient,5,September,117,8978,38.5,39,28,22,320.64286,1.772727273
+Chamber 5,267,Dunlance,Not Waterlog,Ambient,5,September,55,6608,37,37.5,28,22,236.00000,1.704545455
+Chamber 5,268,Aberchoice,Not Waterlog,Ambient,5,September,178,9362,27.5,28,28,22,334.35714,1.272727273
+Chamber 5,269,Abergain,Waterlog,Ambient,5,September,51,6658,38.5,39,28,22,237.78571,1.772727273
+Chamber 5,270,Abergain,Not Waterlog,Ambient,5,September,76,7217,19,19.5,28,22,257.75000,0.886363636
+Chamber 5,271,Aberchoice,Waterlog,Ambient,5,September,82,5091,30.5,31,28,22,181.82143,1.409090909
+Chamber 5,272,Aberchoice,Not Waterlog,Ambient,5,September,238,11791,28.5,29,28,22,421.10714,1.318181818
+Chamber 5,273,Abergain,Waterlog,Ambient,5,September,78,5711,41.5,42,28,22,203.96429,1.909090909
+Chamber 5,274,Dunlance,Waterlog,Ambient,5,September,84,9846,46.5,47,28,22,351.64286,2.136363636
+Chamber 5,275,Carraig,Not Waterlog,Ambient,5,September,143,7833,22,22.5,28,22,279.75000,1.022727273
+Chamber 5,276,Dunlance,Not Waterlog,Ambient,5,September,135,10640,29.5,30,28,22,380.00000,1.363636364
+Chamber 5,277,Aberchoice,Not Waterlog,Ambient,5,September,209,10860,25.5,26,28,22,387.85714,1.181818182
+Chamber 5,278,Carraig,Waterlog,Ambient,5,September,64,5343,32,32.5,28,22,190.82143,1.477272727
+Chamber 5,279,Dunlance,Waterlog,Ambient,5,September,44,3847,34,34.5,28,22,137.39286,1.568181818
+Chamber 5,280,Dunlance,Not Waterlog,Ambient,5,September,108,8588,22.5,23,28,22,306.71429,1.045454545
+Chamber 5,281,Carraig,Waterlog,Ambient,5,September,59,6292,42.5,43,28,22,224.71429,1.954545455
+Chamber 5,282,Carraig,Waterlog,Ambient,5,September,85,1148,53.5,54,28,22,41.00000,2.454545455
+Chamber 5,283,Carraig,Not Waterlog,Ambient,5,September,87,8268,18.5,19,28,22,295.28571,0.863636364
+Chamber 5,284,Abergain,Waterlog,Ambient,5,September,73,9150,39.5,40,28,22,326.78571,1.818181818
+Chamber 5,285,Abergain,Not Waterlog,Ambient,5,September,154,10313,28,28.5,28,22,368.32143,1.295454545
+Chamber 5,286,Carraig,Waterlog,Ambient,5,September,114,7890,30.5,31,28,22,281.78571,1.409090909
+Chamber 5,287,Dunlance,Not Waterlog,Ambient,5,September,136,9761,30,30.5,28,22,348.60714,1.386363636
+Chamber 5,288,Carraig,Waterlog,Ambient,5,September,69,6568,26.5,27,28,22,234.57143,1.227272727
+Chamber 5,289,Aberchoice,Waterlog,Ambient,5,September,33,3262,43,43.5,28,22,116.50000,1.977272727
+Chamber 5,290,Abergain,Waterlog,Ambient,5,September,46,5116,36.5,37,28,22,182.71429,1.681818182
+Chamber 5,291,Abergain,Waterlog,Ambient,5,September,46,5383,31,31.5,28,22,192.25000,1.431818182
+Chamber 5,292,Dunlance,Waterlog,Ambient,5,September,37,3406,28,28.5,28,22,121.64286,1.295454545
+Chamber 5,293,Aberchoice,Not Waterlog,Ambient,5,September,297,10784,21.5,22,28,22,385.14286,1
+Chamber 5,294,Carraig,Waterlog,Ambient,5,September,75,5786,27.5,28,28,22,206.64286,1.272727273
+Chamber 5,295,Carraig,Not Waterlog,Ambient,5,September,149,7596,31.5,32,28,22,271.28571,1.454545455
+Chamber 5,296,Aberchoice,Not Waterlog,Ambient,5,September,199,9674,29,29.5,28,22,345.50000,1.340909091
+Chamber 5,297,Aberchoice,Waterlog,Ambient,5,September,182,26351,50.5,51,28,22,941.10714,2.318181818
+Chamber 5,298,Carraig,Not Waterlog,Ambient,5,September,152,6673,20,20.5,28,22,238.32143,0.931818182
+Chamber 5,299,Dunlance,Waterlog,Ambient,5,September,23,2275,30.5,31,28,22,81.25000,1.409090909
+Chamber 5,300,Carraig,Not Waterlog,Ambient,5,September,166,9006,23.5,24,28,22,321.64286,1.090909091
+Chamber 5,301,Aberchoice,Not Waterlog,Ambient,5,September,185,5326,29,29.5,28,22,190.21429,1.340909091
+Chamber 5,302,Abergain,Not Waterlog,Ambient,5,September,194,7758,23,23.5,28,22,277.07143,1.068181818
+Chamber 5,303,Carraig,Waterlog,Ambient,5,September,73,5510,34,34.5,28,22,196.78571,1.568181818
+Chamber 5,304,Dunlance,Waterlog,Ambient,5,September,23,2207,40.5,41,28,22,78.82143,1.863636364
+Chamber 5,305,Aberchoice,Waterlog,Ambient,5,September,46,3317,40,40.5,28,22,118.46429,1.840909091
+Chamber 5,306,Aberchoice,Waterlog,Ambient,5,September,50,2795,35.5,36,28,22,99.82143,1.636363636
+Chamber 5,307,Aberchoice,Not Waterlog,Ambient,5,September,395,26086,33,33.5,28,22,931.64286,1.522727273
+Chamber 5,308,Abergain,Not Waterlog,Ambient,5,September,198,28612,36.5,37,28,22,1021.85714,1.681818182
+Chamber 5,309,Dunlance,Waterlog,Ambient,5,September,15,1374,51,51.5,28,22,49.07143,2.340909091
+Chamber 5,310,Aberchoice,Not Waterlog,Ambient,5,September,377,23389,39,39.5,28,22,835.32143,1.795454545
+Chamber 5,311,Dunlance,Not Waterlog,Ambient,5,September,161,17069,41.5,42,28,22,609.60714,1.909090909
+Chamber 5,312,Abergain,Not Waterlog,Ambient,5,September,176,9266,34,34.5,28,22,330.92857,1.568181818
+Chamber 5,313,Abergain,Not Waterlog,Ambient,5,September,210,25140,38,38.5,28,22,897.85714,1.75
+Chamber 5,314,Aberchoice,Waterlog,Ambient,5,September,96,9551,52.5,53,28,22,341.10714,2.409090909
+Chamber 5,315,Abergain,Not Waterlog,Ambient,5,September,88,8321,35.5,36,28,22,297.17857,1.636363636
+Chamber 5,316,Aberchoice,Waterlog,Ambient,5,September,93,6882,58.5,59,28,22,245.78571,2.681818182
+Chamber 5,317,Aberchoice,Waterlog,Ambient,5,September,205,18967,57,57.5,28,22,677.39286,2.613636364
+Chamber 5,318,Carraig,Waterlog,Ambient,5,September,57,3721,36,36.5,28,22,132.89286,1.659090909
+Chamber 5,319,Aberchoice,Not Waterlog,Ambient,5,September,247,8252,45.5,46,28,22,294.71429,2.090909091
+Chamber 5,320,Carraig,Not Waterlog,Ambient,5,September,209,23604,42.5,43,28,22,843.00000,1.954545455

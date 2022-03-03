@@ -76,7 +76,7 @@ evi = data.frame(x_MODIS=NA,
                  year=NA, 
                  doy=rep(NA, times=length(modisFiles)), 
                  QA = NA)
-xy = crds(evi_region)
+
 
 for (m in 1:length(modisFiles)) {
   mod = rast(modisFiles[m])
@@ -97,7 +97,7 @@ for (m in 1:length(modisFiles)) {
 
   
   evi_region = crop(mod,ext(region_modis))
-  
+  xy = crds(evi_region)
 
   
   tmp = data.frame(pixelID = letters[1:nrow(xy)],
@@ -125,28 +125,76 @@ evi$year = as.factor(evi$year)
 ggplot(data=lyons,
        aes(x=doy,
            y=Pregraze.cover,
-           colour=as.factor(Year))) + 
-  geom_point() + 
-  geom_smooth(method="loess", 
-              formula="y~x",
-              span=0.3) +
+           colour=as.factor(Year),
+           group=as.factor(Year))) + 
+  geom_line() + 
+  geom_point(size=2) +
+  # geom_smooth(method="loess", 
+  #             formula="y~x",
+  #             span=0.5) +
   scale_colour_brewer("Year", palette="Dark2") +
-  theme_bw()
+  labs(x="Day of Year",
+       y = "Pre-Graze Cover (kg DM/ha)") +
+  theme_bw() +
+  theme(axis.title = element_text(size=24),
+        axis.text = element_text(size=18),
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=24))
+
+ggsave('~/Desktop/lyons_timeseries.png')
 
 
-ggplot(data=evi,
+ggplot(data=subset(evi2, !outlier),
        aes(x=doy,
            y=evi,
            colour=year)) + 
-  geom_point() + 
+  geom_point(size=2) + 
   geom_smooth(method="loess", 
               formula="y~x",
               span=0.4) +
   scale_colour_brewer("Year", palette="Dark2") +
-  theme_bw()
+  labs(x="Day of Year",
+       y="Vegetation Index (EVI)") +
+  theme_bw() +
+  theme(axis.title = element_text(size=24),
+        axis.text = element_text(size=18),
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=24))
+
+ggsave("~/Desktop/evi_timeseries.png")
 
 
 
+# Add EVI data to Lyons Farm by taking an average +/- window around doy
+window = 5
+lyons$evi = NA
+for (i in 1:nrow(lyons)) {
+  sub = subset(evi2, year==lyons$year[i] & abs(doy-lyons$doy[i])<window & !outlier)
+  if (nrow(sub)>0) {
+    lyons$evi[i] = quantile(sub$evi, 0.75)
+  }
+}
+
+
+# Visualise
+ggplot(data=lyons,
+       aes(x=Pregraze.cover,
+           y=evi,
+           colour=as.factor(year))) +
+  geom_point(size=2) + 
+  labs(x="Pre-graze cover (kg DM/ha)",
+       y="Vegetation Index (EVI)") +
+  scale_colour_brewer("Year", palette="Dark2") +
+  theme_bw() + 
+  theme(axis.title = element_text(size=24),
+        axis.text = element_text(size=18),
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=24))
+
+ggsave("~/Desktop/evi_lyons.png")
+
+
+summary(lm(evi~Pregraze.cover, data=lyons))
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
 # Analyse the MODIS and Lyons farm data ----------
