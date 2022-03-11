@@ -3,7 +3,7 @@
 # The functions are:
 #       segmentEVI:        Take an EVI time series, clean it and 
 #                          segment it into linear components
-#       assignPhenophase:  Take the output of segmantEVI and identify three 
+#       assignPhenophase:  Take the output of segmentEVI and identify three 
 #                          phenophases that obey qualitative conditions for each phase. 
 #                          The three phases are: Start of season (SOS), 
 #                         peak of season (POS) and end of season (EOS)
@@ -39,6 +39,8 @@ segmentEVI = function(d_sub,
   # +++++++++++++++++++++++++++++++++++++++++++++++++
   # Perform segmentation on data smoothed using a GAM
   
+  
+  # Fit initial GAM
   m_gam = tryCatch(gam(evi~s(doy, bs='cr',k=knots), 
                        data=d_sub,
                        gamma=1),  # Gamma controls over/under fitting
@@ -51,7 +53,7 @@ segmentEVI = function(d_sub,
   
   
   if (!is.null(m_gam)) {
-    # Remove EVI data points that are more than 6 SE below from the prediction from m_gam
+    # Remove EVI data points that are more than sd_filter_threshold SE below from the prediction from m_gam
     tmp = predict(m_gam, se.fit = TRUE, newdata = d_sub)
     evi_deviation = ((d_sub$evi-tmp$fit)/tmp$se.fit)
     filter_ind = evi_deviation>-sd_filter_threshold
@@ -71,7 +73,7 @@ segmentEVI = function(d_sub,
     
     
     # Segmenting the smoothed predictions
-    m_smooth = lm(evi_smooth~doy, data=d_sub[filter_ind,])
+    m_smooth = lm(evi_smooth~doy, data=d_sub[filter_ind,])  # Create base lm model
     
     m_seg_smooth = tryCatch(segmented(m_smooth, 
                                       seg.Z = ~doy,
@@ -117,7 +119,8 @@ segmentEVI = function(d_sub,
     m_seg_raw = NULL
   }       
   
-  
+  # Outputs are segmented model using raw data, segmented model using smoothed data, 
+  # indices for data kept in analysis, the original data, the gam used for smoothing
   return(list(m_seg_raw, m_seg_smooth, filtered=filter_ind, d_sub=d_sub, m_gam2=m_gam2)) 
 }
 
@@ -217,7 +220,7 @@ assignPhenophase = function(input_data) {
     
     
     # Adjust any preceding breakpoints
-    output_data$phase[1:phase1_ind] = phase1_ind-rev(c(1:phase1_ind))
+    output_data$phase[1:phase1_ind] = 2-rev(c(1:phase1_ind))
   } 
   
   

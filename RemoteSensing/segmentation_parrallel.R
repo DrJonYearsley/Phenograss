@@ -7,6 +7,8 @@
 # Aug 2020
 # ****************************************
 
+setwd('~/git_repos/Phenograss/RemoteSensing/')
+
 rm(list=ls())
 
 dataDir = '~/Research/Phenograss/Data/MODIS_squares'
@@ -29,13 +31,13 @@ registerDoParallel(cl)
 square = c(1:9,13:21)
 square = c(10:12)
 square = c(1:21)
-square = 5
+square = 20
 
 year = 2014
 knots = -1
 min_obs = 15      # Minimum number of rows for trying to segment data
 #starting_breaks = c(50, 100, 200, 300)  # Initial guess for break points in doy
-nSegBreaks = 4    # Number of breakpoints to use for segmentation
+nSegBreaks = 5    # Number of breakpoints to use for segmentation
 print_pixel=FALSE
 
 
@@ -46,17 +48,18 @@ print_pixel=FALSE
 source("segmentation_functions.R")
 
 
-
+# Create data frame to contain parameters
+params = data.frame(knots = knots, min_obs=min_obs, nSegBreaks=nSegBreaks)
 
 # Parallel execution function ----------
 # Function to package segmentation input and output so 
 #    it's suitable for the foreach loop
-segment_within_pixel = function(input_data, pixel_info, output_labels) {
+segment_within_pixel = function(input_data, pixel_info, output_labels, params) {
   
   # Perform segmentation on the input data
   segments = segmentEVI(input_data, 
-                        nBreaks = nSegBreaks,
-                        knots=knots, 
+                        nBreaks = params$nSegBreaks,
+                        knots=params$knots, 
                         use_raw = TRUE,
                         sd_filter_threshold = 6)
   
@@ -84,12 +87,12 @@ segment_within_pixel = function(input_data, pixel_info, output_labels) {
                             year = pixel_info$year,
                             square = pixel_info$square,
                             model=modelStr[model],
-                            phase = c(1:nSegBreaks), 
+                            phase = c(1:params$nSegBreaks), 
                             t=CI[,1],
                             lowerCI=CI[,2],
                             upperCI=CI[,3],
                             slope=slope_est[-1],
-                            slopeprev=slope_est[1:nSegBreaks])
+                            slopeprev=slope_est[1:params$nSegBreaks])
 
     } else {
       tmp = data.frame(pixelID = pixel_info$pixelID,
@@ -100,7 +103,7 @@ segment_within_pixel = function(input_data, pixel_info, output_labels) {
                        year = pixel_info$year,
                        square = pixel_info$square,
                        model=modelStr[model],
-                       phase = c(1:nSegBreaks), 
+                       phase = c(1:params$nSegBreaks), 
                        t=NA,
                        lowerCI=NA,
                        upperCI=NA,
@@ -211,11 +214,11 @@ for (s in square) {
   # slope_ is the regression slope after t_
   # slopeprev_ is the regression slope before t_
   label = c('t_', 'lowerCI_', 'upperCI_','slope_','slopeprev_')
-  modelStr = c('_raw','_smooth')
+  modelStr2 = c('_raw','_smooth')
   
   output_labels = paste0(rep(paste0(rep(label,times=nSegBreaks),
                                          rep(c(1:nSegBreaks),each=length(label))), times=2),
-                              rep(modelStr,each=nSegBreaks*length(label)))
+                              rep(modelStr2,each=nSegBreaks*length(label)))
   
   
   # Create data frame for the output
@@ -229,7 +232,7 @@ for (s in square) {
   segment_output <- foreach (p = icount(nPixel), .packages=c('segmented','mgcv'), .inorder=FALSE, .combine='rbind') %dopar% {
    segment_within_pixel(d_final[d_final$pixelID==pixel_list[p],], 
                         pixel_data[pixel_data$pixelID==pixel_list[p],],
-                        label)
+                        label, params)
   }
 
   
@@ -264,10 +267,12 @@ for (s in square) {
   segment_output$phase = NA            # Remove draft phase information
   segment_output$warning = NA
   
-  for (m in c(1:2)) {  # Loop around the two models (raw and smoothed)
+  nModels = length(unique(segment_output$model))
+  
+  for (m in c(1:nModels)) {  # Loop around the two models (raw and smoothed)
     for (p in 1:nPixel) {
       # Estimate phenophases for smoothed data
-      ind = which(segment_output$pixelID==pixel_list[p] & segment_output$model==modelStr[m])
+      ind = which(segment_output$pixelID==pixel_list[p] & segment_output$model==unique(segment_output$model)[m])
       if (all(is.finite(segment_output$t[ind]))) {
         
         # Call function to assign phenophases
@@ -280,10 +285,13 @@ for (s in square) {
     }
   }
   
+  # Flag phenophases with very wide 95% CI
+  ind = (segment_output$upperCI - segment_output$lowerCI)>30
+  segment_output$wideCI = ind
   
   # Save data -------------------
   filename = paste0('phenology_square_',s,'_',year,'.RData')
-  save(knots,year,s,nSegBreaks,output_long,d_final,
+  save(knots,year,s,nSegBreaks,segment_output,d_final,
        file=file.path(outputDir,filename))
 } # Finish looping around all the squares
 
@@ -292,4 +300,4 @@ for (s in square) {
 stopCluster(cl) 
   
   
-  
+

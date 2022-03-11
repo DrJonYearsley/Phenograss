@@ -13,12 +13,15 @@ library(mgcv)
 
 setwd('~/Research/Phenograss/Data/PhenologyOutput_test/')
 
+# Load functions to perform segmentation
+source('~/git_repos/Phenograss/RemoteSensing/segmentation_functions.R')
+
 dataDir = '.'
 
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 18
+square = 5
 year = 2014
 
 # starting_breaks = c(50, 100, 200, 300)
@@ -35,7 +38,7 @@ nPixel = length(pixel_list)
 
 
 # Plot estimate of phenology dates ---
-ggplot(data=subset(output_long, smooth=="raw" & warning==FALSE & phase%in%c(1,2,3)), 
+ggplot(data=subset(segment_output, model=="smooth" & warning==FALSE & phase%in%c(1,2,3) & !wideCI), 
        aes(x=t,
            fill=factor(phase))) +
   geom_histogram(position='dodge',
@@ -58,13 +61,13 @@ ggsave(width=11, height=6,
 
 
 # Plot map of phenophase dates ----
-ggplot(data=subset(output_long,phase==1 & smooth=="smooth"), 
+ggplot(data=subset(segment_output,phase==1 & model=="smooth"), 
        aes(x=x_MODIS,
            y=y_MODIS,
            fill = t)) +
   geom_tile() + 
-  scale_fill_viridis_c('Day of Year',option='magma') +
-  labs(title=paste('Phase 0: Square',square,'Year=',year)) +
+  scale_fill_viridis_c('Day of Year',option='magma',limits=c(0,100)) +
+  labs(title=paste('Phase 1: Square',square,'Year=',year)) +
   theme_bw()
 
 
@@ -124,148 +127,118 @@ ggplot(data=subset(output_smoothed,phase==2 & warning==FALSE),
 
 p = sample(pixel_list, size=1)
 
+# p="x5y3"
+# which(p==pixel_list)
+
+type = c("raw","smooth")   # Either "raw" or "smooth"
+
+
 # # Select unusual pixels
 # ind = which(output_smoothed$phase==1 & output_smoothed$t>200 & output_smoothed$t<1300)
 # p = sample(output_smoothed$pixelID[ind],size=1)
 
 d_sub = d_final[d_final$pixelID==p,]
+pl = vector('list',length=2)
 
-
-# *************************************
-# Function to perform segmentation ----
-segmentEVI = function(d_sub, 
-                      starting_breaks = c(100, 200,300), 
-                      useHighQuality=FALSE, 
-                      knots=-1,
-                      use_raw = FALSE) {
-  # This functions fits a segmented linear model to raw data and smoothed data
-  # the smoothed data gives fewer NA's and more consistent results. 
-  
-  require(segmented)
+for (t in type) {
   
   
-  
-  if (use_raw) {  
-    # +++++++++++++++++++++++++++++++++++++++++++++++++
-    # Perform segmentation on raw evi data
-    m_raw = lm(evi~doy, data=d_sub)
-    
-    m_seg_raw = tryCatch(segmented(m_raw, 
-                                   seg.Z = ~doy,
-                                   psi = list(doy=starting_breaks),
-                                   control=seg.control(display=FALSE)),
-                         error = function(e) {
-                           NA
-                         },
-                         warning = function(e) {
-                           NA
-                         })
+  if (t=="raw") {
+    segment_ind = 1
   } else {
-    m_seg_raw = NA
-  }       
+    segment_ind = 2
+  }
   
-  # +++++++++++++++++++++++++++++++++++++++++++++++++
-  # Perform segmentation on data smoothed using a GAM
+  # Look at smoothed output
+  segments = segmentEVI(d_sub, 
+                        nBreaks=5,
+                        useHighQuality=FALSE,
+                        use_raw = TRUE,
+                        knots = knots,
+                        sd_filter_threshold=6)
   
-  m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub)
-  
-  # Remove EVI data points that are more than 6 SE below from the prediction
-  tmp = predict(m_gam, se.fit = TRUE)
-  evi_deviation = (d_sub$evi-tmp$fit)/tmp$se.fit
-  
-  # Smooth data after removing data more than 6 se below prediction  
-  m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub[evi_deviation>-6,])
-  
-  # Add smoothed predictions to the data frame
-  d_sub$evi_smooth = NA
-  d_sub$evi_smooth[evi_deviation>-6] = predict(m_gam)
-  
-  # If a lone prediction is 
-  
-  # Segmenting the smoothed predictions
-  m_smooth = lm(evi_smooth~doy, data=d_sub[evi_deviation>-6,])
-  
-  m_seg_smooth = tryCatch(segmented(m_smooth, 
-                                    seg.Z = ~doy,
-                                    psi = list(doy=starting_breaks),
-                                    control=seg.control(display=FALSE)),
-                          error = function(e) {
-                            NA
-                          },
-                          warning = function(e) {
-                            NA
-                          })
+  # Make predictions across the year
+  d_pred = data.frame(doy=c(-100:465), 
+                      evi_smoothed=NA, 
+                      evi_segmented=NA, 
+                      evi_segmented_lwr=NA, 
+                      evi_segmented_upr=NA)
   
   
-  return(list(m_seg_raw,m_seg_smooth, d_sub[evi_deviation>-6,], m_gam)) 
+  
+  if (is.null(segments[[segment_ind]])) {
+    # No fitted model
+    d_pred$evi_smooth = NA
+    breaks_smooth = array(NA, dim=c(nSegBreaks,3))
+    
+    pl[[which(t==type)]] = ggplot() +
+      # Plot original data points
+      geom_point(data=segments[[4]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
+      # Highlight data points that were removed
+      geom_point(data=segments[[4]][!segments[[3]],],aes(x=doy, y=evi), shape=21, size=2, fill="red")
+    
+  } else {
+    # Create the smoothed data
+    d_pred$evi_smoothed = predict(segments[[5]], newdata=d_pred)
+    
+    # Create the segmented data
+    tmp = predict(segments[[segment_ind]], newdata=d_pred, interval='confidence')
+    d_pred$evi_segmented = tmp[,1]
+    d_pred$evi_segmented_lwr = tmp[,2]
+    d_pred$evi_segmented_upr = tmp[,3]
+    breaks_smooth = confint(segments[[segment_ind]])
+    
+    breaks_df = as.data.frame(rbind(breaks_smooth,
+                                    breaks_smooth))
+    breaks_df$phase = rep(c(1:nSegBreaks), times=2)
+    breaks_df$y = rep(range(d_sub$evi), each=nSegBreaks)
+    names(breaks_df) = c('x','xmin','xmax','phase','y')
+    
+    pl[[which(t==type)]] = ggplot() +
+      geom_ribbon(data=d_pred, aes(x=doy,
+                                   y=evi_segmented,
+                                   ymin=evi_segmented_lwr, 
+                                   ymax=evi_segmented_upr),
+                  alpha=0.3, fill='blue') +
+      geom_line(data=d_pred, aes(x=doy, y=evi_segmented),colour='blue') +
+      # geom_ribbon(data=breaks_df,
+      #             aes(xmin=xmin,
+      #                 xmax=xmax,
+      #                 y=y,
+      #                 group=factor(phase)), alpha=0.3) +
+      # geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
+      # Plot original data points
+      geom_point(data=segments[[4]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
+      # Highlight data points that were removed
+      geom_point(data=segments[[4]][!segments[[3]],],aes(x=doy, y=evi), shape=21, size=2, fill="red")
+  }
+  
+  # Add styling to the plot
+  pl[[which(t==type)]] = pl[[which(t==type)]] + 
+    scale_fill_discrete('MODIS\nQuality\nFlag',
+                        type = c('black','white'), 
+                        label=c('V. Good','Good')) +
+    lims(y=c(0,1)) +
+    labs(x='Day of Year',
+         y='EVI',
+         title=paste('Pixel',p,':',t)) +
+    theme_bw() +
+    theme(axis.text = element_text(size=18),
+          axis.title = element_text(size=20),
+          legend.text = element_text(size=14),
+          legend.title = element_text(size=14))
+  
+  if (t=="smooth") {
+    # Add smoothed line to plot if appropriate
+    pl[[which(t==type)]] = pl[[which(t==type)]] + geom_path(data=d_pred, aes(x=doy, y=evi_smoothed))   # Add in smoothed result if relevant
+  }
+  
 }
 
+pl[[1]]
+pl[[2]]
 
 
-
-segments = segmentEVI(d_sub, 
-                      starting_breaks = starting_breaks,
-                      useHighQuality=FALSE,
-                      knots = knots)
-
-# Make predictions across the year
-d_pred = data.frame(doy=c(-100:465), 
-                    evi=NA, 
-                    evi_smooth=NA, 
-                    evi_smooth_lwr=NA, 
-                    evi_smooth_upr=NA)
-
-m_gam = gam(evi~s(doy, bs='cr',k=knots), data=d_sub)
-d_pred$evi = predict(m_gam, newdata=d_pred)
-
-d_pred$evi = predict(segments[[4]], newdata=d_pred)
-
-
-
-if (is.na(segments[[2]][1])) {
-  d_pred$evi_smooth = NA
-  breaks_smooth = NA
-} else {
-  tmp = predict(segments[[2]], newdata=d_pred, interval='confidence')
-  d_pred$evi_smooth = tmp[,1]
-  d_pred$evi_smooth_lwr = tmp[,2]
-  d_pred$evi_smooth_upr = tmp[,3]
-  breaks_smooth = confint(segments[[2]])
-}
-
-breaks_df = as.data.frame(rbind(breaks_smooth,
-                                breaks_smooth))
-breaks_df$phase = rep(c(1:length(starting_breaks)), times=2)
-breaks_df$y = rep(range(d_sub$evi), each=length(starting_breaks))
-names(breaks_df) = c('x','xmin','xmax','phase','y')
-
-ggplot() +
-  geom_ribbon(data=d_pred, aes(x=doy,
-                               y=evi_smooth,
-                               ymin=evi_smooth_lwr, 
-                               ymax=evi_smooth_upr),
-              alpha=0.3, fill='blue') +
-  geom_line(data=d_pred, aes(x=doy, y=evi_smooth),colour='blue') +
-  # geom_ribbon(data=breaks_df,
-  #             aes(xmin=xmin,
-  #                 xmax=xmax,
-  #                 y=y,
-  #                 group=factor(phase)), alpha=0.3) +
-  # geom_vline(xintercept=breaks_smooth[,1],colour='blue') +
-  geom_point(data=segments[[3]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
-  geom_path(data=d_pred, aes(x=doy, y=evi)) +
-  scale_colour_brewer(palette = 'Dark2') +
-  scale_fill_discrete('MODIS\nQuality\nFlag',
-                      type = c('black','white'), 
-                      label=c('V. Good','Good')) +
-  labs(x='Day of Year',
-       y='EVI',
-       title=paste('Pixel',p)) +
-  theme_bw() +
-  theme(axis.text = element_text(size=18),
-        axis.title = element_text(size=20),
-        legend.text = element_text(size=14),
-        legend.title = element_text(size=14))
 
 ggsave(width=11, height=6,filename = paste0('pheno_pix',p,'_square',square,'_',year,'.png'))
 
