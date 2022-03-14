@@ -12,7 +12,7 @@ library(ggplot2)
 library(mgcv)
 
 setwd('~/Research/Phenograss/Data/PhenologyOutput_test/')
-
+setwd('/media/jon/MODIS_data/PhenologyOutput_test/')
 # Load functions to perform segmentation
 source('~/git_repos/Phenograss/RemoteSensing/segmentation_functions.R')
 
@@ -21,7 +21,7 @@ dataDir = '.'
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 5
+square = 15
 year = 2014
 
 # starting_breaks = c(50, 100, 200, 300)

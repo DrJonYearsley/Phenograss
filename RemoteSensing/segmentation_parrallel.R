@@ -11,8 +11,10 @@ setwd('~/git_repos/Phenograss/RemoteSensing/')
 
 rm(list=ls())
 
-dataDir = '~/Research/Phenograss/Data/MODIS_squares'
-outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
+# dataDir = '~/Research/Phenograss/Data/MODIS_squares'
+# outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
+dataDir = '/media/jon/MODIS_data/MODIS_squares'
+outputDir = '/media/jon/MODIS_data/PhenologyOutput_test/'
 
 
 library(mgcv)
@@ -23,17 +25,17 @@ library(doParallel)
 
 
 # Register cluster with 2 nodes
-cl<-makeCluster(2)
+cl<-makeCluster(10)
 registerDoParallel(cl)
 
 
 # Set basic parameters
-square = c(1:9,13:21)
-square = c(10:12)
+square = c(13:21)
 square = c(1:21)
-square = 20
+# square = 20
 
-year = 2014
+
+year = 2015
 knots = -1
 min_obs = 15      # Minimum number of rows for trying to segment data
 #starting_breaks = c(50, 100, 200, 300)  # Initial guess for break points in doy

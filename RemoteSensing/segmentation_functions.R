@@ -90,6 +90,8 @@ segmentEVI = function(d_sub,
                             })
   } else {
     m_seg_smooth = NULL
+    m_gam2 = NULL
+    filter_ind = rep(TRUE, times=nrow(d_sub))
   }
   
   

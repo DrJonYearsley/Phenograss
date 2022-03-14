@@ -8,58 +8,56 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++
 
 rm(list=ls())
-
-library(segmented)
+# 
+# library(segmented)
 library(ggplot2)
 library(nlme)
 library(tidyr)
-library(viridisLite)
+# library(viridisLite)
 library(raster)
 library(sp)
 library(rgdal)
-library(raster)
 
-dataDir = '~/Research/Phenograss/Data/PhenologyOutput'
-envFile = '/Volumes/MODIS_data/Data_created/all_envData.RData'
-pastureFile = "~/Research/Phenograss/Data/CORINE_Ireland/corine2018_pasturecover_All_Ireland.gri"
+dataDir = '/media/jon/MODIS_data/PhenologyOutput_toAnalyse/'
+envFile = '/media/jon/MODIS_data/Data_created/all_envData.RData'
+pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.gri"
 
 input_file_preffix = 'phenology'
 
 # Import data --------
-squares = c(1:9, 13:21)
-years = c(2002:2019)
+squares = c(1:21)
 
 
-# Filename segmented data
+# Import all the data
 for (i in 1:length(squares)) {
-  for (y in 1:length(years)) {
-    filename = paste0(input_file_preffix,'_square_',squares[i],'_',years[y],'.RData')
-    load(file.path(dataDir,filename))
-    
-    output_smoothed$square = squares[i]
-    
-    if (y==1 & i==1) {
-      phenology = output_smoothed
-    } else {
-      phenology = rbind(phenology,
-                        output_smoothed)
-    }
+  filename = list.files(path=dataDir, 
+                        pattern=paste0(input_file_preffix,"_square_",squares[i],".RData"),
+                        full.names = TRUE)
+  load(filename)  
+  
+  if (i==1) {
+    phenology_long = phenology
+  } else {
+    phenology_long = rbind(phenology_long, phenology)
   }
+  
+  rm(list="phenology")
 }
-
+  
 # Create a wide version of phenology
-phenology_wide = pivot_wider(data=subset(phenology, warning==FALSE),
+phenology_wide = pivot_wider(data=subset(phenology_long, warning==FALSE),
                              id_cols = c('pixelID','year', 'x_MODIS','y_MODIS','x_ITM','y_ITM','square'),
                              names_from = 'phase',
                              names_prefix = 'phase',
-                             values_from = c(t,slope),
+                             values_from = c(t),
                              values_fn = mean)
 
-# Centre the x and y coordinates
+# Centre the x and y coordinates on the whole of Ireland
 phenology_wide$x_ITM_centre = phenology_wide$x_ITM - mean(phenology_wide$x_ITM, na.rm=TRUE)
 phenology_wide$y_ITM_centre = phenology_wide$y_ITM - mean(phenology_wide$y_ITM, na.rm=TRUE)
 
 # Coordinates
+years=unique(phenology_wide$year)
 locations = subset(phenology_wide, 
                    subset=year==years[1],
                    select=c('pixelID','x_ITM','y_ITM'))
@@ -70,7 +68,7 @@ tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square+year,
                 FUN=mean, 
                 na.rm=TRUE)
 
-rm(list='phenology')
+rm(list='phenology_long')
 
 
 # Load data on pasture landcover
@@ -83,13 +81,16 @@ phenology_wide$p_pasture = tmp
 
 # Import some environmental data
 load(envFile)
+
+# Assign a pixel ID to env data
 all_squares_df$pixelID = NA
 for (s in unique(phenology_wide$square)) {
-  sub = phenology_wide[phenology_wide$square==s,c(1:7)]
-  pixelID_List = unique(sub$pixelID)
-  inds = match(pixelID_List, sub$pixelID)
+  pheno_sub = phenology_wide[phenology_wide$square==s,c(1:7)]
+  pixelID_List = unique(pheno_sub$pixelID)
+  inds = match(pixelID_List, pheno_sub$pixelID)
   for (p in 1:length(pixelID_List)) {
-    ind = abs(all_squares_df$x_MODIS - sub$x_MODIS[inds[p]])<50 & abs(all_squares_df$y_MODIS - sub$y_MODIS[inds[p]])<50 
+    ind = abs(all_squares_df$x_MODIS - pheno_sub$x_MODIS[inds[p]])<50 & 
+      abs(all_squares_df$y_MODIS - pheno_sub$y_MODIS[inds[p]])<50 
     all_squares_df$pixelID[ind] = pixelID_List[p]
   }
 }
@@ -111,11 +112,14 @@ d$aspect_cat = as.factor(d$aspect_cat)
 
 d$year = as.factor(d$year)
 
-# Calculate the average SOS for each square for each year and then work out an anomaly
-agg = aggregate(t_phase1~year+square, data=d, FUN=median, na.rm=TRUE)
+# Calculate the average SOS, POS and EOS for each square for each year and then work out an anomaly
+# This could be useful to look at the effect of environment (e.g. aspect and slope)
+agg = aggregate(cbind(phase1,phase2,phase3)~year+square, data=d, FUN=median, na.rm=TRUE)
 
 for (s in unique(d$square)) {
-  d$anom[d$square==s] = d$t_phase1[d$square==s] - agg$t_phase1[match(d$year[d$square==s], agg$year[agg$square==s])]
+  d$anom1[d$square==s] = d$phase1[d$square==s] - agg$phase1[match(d$year[d$square==s], agg$year[agg$square==s])]
+  d$anom2[d$square==s] = d$phase2[d$square==s] - agg$phase2[match(d$year[d$square==s], agg$year[agg$square==s])]
+  d$anom3[d$square==s] = d$phase3[d$square==s] - agg$phase3[match(d$year[d$square==s], agg$year[agg$square==s])]
 }
 
 
@@ -123,21 +127,21 @@ for (s in unique(d$square)) {
 # Explore data with graphs ----------
 
 
-tmp=subset(d, y_MODIS>quantile(d$y_MODIS,probs=0.3) & 
-             y_MODIS<quantile(d$y_MODIS,probs=0.7) & 
-             year%in%c(2002:2009) & 
-             SLOPE_PERCENT>2 & 
+# Create subset
+tmp=subset(d, year%in%c(2002:2009) & 
+             square==2 &
+             SLOPE_PERCENT>0 & 
              !is.na(aspect_cat))
 
 ggplot(data=tmp,
        aes(y=y_MODIS,
            x=x_MODIS,
-           colour=aspect_cat)) +
+           colour=ASPECT)) +
   geom_point() +
 theme_bw()
 
 ggplot(data=tmp,
-       aes(y=anom,
+       aes(y=anom1,
            x=y_MODIS,
            colour=aspect_cat)) +
   geom_point() +
@@ -146,12 +150,16 @@ ggplot(data=tmp,
 
 
 ggplot(data=tmp,
-       aes(y=anom,
+       aes(y=anom1,
            x=aspect_cat,
            colour=aspect_cat)) +
-  geom_point() +
-  geom_boxplot()
+  geom_boxplot() 
 
+ggplot(data=tmp,
+       aes(y=anom3,
+           x=aspect_cat,
+           colour=aspect_cat)) +
+  geom_boxplot() 
 
 
 m = lm(t_phase1~factor(year)+aspect_cat*SLOPE_PERCENT + ELEVATION + SOIL_TYPE  + square, 
@@ -221,7 +229,7 @@ summary(m_phase1)
 # spatial structure is fixed to reduce computation time
 
 phenology_wide$dummy = interaction(phenology_wide$year, phenology_wide$square, sep='_')
-gls_phase1 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
+gls_phase1 = gls(phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
                  correlation = corExp(value = 500,
                                       form=~x_ITM_centre + y_ITM_centre| dummy, 
                                       nugget=FALSE,
