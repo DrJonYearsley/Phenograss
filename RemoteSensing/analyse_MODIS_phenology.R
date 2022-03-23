@@ -13,10 +13,12 @@ rm(list=ls())
 library(ggplot2)
 library(nlme)
 library(tidyr)
-# library(viridisLite)
+library(viridisLite)
 library(raster)
 library(sp)
 library(rgdal)
+library(gstat)
+library(DHARMa)
 
 dataDir = '/media/jon/MODIS_data/PhenologyOutput_toAnalyse/'
 envFile = '/media/jon/MODIS_data/Data_created/all_envData.RData'
@@ -25,7 +27,7 @@ pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.
 input_file_preffix = 'phenology'
 
 # Import data --------
-squares = c(1:21)
+squares = c(2:14,16:21)  # Squares 1 and 15 have too little data to use
 
 
 # Import all the data
@@ -63,69 +65,81 @@ locations = subset(phenology_wide,
                    select=c('pixelID','x_ITM','y_ITM'))
 
 # Calculate the centre coordinates for each square
-tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square+year, 
+tmp = aggregate(cbind(x_ITM_centre, y_ITM_centre)~square, 
                 data=phenology_wide, 
                 FUN=mean, 
                 na.rm=TRUE)
 
+phenology_wide$x_square = NA
+phenology_wide$y_square = NA
+ind = match(phenology_wide$square, tmp$square)
+phenology_wide$x_square = tmp$x_ITM_centre[ind]
+phenology_wide$y_square = tmp$x_ITM_centre[ind]
+head(phenology_wide)
+
 rm(list='phenology_long')
 
 
-# Load data on pasture landcover
-pasture = raster::raster(pastureFile)
-# Add proportion of pasture for each pixel
-y = SpatialPoints(phenology_wide[,c(3,4)], proj4string = crs(pasture))
 
-tmp = extract(pasture, y)
-phenology_wide$p_pasture = tmp
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Calculate spatial autocorrelation in a typical square
 
-# Import some environmental data
-load(envFile)
-
-# Assign a pixel ID to env data
-all_squares_df$pixelID = NA
-for (s in unique(phenology_wide$square)) {
-  pheno_sub = phenology_wide[phenology_wide$square==s,c(1:7)]
-  pixelID_List = unique(pheno_sub$pixelID)
-  inds = match(pixelID_List, pheno_sub$pixelID)
-  for (p in 1:length(pixelID_List)) {
-    ind = abs(all_squares_df$x_MODIS - pheno_sub$x_MODIS[inds[p]])<50 & 
-      abs(all_squares_df$y_MODIS - pheno_sub$y_MODIS[inds[p]])<50 
-    all_squares_df$pixelID[ind] = pixelID_List[p]
-  }
+for (s in c(2:14,16:21)) {
+  tmp = subset(phenology_wide, year==2014 & square%in% s)
+  
+  ind = is.finite(tmp$phase1)
+  
+  vg.obs = variogram(phase1~1, data=tmp[ind,], locations=~x_ITM_centre+y_ITM_centre)
+  vg.fit = fit.variogram(vg.obs, model=vgm(psill=1,
+                                           model="Sph",
+                                           range=NA,
+                                           kappa=NA, 
+                                           nugget=NA))
+  
+  print(paste(s,sum(ind),round(vg.fit$range[2]), round(vg.fit$psill[1])))
 }
 
-nam = names(all_squares_df)
-nam[7] = "square"
-names(all_squares_df) = nam
 
-d = merge(phenology_wide, all_squares_df)
+# Spherical model seems best and a range of roughly 1000 is broadly appropriate and a nugget of 100
+plot(vg.obs, vg.fit,cutoff=2000)
 
-# Add a categorical aspect variable
-d$aspect_cat = NA
-delta = 10
-d$aspect_cat[d$ASPECT>360-delta | d$ASPECT<delta ] = "N"
-d$aspect_cat[d$ASPECT>45 & d$ASPECT<90+45 ] = "E"
-d$aspect_cat[d$ASPECT>180-delta & d$ASPECT<180+delta ] = "S"
-d$aspect_cat[d$ASPECT>270-delta & d$ASPECT<270+delta ] = "W"
-d$aspect_cat = as.factor(d$aspect_cat)
 
-d$year = as.factor(d$year)
+# Look across squares in a singe year
+tmp2 = subset(phenology_wide, year==2008 & square%in%c(1))
+ind = is.finite(tmp2$phase1)
+vg.obs = variogram(phase1~1+square, 
+                   data=tmp2[ind,], 
+                   locations=~x_ITM_centre+y_ITM_centre)
+vg.fit = fit.variogram(vg.obs, model=vgm(psill=NA,
+                                         model="Exp",
+                                         range=500,
+                                         kappa=NA, 
+                                         nugget=NA))
 
-# Calculate the average SOS, POS and EOS for each square for each year and then work out an anomaly
-# This could be useful to look at the effect of environment (e.g. aspect and slope)
-agg = aggregate(cbind(phase1,phase2,phase3)~year+square, data=d, FUN=median, na.rm=TRUE)
-
-for (s in unique(d$square)) {
-  d$anom1[d$square==s] = d$phase1[d$square==s] - agg$phase1[match(d$year[d$square==s], agg$year[agg$square==s])]
-  d$anom2[d$square==s] = d$phase2[d$square==s] - agg$phase2[match(d$year[d$square==s], agg$year[agg$square==s])]
-  d$anom3[d$square==s] = d$phase3[d$square==s] - agg$phase3[match(d$year[d$square==s], agg$year[agg$square==s])]
-}
+vg.fit
+plot(vg.obs, vg.fit,cutoff=2000)
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
 # Explore data with graphs ----------
 
+
+# Plot square averages
+ggplot(data=agg, 
+      aes(x=y_ITM,
+          y=phase2,
+          colour=year)) +
+  geom_smooth(method='lm', formula='y~x') +
+  geom_point() + 
+  scale_color_viridis_d()
+
+ggplot(data=agg, 
+       aes(x=year,
+           y=phase2,
+           colour=y_ITM)) +
+  geom_smooth(method='loess', formula='y~x', se=FALSE) +
+  geom_point() + 
+  scale_color_viridis_c()
 
 # Create subset
 tmp=subset(d, year%in%c(2002:2009) & 
@@ -183,68 +197,139 @@ aggregate(p_pasture~SOIL_TYPE, data=d, FUN=median)
 # Fit model for phenology dates of phase 1 -----
 
 
-# Look at one square
+# Look at one square for a couple of year and fit the spatial model
 
-test = subset(phenology_wide, year==2010 & square==9 & p_pasture>0.99)
-
-# & pixelID%in%sample(unique(phenology_wide$pixelID),size = 5))
-
-test2$pixelID2 = paste0('x',match(test2$x_MODIS,x_values),
-                       'y',match(test2$y_MODIS,y_values))
-
-head(test)
-head(test2)
-
-ggplot(data=test,
-       aes(x=year,
-           y=t_phase1,
-           colour=pixelID)) +
-         geom_point() + 
-  geom_path()
+test = subset(phenology_wide, year%in%c(2005:2009) & square==13)
 
 
-m_phase1 = lme(t_phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+# Fit a spatial model using a spherical semi-variogram
+
+# Generate a blocking variable
+test$dummy = interaction(test$year, test$square, sep='_')
+test$dummy = as.factor(test$dummy)
+test$year = as.factor(test$year)
+
+
+gls_phase1 = gls(phase1~1 + year + (x_ITM_centre + y_ITM_centre),
+                 correlation = corExp(value = c(500, 0.5),   # Range and then nugget
+                                      form=~x_ITM_centre + y_ITM_centre| dummy, 
+                                      nugget=TRUE,
+                                      fixed=F),
+                 data=test,
+                 na.action=na.exclude,
+                 method="REML")
+
+summary(gls_phase1)  # range is 500 - 1000 and nugget is 0.5-0.7
+
+
+# # Fit a similar model using glmmTMB but with an exponential spatial structure
+# # but doesn't work that well
+# library(glmmTMB)
+# test$pos = numFactor(test$x_ITM_centre, test$y_ITM_centre)
+# tmb_phase1 = glmmTMB(phase1~1 + (x_ITM_centre + y_ITM_centre) + exp(pos+0|dummy),
+#                  data=test,
+#                  na.action=na.exclude)
+# 
+# summary(tmb_phase1)
+
+
+# +++++++++++++++++++++++++++++++++++++
+
+
+# ++++++++++++++++++++++++++++++++++++++
+# Calculate average across each square and then 
+# fit a model to the square averages
+
+phenology_wide$year = as.factor(phenology_wide$year)
+pheno_ave = aggregate(cbind(x_ITM_centre, y_ITM_centre, phase1, phase2, phase3)~year+square, 
+                      data=phenology_wide, 
+                      FUN=mean, 
+                      na.rm=TRUE)
+
+
+lm_phases = lm(cbind(phase1,phase2,phase3)~1+year+x_ITM_centre+y_ITM_centre,
+               data=pheno_ave)
+lm_phase1 = lm(phase1~1+year+x_ITM_centre+y_ITM_centre,
+               data=pheno_ave)
+lm_phase2 = lm(phase2~1+year+x_ITM_centre+y_ITM_centre,
+               data=pheno_ave)
+lm_phase3 = glm(phase3~1+year+x_ITM_centre+y_ITM_centre,
+               data=pheno_ave,
+               family=Gamma)
+
+plot(lm_phase3)
+
+summary(lm_phase1)
+anova(lm_phase1)
+
+
+
+
+
+m_phase1 = lme(phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
                random= ~1 | pixelID,
                data=test,
                na.action=na.exclude)
-
+m_phase2 = lme(phase2~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+               random= ~1 | pixelID,
+               data=test,
+               na.action=na.exclude)
+m_phase3 = lme(phase3~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+                                                   random= ~1 | pixelID,
+                                                   data=test,
+                                                   na.action=na.exclude)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Mixed model for phase 1
-m_phase1 = lme(t_phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+# Mixed model for phase 1, 2 and 3
+m_phase1 = lme(phase1~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
                random= ~1 | pixelID,
                data=phenology_wide,
                na.action=na.exclude)
 
-summary(m_phase1)
 
-# # Fit this same model using INLA
-# m_inla = inla(t_phase1~1+as.factor(year)+f(pixelID, model='iid'),
-#               data=phenology_wide,
-#               family='gaussian',
-#               control.compute = list(dic = TRUE))
+m_phase2 = lme(phase2~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+               random= ~1 | pixelID,
+               data=phenology_wide,
+               na.action=na.exclude)
+m_phase3 = lme(phase3~as.factor(year)+ (x_ITM_centre + y_ITM_centre),
+               random= ~1 | pixelID,
+               data=phenology_wide,
+               na.action=na.exclude)
+
+
+summary(m_phase1)
+plot(ACF(m_phase1, lag.max=20, type='partial')[-1,], alpha=0.05)  
+plot(ACF(m_phase2, lag.max=20, type='partial')[-1,], alpha=0.05)  
+plot(ACF(m_phase3, lag.max=20, type='partial')[-1,], alpha=0.05)  
+# Makes sense... spatial correlation roughly 1-2 km
+# Roughly the same for all 3 phenophases
+
 
 
 # Fit a generalised least squares with spatial autocorrelation
 # spatial structure is fixed to reduce computation time
-
 phenology_wide$dummy = interaction(phenology_wide$year, phenology_wide$square, sep='_')
+phenology_wide$dummy = as.factor(phenology_wide$dummy)
+
 gls_phase1 = gls(phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
-                 correlation = corExp(value = 500,
+                 correlation = corExp(value = 1000,
                                       form=~x_ITM_centre + y_ITM_centre| dummy, 
                                       nugget=FALSE,
                                       fixed=T),
-                 data=phenology_wide,
+                 data=subset(phenology_wide, square%in%c(3:14) & p_pasture>0.99),
                  na.action=na.exclude)
 
 summary(gls_phase1)
-
+ACF(gls_phase1, lag.max=20, resType='response',form=)
 
 anova(gls_phase1, type='marginal')
 
 acf(gls_phase1$residuals, lag.max=20, type='partial')  # Makes sense... spatial correlation roughly 1-2 km
 
 
+res = residuals(gls_phase1)
+
+library(gstat)
 
 
 library(emmeans)
@@ -276,6 +361,70 @@ ggplot(data=as.data.frame(summary(m_eff)),
 
 
 save(gls_phase1, phenology_wide, file='gls_model_2002_2019.Rdata')
+
+
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Load up environmental data
+
+# Load data on pasture landcover
+pasture = raster::raster(pastureFile)
+# Add proportion of pasture for each pixel
+y = SpatialPoints(phenology_wide[,c(3,4)], proj4string = crs(pasture))
+
+tmp = extract(pasture, y)
+phenology_wide$p_pasture = tmp
+
+# Import some environmental data
+load(envFile)
+
+# Assign a pixel ID to env data
+all_squares_df$pixelID = NA
+for (s in unique(phenology_wide$square)) {
+  pheno_sub = phenology_wide[phenology_wide$square==s,c(1:7)]
+  pixelID_List = unique(pheno_sub$pixelID)
+  inds = match(pixelID_List, pheno_sub$pixelID)
+  for (p in 1:length(pixelID_List)) {
+    ind = abs(all_squares_df$x_MODIS - pheno_sub$x_MODIS[inds[p]])<50 & 
+      abs(all_squares_df$y_MODIS - pheno_sub$y_MODIS[inds[p]])<50 
+    all_squares_df$pixelID[ind] = pixelID_List[p]
+  }
+}
+
+nam = names(all_squares_df)
+nam[7] = "square"
+names(all_squares_df) = nam
+
+d = merge(phenology_wide, all_squares_df)
+
+# Add a categorical aspect variable
+d$aspect_cat = NA
+delta = 10
+d$aspect_cat[d$ASPECT>360-delta | d$ASPECT<delta ] = "N"
+d$aspect_cat[d$ASPECT>45 & d$ASPECT<90+45 ] = "E"
+d$aspect_cat[d$ASPECT>180-delta & d$ASPECT<180+delta ] = "S"
+d$aspect_cat[d$ASPECT>270-delta & d$ASPECT<270+delta ] = "W"
+d$aspect_cat = as.factor(d$aspect_cat)
+
+d$year = as.factor(d$year)
+
+# Calculate the average SOS, POS and EOS for each square for each year and then work out an anomaly
+# This could be useful to look at the effect of environment (e.g. aspect and slope)
+agg = aggregate(cbind(x_ITM,y_ITM, phase1,phase2,phase3)~year+square, data=d, FUN=median, na.rm=TRUE)
+
+for (s in unique(d$square)) {
+  d$anom1[d$square==s] = d$phase1[d$square==s] - agg$phase1[match(d$year[d$square==s], agg$year[agg$square==s])]
+  d$anom2[d$square==s] = d$phase2[d$square==s] - agg$phase2[match(d$year[d$square==s], agg$year[agg$square==s])]
+  d$anom3[d$square==s] = d$phase3[d$square==s] - agg$phase3[match(d$year[d$square==s], agg$year[agg$square==s])]
+}
+
+
+
+
+
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load pre-save model fit data ------
