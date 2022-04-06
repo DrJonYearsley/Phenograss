@@ -27,152 +27,174 @@ names(d) = nam
 d$BiomassGRsc = scale(d$BiomassGR, center=T, scale=T)
 d$HeightGRsc = scale(d$HeightGR, center=T, scale=T)
 
+# Set data types
+d$Waterlogging = as.factor(d$Waterlogging)
+d$Chamber = as.factor(d$Chamber)
+
+
 # Visualise
 ggplot(data=d,
        aes(x=BiomassGR,
            y=HeightGR)) +
   geom_point()
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++
-# Test data set ---------
-path <- "https://content.sph.harvard.edu/fitzmaur/ala2e/cholesterol-data.txt"
-dfW.data <- read.table(path, na.string = ".")
-colnames(dfW.data) <- c("group","id","y0","y1","y2","y3","y4")
-dfW.data$group <- factor(dfW.data$group,
-                         levels = 1:2, labels = c("T","C"))
-dfW.data$group <- relevel(dfW.data$group, ref = "C")
-dfW.data$id <- as.factor(dfW.data$id)
-str(dfW.data)
-library(reshape2)
-dfL.data <- melt(dfW.data, id.vars = c("group","id"),
-                 value.name = "cholesterol", variable.name = "time")
-dfL.data$time <- as.factor(gsub("y","visit",dfL.data$time))
-dfL.data$time <- relevel(dfL.data$time, ref = "visit0")
-dfL.data <- dfL.data[order(dfL.data$id,dfL.data$time),]
-
-dfL.data$treatment <- as.character(dfL.data$group)
-dfL.data[dfL.data$time == "visit0", "treatment"] <- "none"
-dfL.data$treatment <- factor(dfL.data$treatment,
-                             levels = c("none","C","T"),
-                             labels = c("none","pl","tr"))
 
 
-# Check... should give the same as melt
-dfL.2 = pivot_longer(dfW.data, cols=c(3:7), names_to = "time", values_to="cholesterol")
-dfL.2$time = as.factor(dfL.2$time)
-
-summary(dfL.2)
-
-#  Define correlation structures
-e.glsCS <- gls(cholesterol~group*time,
-               data = dfL.data,
-               correlation = corCompSymm(form= ~1|id),
-               na.action = na.omit)
-
-
-summary(e.glsCS$modelStruct)
-getVarCov(e.glsCS, individual=1)
-
-
-
-
-# Unstructured correlation matrix
-e.glsUN <- gls(model = cholesterol~group * time,
-               data = dfL.data,
-               correlation = corSymm(form =~as.numeric(time)|id),
-               weights = varIdent(form =~1|group),
-               na.action = na.omit)
-summary(e.glsUN$modelStruct$corStruct)
-summary(e.glsUN$modelStruct$varStruct)
-
-
-Sigma <- getVarCov(e.glsUN, individual = 1)
-Sigma
 # +++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# Manova approach -------
+
+library(MASS)
+library(emmeans)
+
+
+# +++++++++++++++++++++++++++++++++
+# Base functions: user defined contrasts
+
+# Create contrast matrix
+con_inv = matrix(c(1/4,1/4,1/4,1/4,
+               1/2,1/2,-1/2,-1/2,
+               1,-1,0,0,
+               0,0,1,-1), 
+             ncol=4, 
+             byrow=TRUE)
+
+con = ginv(con)
+
+
+
+# Specify contrast matrix in the lm command 
+# (remove first column because it is the intercept)
+m1 = lm(BiomassGRsc~Chamber+Waterlogging, data=d, contrasts=list(Chamber=con[,-1]))
+summary(m1)
+
+
+# +++++++++++++++++++++++++++++++++
+# Use emmeans to produce contrasts
+
+# Fit a linear model with the default contrasts (treatment contrasts)
+m = lm(BiomassGRsc~Chamber+Waterlogging, data=d)
+summary(m)
+
+m_eff = emmeans(m, spec="Chamber")
+m_contrast1 = contrast(m_eff, list('Chamber 1 & 2 - Chamber 3 & 4'=c(0.5,0.5,-0.5,-0.5),
+                                   'Chamber 1 - 2'=c(1,-1,0,0),
+                                   'Chamber 3 - 4'=c(0,0,1,-1)))
+
+summary(m_contrast1)
+
+
+
+
+
+
+
+
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++
+# Create multivariate model using a mixed modelling approach ---------
+
+library(nlme)
 
 # Look at correlation between Biomass and Height growth rates
-cov(d[,c(14,15)])
+cov(d[,c('BiomassGR','HeightGR')])
+cor(d[,c('BiomassGR','HeightGR')])
 
-d_long =  pivot_longer(d, cols = c(14,15), 
-                       names_to = "ResponseID", 
-                       values_to = "Values" )
 
+d_long =  pivot_longer(d, cols = c('BiomassGR','HeightGR'), 
+                       names_to = "names", 
+                       values_to = "response" )
+
+d_long$whichresponse = 1
+d_long$whichresponse[d_long$names=="BiomassGR"] = 2
+d_long$whichresponse = as.factor(d_long$whichresponse)
+d_long$ID = as.factor(d_long$ID)
+d_long$Harvest = as.factor(d_long$Harvest)
 head(d_long)
 
-d_long$ResponseID = as.factor(d_long$ResponseID)
-d_long$ID = as.factor(d_long$ID)
-
-d_long$heightID = d_long$ResponseID=="HeightGR"
-d_long$biomassID = d_long$ResponseID=="BiomassGR"
-
-table(d_long$ResponseID, d_long$ID)
-
-m.gls <- gls(Values~1,
-               data = subset(d_long, ID%in%c(1:10)),
-               correlation = corCompSymm(form= ~1|ID),
-               na.action = na.omit)
-
-summary(m.gls)
-getVarCov(m.gls)
-
-# Broadly same model using lme
-m.lme <- lme(Values~1,
-             data = subset(d_long, ID%in%c(1:10)),
-             random = ~1|ID,
-             na.action = na.omit)
-
-summary(m.lme)
-getVarCov(m.lme, type="marginal")
 
 
-m.gls <- gls(Values~1+ResponseID,
-             data = subset(d_long, ID%in%c(1:10)),
-             correlation = corSymm(form= ~1|ID),
-             weights=varIdent(form=~1|ResponseID),
-             na.action = na.omit)
+# Create a mixed model that accounts for correlations between the two response variables
 
+# Model inspired by book https://books.google.ie/books?id=N1BQvcomDdQC&lpg=PP1&pg=PA282&redir_esc=y#v=onepage&q&f=false
+# Code inspired by https://www.stats.ox.ac.uk/~snijders/
 
-# Fit a mixed model with a correlation structure
-m = lme(Values~ResponseID-1, 
-        random=list(ID=pdDiag(~ResponseID)), 
-        data=subset(d_long, ID%in%c(1:100)))
+# This page was also helpful
+# http://staff.pubhealth.ku.dk/~jufo/courses/rm2018/nlmePackage.pdf
 
+# Having "- 1" as part of a formula drops the intercept.
+# For weights=varIdent, see Pinheiro & Bates (2000), page 208-209.
+# For corr=corSymm, see Pinheiro & Bates (2000), page 234-235.
 
-m = lme(Values~ResponseID-1, 
-        random=list(ID=pdBlocked(list(pdDiag(~heightID-1),pdDiag(~biomassID-1)))), 
-        data=subset(d_long, ID%in%c(1:10)))
+# Look at one harvest (harvest 2)
+d_harvest2 = subset(d_long, Harvest==2)
 
-
+m <- lme(response ~ - 1 + whichresponse, 
+         random = ~ -1 + whichresponse|Chamber, 
+         weights=varIdent(form=~1|whichresponse),
+         corr=corSymm(form=~as.numeric(whichresponse)|Chamber/ID),
+         data=d_harvest2, method="ML",
+         control = list(maxIter=500, msMaxIter=500, tolerance=1e-8,
+                        niterEM=250))
 summary(m)
+
+# Model output with 95% confidence intervals
+m_out = intervals(m)
+
+# The covariance matrix at the Chamber level and the residual variance for
+VarCorr(m)
+m_out$reStruct
+
+# Variance at Chamber level (between chambers) for HeightGR = 0.00291
+# Variance at Chamber level  (between chambers) for BiomassGR = 129.25
+# Covariance between HeightGR and BiomassGR at Chamber level = 0.437   (correlation=0.712)
+
+
+# Within chamber variances... 
+# Residual variance weighting factors are given by 
+m$modelStruct$varStruct
+# These numbers give the proportionality constants between the standard deviations.
+# The internal coefficients are the logarithms, and
+exp(coef(m$modelStruct$varStruct))
+
+# Variance within chambers for BiomassGR (residual variance) = 6821.68 
+m_out$sigma^2
+
+# Variance within chambers for HeightGR (Residual variance) =  6821.68 * 0.003829643^2 = 0.1000479
+
+# Correlation between HeightGR and BiomassGR within chambers = 0.6553833
+m_out$corStruct
+
+# Covariance between HeightGR and BiomassGR within chambers = 0.6553833 * sqrt(6821.68 * 0.1000479) = 17.12
+
+
+
+# Can also extract this from
 getVarCov(m, type="random.effects")
-getVarCov(m, type="conditional")
-getVarCov(m, type="marginal")
-head(d)
 
 
-# Look at latent variable model
-
-library(lavaan)
-
-myModel <- ' # regressions
-             HeightGRsc + BiomassGRsc ~ Waterlogging + Conditions
-
-             # # latent variable definitions 
-             #   f1 =~ y1 + y2 + y3 
-             #   f2 =~ y4 + y5 + y6 
-             #   f3 =~ y7 + y8 + y9 + y10
-
-             # variances and covariances 
-               BiomassGRsc ~~ HeightGRsc 
-
-             # intercepts 
-               BiomassGRsc ~ 1 
-               HeightGRsc ~ 1
-           '
-
-m = cfa(myModel, data=d)
 
 
-summary(m, fit.measures=TRUE)
+# Observed correlation between HeightGR and BiomassGR is combination of within and between correlations
+# Total covariance divided by square-root of total variances for HeightGR and BiomassGR
+# (17.12 + 0.437) / sqrt((0.1000479+0.00291)*( 6821.68+129.25)) = 0.6562
+
+(17.12 + 0.437) / sqrt((0.1000479+0.00291)*( 6821.68+129.25))
+
+
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Add in some fixed effects 
+m2 <- lme(response ~ - 1 + whichresponse + whichresponse:(Waterlogging+Conditions), 
+          random = ~ -1 + whichresponse|Chamber, 
+          weights=varIdent(form=~1|whichresponse),
+          corr=corSymm(form=~as.numeric(whichresponse)|Chamber/ID),
+          data=d_harvest2, method="ML",
+          control = list(maxIter=500, msMaxIter=500, tolerance=1e-8,
+                         niterEM=250))
