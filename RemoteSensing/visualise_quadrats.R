@@ -5,23 +5,32 @@
 # **************************************************
 
 rm(list=ls())
-setwd('~/MEGAsync/Projects/GrasslandPhenology/RemoteSensing/')
+# setwd('~/MEGAsync/Projects/GrasslandPhenology/RemoteSensing/')
+setwd('/media/jon/MODIS_data/')
 
 library(ggplot2)
 
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Draw map of the squares
-library(rgdal)
+library(terra)
 
-IR = readOGR(dsn='../Data/Quadrats/country.shp')
-squares = readOGR('../Data/Quadrats/agriclimate_quadrats_Ireland.shp')
+IR = vect('./Quadrats/country.shp')
+squares = vect('./Quadrats/agriclimate_quadrats_Ireland.shp')
 
-IR_modis = spTransform(IR, CRSobj = proj4string(squares))
-plot(IR_modis)
-plot(squares, add=T, col='black')
+# Put everyting in the same CRS
+IR_modis = project(IR, crs(squares))
 
-squares$ID = c(1:21)
-plot(subset(squares, ID%in%c(10:12)), add=T, col='white')
-plot(subset(squares, ID%in%c(18)), add=T, col='red')
+
+plot(IR_modis, axes=FALSE, grid=TRUE)
+plot(squares[c(2:12,16:19)], add=T, col='black')
+text(squares[c(2:12,16:19)], labels=c(2:12,16:19), pos=4, offset=0.7)
+
+# squares$ID = c(1:21)
+# plot(subset(squares, ID%in%c(10:12)), add=T, col='white')
+# plot(subset(squares, ID%in%c(18)), add=T, col='red')
+
 
 
 

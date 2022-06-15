@@ -12,18 +12,16 @@ rm(list=ls())
 library(ggplot2)
 library(tidyr)
 library(viridisLite)
-library(raster)
-library(sp)
-library(rgdal)
+library(terra)
 
 dataDir = '/media/jon/MODIS_data/PhenologyOutput_toAnalyse/'
 envFile = '/media/jon/MODIS_data/Data_created/all_envData.RData'
-pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.gri"
+pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.grd"
 
 input_file_preffix = 'phenology'
 
 # Import data --------
-squares = c(2:13,16:21)  # Squares 1, 14 and 15 have too little data to use
+squares = c(2:12,16:18)  # Squares 1, 14  have too little data to use squares 13, 15, 20, 21 in north west removed
 
 
 # Import all the data
@@ -85,12 +83,14 @@ rm(list='phenology_long')
 # Load up environmental data
 
 # Load data on pasture landcover
-pasture = raster::raster(pastureFile)
+pasture = terra::rast(pastureFile)
 # Add proportion of pasture for each pixel
-y = SpatialPoints(phenology_wide[,c(3,4)], proj4string = crs(pasture))
+y = vect(phenology_wide[,c(3,4)], 
+         geom=c('x_MODIS','y_MODIS'), 
+         crs(pasture))
 
-tmp = extract(pasture, y)
-phenology_wide$p_pasture = tmp
+tmp = terra::extract(pasture, y, xy=FALSE)
+phenology_wide$p_pasture = tmp$layer
 
 # Import some environmental data
 load(envFile)
@@ -142,12 +142,12 @@ agg_mean = aggregate(cbind(x_ITM,y_ITM, phase1,phase2,phase3, ELEVATION, p_pastu
 for (s in unique(d$square)) {
   d$anom1[d$square==s] = d$phase1[d$square==s] - agg_median$phase1[match(d$year[d$square==s], agg_median$year[agg_median$square==s])]
   d$anom2[d$square==s] = d$phase2[d$square==s] - agg_median$phase2[match(d$year[d$square==s], agg_median$year[agg_median$square==s])]
-  d$anom3[d$square==s] = d$phase3[d$square==s] - agg$phase3[match(d$year[d$square==s], agg$year[agg$square==s])]
+  # d$anom3[d$square==s] = d$phase3[d$square==s] - agg$phase3[match(d$year[d$square==s], agg$year[agg$square==s])]
 }
 
 
 
-save(phenology_wide, d, agg_median, agg_mean,file=file.path(dataDir,'combine_phenology_data.RData'))
+save(phenology_wide, d, agg_median, agg_mean,file=file.path(dataDir,'combine_phenology_data_final_report.RData'))
 
 
 

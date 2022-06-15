@@ -1,7 +1,7 @@
 # Segmentation modelling of phenology
 #
 # Apply segmentation method developed by Gabin
-# Run it in parrallel across the pixels from a square
+# Run it in parrallel across the pixels for all of Ireland
 #
 # Jon Yearsley Jon.Yearsley@ucd.ie
 # Aug 2020
@@ -12,8 +12,9 @@ setwd('~/git_repos/Phenograss/RemoteSensing/')
 rm(list=ls())
 
 # dataDir = '~/Research/Phenograss/Data/MODIS_squares'
-outputDir = '/media/jon/MODIS_data/PhenologyOutput_test/'
-dataDir = '/media/jon/MODIS_data/MODIS_squares_v061/'
+# outputDir = '~/Research/Phenograss/Data/PhenologyOutput_test/'
+dataDir = '~/Research/Data/MODIS_pasture'
+outputDir = '~/Research/Data/PhenologyOutput_All_Ireland/'
 
 
 library(mgcv)
@@ -28,13 +29,9 @@ cl<-makeCluster(10)
 registerDoParallel(cl)
 
 
-# Set basic parameters
-square = c(13:21)
-square = c(1:21)
-# square = 20
 
 
-year = 2020
+year = 2015
 knots = -1
 min_obs = 15      # Minimum number of rows for trying to segment data
 #starting_breaks = c(50, 100, 200, 300)  # Initial guess for break points in doy
@@ -86,7 +83,6 @@ segment_within_pixel = function(input_data, pixel_info, output_labels, params) {
                             x_MODIS = pixel_info$x_MODIS,
                             y_MODIS = pixel_info$y_MODIS,
                             year = pixel_info$year,
-                            square = pixel_info$square,
                             model=modelStr[model],
                             phase = c(1:params$nSegBreaks), 
                             t=CI[,1],
@@ -102,7 +98,6 @@ segment_within_pixel = function(input_data, pixel_info, output_labels, params) {
                        x_MODIS = pixel_info$x_MODIS,
                        y_MODIS = pixel_info$y_MODIS,
                        year = pixel_info$year,
-                       square = pixel_info$square,
                        model=modelStr[model],
                        phase = c(1:params$nSegBreaks), 
                        t=NA,
@@ -136,20 +131,18 @@ segment_within_pixel = function(input_data, pixel_info, output_labels, params) {
 
 
 
-# Loop around 10 km squares and perform segmentation for each pixel time series  --------
+# Loop around square blocks and perform segmentation for each pixel time series  --------
 
-for (s in square) {
-  print(paste0('Analysing square ',s,' at ',Sys.time()))
-  
+for (b in c(1:15)) { 
   # Import data...
   # Load the focal year and years either side
-  file_prev = list.files(pattern=paste0(year-1,'_square',s,'.RData'),
+  file_prev = list.files(pattern=paste0('block_',b,'_A',year-1,'.RData'),
                          path = dataDir,
                          full.names = TRUE)
-  file = list.files(pattern=paste0(year,'_square',s,'.RData'),
+  file = list.files(pattern=paste0('block_',b,'_A',year,'.RData'),
                     path = dataDir,
                     full.names = TRUE)
-  file_next = list.files(pattern=paste0(year+1,'_square',s,'.RData'),
+  file_next = list.files(pattern=paste0('block_',b,'_A',year+1,'.RData'),
                          path = dataDir,
                          full.names = TRUE)
   if (length(file)!=1 | length(file_prev)!=1 | length(file_next)!=1) {
@@ -158,26 +151,26 @@ for (s in square) {
   
   # Load data from previous year after day 265
   load(file_prev)
-  d_prev = d_sq[d_sq$doy>265,]
+  d_prev = d_block[d_block$doy>265,]
   d_prev$doy = 265 - d_prev$doy
   
   # Load data from previous year before day 100
   load(file_next)
-  d_next = d_sq[d_sq$doy<100,]
+  d_next = d_block[d_block$doy<100,]
   d_next$doy = 365 + d_next$doy
   
   # Load data from the focal year
   load(file)
   
   # Combine 3 year's data into one data frame
-  d_final = rbind(d_prev, d_sq, d_next)
+  d_final = rbind(d_prev, d_block, d_next)
   
-  # Add unique pixel ID
-  x_values = unique(d_final$x_MODIS)
-  y_values = unique(d_final$y_MODIS)
-  
-  d_final$pixelID = paste0('x',match(d_final$x_MODIS,x_values),
-                           'y',match(d_final$y_MODIS,y_values))
+  # # Add unique pixel ID
+  # x_values = unique(d_final$x_MODIS)
+  # y_values = unique(d_final$y_MODIS)
+  # 
+  # d_final$pixelID = paste0('x',match(d_final$x_MODIS,x_values),
+  #                          'y',match(d_final$y_MODIS,y_values))
   
   
   
@@ -189,7 +182,9 @@ for (s in square) {
   }
   
   
-  
+  # Clean up some variables
+  rm(list=c('d','d_next','d_prev'))
+  gc(verbose=FALSE)
   
   
   
@@ -224,7 +219,6 @@ for (s in square) {
   
   # Create data frame for the output
   pixel_data$year = year
-  pixel_data$square = s
   
   
   
@@ -291,10 +285,10 @@ for (s in square) {
   segment_output$wideCI = ind
   
   # Save data -------------------
-  filename = paste0('phenology_square_',s,'_',year,'.RData')
-  save(knots,year,s,nSegBreaks,segment_output,d_final,
+  filename = paste0('phenology_block_',b,'_',year,'.RData')
+  save(knots,year,nSegBreaks,segment_output,d_final,
        file=file.path(outputDir,filename))
-} # Finish looping around all the squares
+} # Finish looping around all the blocks
 
 
 # Disconnect the compute nodes
