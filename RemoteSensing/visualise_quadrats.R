@@ -6,8 +6,12 @@
 
 rm(list=ls())
 # setwd('~/MEGAsync/Projects/GrasslandPhenology/RemoteSensing/')
-setwd('/media/jon/MODIS_data/')
-
+# setwd('/media/jon/MODIS_data/')
+if (dir.exists('/Volumes/MODIS_data')) {
+  setwd('/Volumes/MODIS_data')
+} else {
+  setwd('/media/jon/MODIS_data')
+}
 library(ggplot2)
 
 

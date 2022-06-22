@@ -11,8 +11,11 @@ library(segmented)
 library(ggplot2)
 library(mgcv)
 
-#setwd('~/Research/Phenograss/Data/PhenologyOutput_test/')
-setwd('/media/jon/MODIS_data/PhenologyOutput_test/')
+if (dir.exists('/Volumes/MODIS_data/PhenologyOutput_test/')) {
+  setwd('/Volumes/MODIS_data/PhenologyOutput_test/')
+} else {
+  setwd('/media/jon/MODIS_data/PhenologyOutput_test/')
+}
 # Load functions to perform segmentation
 source('~/git_repos/Phenograss/RemoteSensing/segmentation_functions.R')
 
@@ -21,8 +24,8 @@ dataDir = '.'
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 14
-year = 2012
+square = 9
+year = 2013
 
 # starting_breaks = c(50, 100, 200, 300)
 
@@ -55,6 +58,7 @@ ggplot(data=subset(segment_output, model=="smooth" & warning==FALSE & phase%in%c
                      limits = c(0,370)) +
   labs(x='Day of Year',
        y = 'Number of Pixels') +
+  annotate("text", x=-Inf, y=Inf, label=paste("Year:",year), size=7, vjust = 1.5, hjust = -0.2) +
   theme_bw() + 
   theme(axis.text = element_text(size=18),
         axis.title = element_text(size=20),
@@ -65,7 +69,7 @@ ggplot(data=subset(segment_output, model=="smooth" & warning==FALSE & phase%in%c
         panel.grid.major = element_blank())
 
 ggsave(width=11, height=6,
-       filename = paste0('phenophases_square',square,'_',year,'.png'))
+       filename = paste0('../FinalReport_Files/phenophases_square',square,'_',year,'.png'))
 
 
 
@@ -136,7 +140,7 @@ ggsave(width=11, height=6,
 
 p = sample(pixel_list, size=1)
 
-p="x40y7"
+ p="x41y43"
 # which(p==pixel_list)
 
 type = c("raw","smooth")   # Either "raw" or "smooth"
@@ -182,6 +186,9 @@ for (t in type) {
     breaks_smooth = array(NA, dim=c(nSegBreaks,3))
     
     pl[[which(t==type)]] = ggplot() +
+      # Grey out parts not in the year of interest
+      geom_ribbon(aes(x=c(-100,0), ymin=0, ymax=1), alpha=0.2) + 
+      geom_ribbon(aes(x=c(366,450), ymin=0, ymax=1), alpha=0.2) + 
       # Plot original data points
       geom_point(data=segments[[4]],aes(x=doy, y=evi,fill=factor(QC)), shape=21, size=2) +
       # Highlight data points that were removed
@@ -212,6 +219,10 @@ for (t in type) {
       # names(breaks_df) = c('x','xmin','xmax','phase','y')
     }
     pl[[which(t==type)]] = ggplot() +
+      # Grey out parts not in the year of interest
+      geom_ribbon(aes(x=c(-100,0), ymin=0, ymax=1), alpha=0.5) + 
+      geom_ribbon(aes(x=c(366,470), ymin=0, ymax=1), alpha=0.5) + 
+      # add segmented model
       geom_ribbon(data=d_pred, aes(x=doy,
                                    y=evi_segmented,
                                    ymin=evi_segmented_lwr, 
@@ -246,7 +257,7 @@ for (t in type) {
     #                     label=c('V. Good','Good')) +
     lims(y=c(0,1)) +
     labs(x='Day of Year',
-         y='EVI') +
+         y='Extended Vegetation Index (EVI)') +
     scale_fill_brewer('Phenophase',
                       palette='Dark2',
                       labels=c('SOS','POS','EOS')) +
@@ -256,6 +267,7 @@ for (t in type) {
     scale_x_continuous(breaks=c(-100,1,91,182,274,365,450),
                        labels=c(-100,1,91,182,274,365,450),
                        limits = c(-110,470)) +
+    annotate("text", x=-50, y=0.9, label=paste("Year:",year), size=7) +
     theme_bw() +
     theme(axis.text = element_text(size=20),
           axis.title = element_text(size=24),
@@ -277,5 +289,5 @@ pl[[2]]  # Smooth
 
 
 
-ggsave(width=11, height=6,filename = paste0('pheno_pix',p,'_square',square,'_',year,'.png'))
+ggsave(width=11, height=6,filename = paste0('../FinalReport_Files/pheno_pix',p,'_square',square,'_',year,'.png'))
 

@@ -137,7 +137,8 @@ m <- lme(response ~ - 1 + whichresponse,
          random = ~ -1 + whichresponse|Chamber, 
          weights=varIdent(form=~1|whichresponse),
          corr=corSymm(form=~as.numeric(whichresponse)|Chamber/ID),
-         data=d_harvest2, method="ML",
+         data=d_harvest2, 
+         method="ML",
          control = list(maxIter=500, msMaxIter=500, tolerance=1e-8,
                         niterEM=250))
 summary(m)
