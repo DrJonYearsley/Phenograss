@@ -111,25 +111,25 @@ if (calculate_variograms) {
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Calculate spatial autocorrelation in a typical square
   
-  for (s in c(2:9,16:21)) {
-    tmp = subset(phenology_wide, year==2021 & square%in% s)
-    
-    ind = is.finite(tmp$phase1)
-    
-    vg.obs = variogram(phase1~1, data=tmp[ind,], locations=~x_ITM_centre+y_ITM_centre)
-    vg.fit = fit.variogram(vg.obs, model=vgm(psill=1,
-                                             model="Exp",
-                                             range=500,
-                                             kappa=NA, 
-                                             nugget=NA))
-    
-    print(paste(s,sum(ind),round(vg.fit$range[2]), round(vg.fit$psill[1])))
-  }
-  
-  
-  # Spherical model seems best and a range of roughly 1000 is broadly appropriate and a nugget of 100
-  plot(vg.obs, vg.fit,cutoff=2000)
-  
+  # for (s in c(2:9,16:21)) {
+  #   tmp = subset(phenology_wide, year==2021 & square%in% s)
+  #   
+  #   ind = is.finite(tmp$phase1)
+  #   
+  #   vg.obs = variogram(phase1~1, data=tmp[ind,], locations=~x_ITM_centre+y_ITM_centre)
+  #   vg.fit = fit.variogram(vg.obs, model=vgm(psill=1,
+  #                                            model="Exp",
+  #                                            range=500,
+  #                                            kappa=NA, 
+  #                                            nugget=NA))
+  #   
+  #   print(paste(s,sum(ind),round(vg.fit$range[2]), round(vg.fit$psill[1])))
+  # }
+  # 
+  # 
+  # # Spherical model seems best and a range of roughly 1000 is broadly appropriate and a nugget of 100
+  # plot(vg.obs, vg.fit,cutoff=2000)
+  # 
   
   # Look across squares in a singe year
   squareList = c(16, 6, 4, 10, 8, 11)
@@ -137,7 +137,7 @@ if (calculate_variograms) {
   for (s in 1:length(squareList)) {
     tmp2 = subset(phenology_wide, year==yearList & square%in%squareList[s])
     ind = is.finite(tmp2$phase3)
-    vg.obs = variogram(phase3~1+square, 
+    vg.obs = variogram(phase3~1, 
                        data=tmp2[ind,], 
                        locations=~x_ITM_centre+y_ITM_centre)
     vg.fit = fit.variogram(vg.obs, model=vgm(psill=NA,
@@ -182,7 +182,8 @@ if (calculate_variograms) {
           panel.grid.minor = element_blank(),
           panel.grid.major = element_blank())
   
-  ggsave(file=paste0('variogram_EOS_',yearList,'.png'))
+  ggsave(file=paste0('figure_2_4_variogram_EOS_',yearList,'.png'), dpi=300, width=6, height=5, units='in')
+  ggsave(file=paste0('figure_2_4_variogram_EOS_',yearList,'.tiff'), dpi=300, width=6, height=5, units='in')
   
   
   
@@ -209,14 +210,16 @@ phenology_wide$timeFac = factor(phenology_wide$year%in%c(2003:2010))
 # # Fit models to average phenology for each square --------
 # # Calculate average across each square and then 
 # # fit a model to the square averages
-# pheno_ave = aggregate(cbind(x_ITM_centre, y_ITM_centre, phase1, phase2, phase3)~year+square, 
-#                       data=phenology_wide, 
-#                       FUN=mean, 
+# pheno_ave = aggregate(cbind(x_ITM_centre, y_ITM_centre, phase1, phase2, phase3)~year+square,
+#                       data=phenology_wide,
+#                       FUN=mean,
 #                       na.rm=TRUE)
 # 
 # 
-# lm_phases = lm(cbind(phase1,phase2,phase3)~1+year+x_ITM_centre+y_ITM_centre,
+# lm_phases = lm(cbind(phase1,phase2,phase3)~1+year+x_ITM_centre+y_ITM_centre + I(x_ITM_centre^2) + I(y_ITM_centre^2) + x_ITM_centre:y_ITM_centre,
 #                data=pheno_ave)
+# summary(lm_phases)
+
 # lm_phase1 = lm(phase1~1+year+x_ITM_centre+y_ITM_centre,
 #                data=pheno_ave)
 # lm_phase2 = lm(phase2~1+year+x_ITM_centre+y_ITM_centre,
@@ -276,29 +279,29 @@ phenology_wide$timeFac = factor(phenology_wide$year%in%c(2003:2010))
 # spatial structure is fixed to reduce computation time
 
 
-phase1_sub = subset(phenology_wide, 
+phase13_sub = subset(phenology_wide, 
                     p_pasture>0.9 & year%in% yearList, 
-                    select=c('x_ITM_centre','y_ITM_centre','dummy','year','phase1'))
+                    select=c('x_ITM_centre','y_ITM_centre','dummy','year','phase1','phase3'))
 
-gls_phase1 = gls(phase1~1 + year + (x_ITM_centre + y_ITM_centre),
+gls_phase13 = gls(phase3-phase1~1 + year + (x_ITM_centre+y_ITM_centre + I(x_ITM_centre^2) + I(y_ITM_centre^2) + x_ITM_centre:y_ITM_centre),
                  correlation = corExp(value = 500,
                                       form=~x_ITM_centre + y_ITM_centre| dummy, 
                                       nugget=FALSE,
                                       fixed=T),
-                 data=phase1_sub,
+                 data=phase13_sub,
                  na.action=na.exclude)
 
 
 
 
-save(gls_phase1,  file='gls_sos_model_2003_2019_final_report.Rdata')
+save(gls_phase13, phase13_sub, file='gls_los_model_2003_2019_quadratic_final_report.Rdata')
 
 # gls_phase1_v2 = update(gls_phase1, random=~1|timeFac)
 # 
 # summary(gls_phase1)
 # anova(gls_phase1, type='marginal')
 # acf(gls_phase1$residuals, lag.max=20, type='partial')  # Makes sense... spatial correlation roughly 1-2 km
-# 
+
 # 
 # 
 
@@ -332,7 +335,7 @@ save(gls_phase1,  file='gls_sos_model_2003_2019_final_report.Rdata')
 
 library(emmeans)
 # Calculate fitted effect across years
-m_eff = emmeans(gls_phase1, spec='year')
+m_eff = emmeans(gls_phase13, spec='year')
 sos = as.data.frame(summary(m_eff))
 
 

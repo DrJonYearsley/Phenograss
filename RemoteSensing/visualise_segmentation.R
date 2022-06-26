@@ -24,8 +24,8 @@ dataDir = '.'
 input_file_prefix = 'phenology'
 
 # Import data --------
-square = 9
-year = 2013
+square = 2
+year = 2019
 
 # starting_breaks = c(50, 100, 200, 300)
 
@@ -69,8 +69,12 @@ ggplot(data=subset(segment_output, model=="smooth" & warning==FALSE & phase%in%c
         panel.grid.major = element_blank())
 
 ggsave(width=11, height=6,
-       filename = paste0('../FinalReport_Files/phenophases_square',square,'_',year,'.png'))
+       filename = paste0('../FinalReport_Files/figure_2_3_phenophases_square',square,'_',year,'.png'),
+      dpi=300)
 
+ggsave(width=11, height=6,
+       filename = paste0('../FinalReport_Files/figure_2_3_phenophases_square',square,'_',year,'.tiff'),
+       dpi=300)
 
 
 # # Plot map of phenophase dates ----
@@ -144,7 +148,7 @@ p = sample(pixel_list, size=1)
 # which(p==pixel_list)
 
 type = c("raw","smooth")   # Either "raw" or "smooth"
-
+type = 'smooth'
 
 # # Select unusual pixels
 # ind = which(output_smoothed$phase==1 & output_smoothed$t>200 & output_smoothed$t<1300)
@@ -289,5 +293,10 @@ pl[[2]]  # Smooth
 
 
 
-ggsave(width=11, height=6,filename = paste0('../FinalReport_Files/pheno_pix',p,'_square',square,'_',year,'.png'))
+ggsave(width=11, height=6,
+       filename = paste0('../FinalReport_Files/figure_2_2_pheno_pix',p,'_square',square,'_',year,'.png'),
+       dpi=300)
 
+ggsave(width=11, height=6,
+       filename = paste0('../FinalReport_Files/figure_2_2_pheno_pix',p,'_square',square,'_',year,'.tiff'),
+       dpi=300)

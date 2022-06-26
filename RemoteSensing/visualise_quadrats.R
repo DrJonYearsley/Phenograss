@@ -21,19 +21,41 @@ library(ggplot2)
 library(terra)
 
 IR = vect('./Quadrats/country.shp')
+
 squares = vect('./Quadrats/agriclimate_quadrats_Ireland.shp')
 
-# Put everyting in the same CRS
+# Put everything in the same CRS
 IR_modis = project(IR, crs(squares))
 
 
-plot(IR_modis, axes=FALSE, grid=TRUE)
-plot(squares[c(2:12,16:19)], add=T, col='black')
-text(squares[c(2:12,16:19)], labels=c(2:12,16:19), pos=4, offset=0.7)
+corine = rast('Corine/corine2018_pasturecover_All_Ireland.grd')
+
+# writeVector(IR_modis, filename='./Quadrats/country_modis.shp')
+sqList = c(2:13,16:18)
+tiff(filename="./FinalReport_Files/figure2_1.tif", units="in", width=5, height=8, res=300, compression = 'lzw')
+plot(corine, axes=FALSE, grid=TRUE, type='continuous', legend=FALSE, col=c('white', 'darkgreen'))
+plot(IR_modis, add=TRUE)
+polys(squares[sqList], lwd=3)
+text(squares[sqList], labels=sqList, pos=4, offset=0.4, halo=TRUE, hw=0.3, hc='white')
+dev.off()
+
+png(filename="./FinalReport_Files/figure2_1.png",units="in", width=6, height=10, res=300)
+plot(corine, axes=FALSE, grid=TRUE, type='continuous', legend=FALSE, col=c('white', 'darkgreen'))
+plot(IR_modis, add=TRUE)
+polys(squares[sqList], lwd=3)
+text(squares[sqList], labels=sqList, pos=4, offset=0.7, halo=TRUE, hw=0.3, hc='white')
+dev.off()
+
+
 
 # squares$ID = c(1:21)
 # plot(subset(squares, ID%in%c(10:12)), add=T, col='white')
 # plot(subset(squares, ID%in%c(18)), add=T, col='red')
+
+# Convert squares to WGS84
+
+tmp = project(squares[9], 'epsg:4326')
+ext(tmp)
 
 
 
