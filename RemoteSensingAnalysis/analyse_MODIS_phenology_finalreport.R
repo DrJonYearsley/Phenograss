@@ -5,43 +5,56 @@
 #
 #
 # Jon Yearsley (jon.yearsley@ucd.ie)
-# Sept 2021
+# May 2022
 # ++++++++++++++++++++++++++++++++++++++++++++++
 
 rm(list=ls())
-# 
-# library(segmented)
+
+
 library(ggplot2)
 library(nlme)
 library(tidyr)
 library(viridisLite)
 library(terra)
-# library(sp)
-# library(rgdal)
 library(gstat)
 library(DHARMa)
 
-dataDir = '/media/jon/MODIS_data/PhenologyOutput_toAnalyse/'
-envFile = '/media/jon/MODIS_data/Data_created/all_envData.RData'
-pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.grd"
 
-input_file_preffix = 'phenology'
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Set parameters -------------
+dataDir = '/media/jon/MODIS_data/PhenologyOutput_toAnalyse/'         # Folder with phenophase estimate data
+envFile = '/media/jon/MODIS_data/Data_created/all_envData.RData'     # Folder with environmental data
+pastureFile = "/media/jon/MODIS_data/Corine/corine2018_pasturecover_All_Ireland.grd"   # Raster of % pasture cover for Ireland
 
-calculate_variograms = FALSE
+input_file_prefix = 'phenology' # Prefix for input files
+calculate_variograms = FALSE    # If TRUE calculate spatial variograms for the phenopahses
+squares = c(2:13,16:18)         # The squares to include in the analysis
+yearList = c(2003:2019)         # The years to include in the analysis
 
+phenophase = 'SOS'              # Phenophase to analyse: SOS, POS, EOS, LOS
+
+# Note: The number of squares is reduced in order to keep calculations 
+# within the workstation's memory limit (32GB)
+
+
+
+
+
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import data --------
-squares = c(2:13,16:18)  # Squares 1 and 15 have too little data to use
-yearList = c(2003:2019)
-
 
 if (file.exists(file.path(dataDir, 'combine_phenology_data_final_report.RData'))) {
+  # If data have already been pre-processed and placed into one file
+  
   load(file.path(dataDir, 'combine_phenology_data_final_report.RData'))
 } else {
-  
-  # Import all the data
-  for (i in 1:length(squares)) {
+  # If data haven't been pre-processed then import all individual files and combine them
+    for (i in 1:length(squares)) {
     filename = list.files(path=dataDir, 
-                          pattern=paste0(input_file_preffix,"_square_",squares[i],".RData"),
+                          pattern=paste0(input_file_prefix,"_square_",squares[i],".RData"),
                           full.names = TRUE)
     load(filename)  
     
@@ -99,45 +112,38 @@ if (file.exists(file.path(dataDir, 'combine_phenology_data_final_report.RData'))
   
   tmp = extract(pasture, y, xy=FALSE)
   phenology_wide$p_pasture = tmp$layer  
-  
 }
 
 
 
 
+# Create a variable with the phenophase data
+if (phenophase=="SOS") {
+  phenology_wide$phenophase = phenophase_wide$phase1
+} else if (phenophase=="POS") {
+  phenology_wide$phenophase = phenophase_wide$phase2
+} else if (phenophase=="EOS") {
+  phenology_wide$phenophase = phenophase_wide$phase3
+} else if (phenophase=="LOS") {
+  phenology_wide$phenophase = phenophase_wide$phase3 - phenophase_wide$phase1
+}  
 
 
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Spatial variogram calculation ------------
 if (calculate_variograms) { 
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  # Calculate spatial autocorrelation in a typical square
-  
-  # for (s in c(2:9,16:21)) {
-  #   tmp = subset(phenology_wide, year==2021 & square%in% s)
-  #   
-  #   ind = is.finite(tmp$phase1)
-  #   
-  #   vg.obs = variogram(phase1~1, data=tmp[ind,], locations=~x_ITM_centre+y_ITM_centre)
-  #   vg.fit = fit.variogram(vg.obs, model=vgm(psill=1,
-  #                                            model="Exp",
-  #                                            range=500,
-  #                                            kappa=NA, 
-  #                                            nugget=NA))
-  #   
-  #   print(paste(s,sum(ind),round(vg.fit$range[2]), round(vg.fit$psill[1])))
-  # }
-  # 
-  # 
-  # # Spherical model seems best and a range of roughly 1000 is broadly appropriate and a nugget of 100
-  # plot(vg.obs, vg.fit,cutoff=2000)
-  # 
+  # Calculate spatial autocorrelation in typical squares
   
   # Look across squares in a singe year
   squareList = c(16, 6, 4, 10, 8, 11)
   yearList= 2017
   for (s in 1:length(squareList)) {
     tmp2 = subset(phenology_wide, year==yearList & square%in%squareList[s])
-    ind = is.finite(tmp2$phase3)
-    vg.obs = variogram(phase3~1, 
+    ind = is.finite(tmp2$phenophase)
+    vg.obs = variogram(phenophase~1, 
                        data=tmp2[ind,], 
                        locations=~x_ITM_centre+y_ITM_centre)
     vg.fit = fit.variogram(vg.obs, model=vgm(psill=NA,
@@ -171,7 +177,7 @@ if (calculate_variograms) {
     geom_path(data=subset(vg_df, type=='Fitted'), size=1.5) +
     lims(x=c(0,3000)) +
     labs(x='Distance between pixels (m)',
-         y='Semi-variance for EOS') +
+         y=paste0('Semi-variance for ',phenophase)) +
     scale_colour_brewer('10 km Square',palette='Set2') +
     theme_bw() + 
     theme(axis.text = element_text(size=18),
@@ -182,17 +188,23 @@ if (calculate_variograms) {
           panel.grid.minor = element_blank(),
           panel.grid.major = element_blank())
   
-  ggsave(file=paste0('figure_2_4_variogram_EOS_',yearList,'.png'), dpi=300, width=6, height=5, units='in')
-  ggsave(file=paste0('figure_2_4_variogram_EOS_',yearList,'.tiff'), dpi=300, width=6, height=5, units='in')
+  ggsave(file=paste0('figure_2_4_variogram_',phenophase,'_',yearList,'.png'), dpi=300, width=6, height=5, units='in')
+  ggsave(file=paste0('figure_2_4_variogram_',phenophase,'_',yearList,'.tiff'), dpi=300, width=6, height=5, units='in')
   
   
   
 }
 
+
+
+
+
+
+
+
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++
-# Fit model for phenology dates of phase 1 -----
-
-
+# Fit model for phenology dates of phase -----
 
 
 # Initial data wrangling
@@ -202,6 +214,8 @@ phenology_wide$dummy = as.factor(phenology_wide$dummy)
 
 # Define a time factor for pre 1st Jan 2011 and post 1st Jan 2011
 phenology_wide$timeFac = factor(phenology_wide$year%in%c(2003:2010))
+
+
 
 
 
@@ -279,48 +293,22 @@ phenology_wide$timeFac = factor(phenology_wide$year%in%c(2003:2010))
 # spatial structure is fixed to reduce computation time
 
 
-phase13_sub = subset(phenology_wide, 
+phase_sub = subset(phenology_wide, 
                     p_pasture>0.9 & year%in% yearList, 
-                    select=c('x_ITM_centre','y_ITM_centre','dummy','year','phase1','phase3'))
+                    select=c('x_ITM_centre','y_ITM_centre','dummy','year','phenophase'))
 
-gls_phase13 = gls(phase3-phase1~1 + year + (x_ITM_centre+y_ITM_centre + I(x_ITM_centre^2) + I(y_ITM_centre^2) + x_ITM_centre:y_ITM_centre),
+gls_phase = gls(phenophase~1 + year + (x_ITM_centre+y_ITM_centre + I(x_ITM_centre^2) + I(y_ITM_centre^2) + x_ITM_centre:y_ITM_centre),
                  correlation = corExp(value = 500,
                                       form=~x_ITM_centre + y_ITM_centre| dummy, 
                                       nugget=FALSE,
                                       fixed=T),
-                 data=phase13_sub,
+                 data=phase_sub,
                  na.action=na.exclude)
 
 
 
 
-save(gls_phase13, phase13_sub, file='gls_los_model_2003_2019_quadratic_final_report.Rdata')
-
-# gls_phase1_v2 = update(gls_phase1, random=~1|timeFac)
-# 
-# summary(gls_phase1)
-# anova(gls_phase1, type='marginal')
-# acf(gls_phase1$residuals, lag.max=20, type='partial')  # Makes sense... spatial correlation roughly 1-2 km
-
-# 
-# 
-
-# 
-# library(emmeans)
-# 
-# m_eff = emmeans(gls_phase1, spec='year')
-# sos = as.data.frame(summary(m_eff))
-# contrast(m_eff, infer=c(T,T))
-
-# as.Date(paste(round(sos$emmean),sos$year),format="%j %Y")
-# 
-# # WOrk out date from day of year
-# as.Date(paste('52',sos$year),format="%j %Y")
-# 
-# # gls_phase1_v2 = gls(t_phase1~1+factor(year) + (x_ITM_centre + y_ITM_centre),
-# #                  data=phenology_wide,
-# #                  na.action=na.exclude)
-# 
+save(gls_phase, phase_sub, file=paste0('gls_',phenophase,'_model_2003_2019_quadratic_final_report.Rdata'))
 
 
 
@@ -330,13 +318,12 @@ save(gls_phase13, phase13_sub, file='gls_los_model_2003_2019_quadratic_final_rep
 
 
 
-# Permutation test ---------
-# Test whether SOS is more variable after 2011
+# Visualise phenophase variation across years ----------
 
 library(emmeans)
 # Calculate fitted effect across years
-m_eff = emmeans(gls_phase13, spec='year')
-sos = as.data.frame(summary(m_eff))
+m_eff = emmeans(gls_phase, spec='year')
+phase_emm = as.data.frame(summary(m_eff))
 
 
 
@@ -352,8 +339,15 @@ ggplot(data=as.data.frame(summary(m_eff)),
   theme(axis.title = element_text(size=18),
         axis.text = element_text(size=18))
 
-ggsave(filename='SOS_time_series_2003_2019.png', width=15, height=4)
+ggsave(filename=paste0(phenophase,'_time_series_2003_2019.png'), width=15, height=4)
 
+
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# Permutation test ---------
+# Test whether phenophase is more variable after 2011
 
 var_stat = function(d, y1, y2) {
   # Function to evaluate variation before and after a set date
@@ -369,13 +363,13 @@ y1 = c(2003:2010)
 y2=c(2011:2021)
 nPerm = 10000
 stat_array = array(NA, dim=c(nPerm,1))
-ind = sos$year%in%c(y1,y2)
+ind = phase_emm$year%in%c(y1,y2)
 for (p in 1:nPerm) {
-  d_perm = data.frame(year=sample(sos$year[ind]), emmean=sos$emmean[ind])
+  d_perm = data.frame(year=sample(phase_emm$year[ind]), emmean=phase_emm$emmean[ind])
   stat_array[p] = var_stat(d_perm, y1,y2)
 }
 
-stat_obs = var_stat(sos, y1, y2)
+stat_obs = var_stat(phase_emm, y1, y2)
 
 # Empirical p-value
 (sum(stat_array>=stat_obs)+1)/(nPerm+1)

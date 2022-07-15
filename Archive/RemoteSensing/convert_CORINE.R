@@ -3,6 +3,9 @@
 # Primarily used to calculate percentage of pasture within a MODIS pixel 
 # using either CORINE or the semi-natural grassland survey polygons
 #
+#  This script uses the raster CORINE data. It has been supersceded by 
+#   the script land_cover_MODIS.R
+#
 # Jon Yearsley  Mar 2020
 # jon.yearsley@ucd.ie
 #

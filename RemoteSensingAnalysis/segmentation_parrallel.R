@@ -1,19 +1,17 @@
 # Segmentation modelling of phenology
 #
-# Apply segmentation method developed by Gabin
+# Apply segmentation method developed by Gabin Jubault
 # Run it in parrallel across the pixels from a square
 #
 # Jon Yearsley Jon.Yearsley@ucd.ie
 # Aug 2020
 # ****************************************
 
+
+
+# Set working directory and clear R's memory
 setwd('~/git_repos/Phenograss/RemoteSensing/')
-
 rm(list=ls())
-
-# dataDir = '~/Research/Phenograss/Data/MODIS_squares'
-outputDir = '/media/jon/MODIS_data/PhenologyOutput_test/'
-dataDir = '/media/jon/MODIS_data/MODIS_squares_v061/'
 
 
 library(mgcv)
@@ -23,23 +21,19 @@ library(foreach)
 library(doParallel)
 
 
-# Register cluster with 2 nodes
-cl<-makeCluster(10)
-registerDoParallel(cl)
+
 
 
 # Set basic parameters
-square = c(13:21)
-square = c(1:21)
-# square = 20
+square = c(1:21)    # Squares to be analysed
+year = 2020         # Year to analyse
+knots = -1          # Number of knots to use in gam (-1 uses default number)
+min_obs = 15        # Minimum number of rows for trying to segment data
+nSegBreaks = 5      # Number of breakpoints to use for segmentation
+nNodes = 10         # Number of compute nodes to use for parallel execution
 
-
-year = 2020
-knots = -1
-min_obs = 15      # Minimum number of rows for trying to segment data
-#starting_breaks = c(50, 100, 200, 300)  # Initial guess for break points in doy
-nSegBreaks = 5    # Number of breakpoints to use for segmentation
-print_pixel=FALSE
+outputDir = '/media/jon/MODIS_data/PhenologyOutput_test/'   # Folder to save output
+dataDir = '/media/jon/MODIS_data/MODIS_squares_v061/'       # Folder containing MODIS data
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,6 +41,11 @@ print_pixel=FALSE
 
 # Import some functions defines in segmentation_functions.R
 source("segmentation_functions.R")
+
+
+# Register cluster with nNodes nodes
+cl<-makeCluster(nNodes)
+registerDoParallel(cl)
 
 
 # Create data frame to contain parameters
