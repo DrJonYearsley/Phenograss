@@ -5,6 +5,9 @@
 % Each image has a colour swatch that is used to correct the colours in the
 % image.
 %
+% Run this script after navigating in MATLAB to the folder that holds the images
+% Matlab is expecting these images to be RAW images with a suffix .RW2
+% The script will process all images in the folder with a .RW2 suffix
 %
 % Steps:
 %   0. List files in directory which are to be processed
@@ -57,23 +60,3 @@ for f=1:nFiles
 end
 
 
-
-% %% Visualise the data
-% figure(1)
-% imshow(im2)
-% 
-% %%
-% figure(2)
-% 
-% max_val = 2^16-1;
-% width=500;
-% 
-% subplot(3,1,1)
-% hist(rgb_leaves(:,1), round(max_val/width))
-% xlim([0, 6e4])
-% subplot(3,1,2)
-% hist(rgb_leaves(:,2), round(max_val/width))
-% xlim([0, 6e4])
-% subplot(3,1,3)
-% hist(rgb_leaves(:,3), round(max_val/width))
-% xlim([0, 6e4])
