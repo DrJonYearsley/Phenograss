@@ -1,0 +1,6 @@
+model {
+
+   for (i in 1:N) {
+      z[i] ~ dnorm(mu, tau)
+   }
+}
